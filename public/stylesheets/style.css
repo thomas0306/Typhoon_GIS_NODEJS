@@ -1,0 +1,70 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+html, body, #map-canvas {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+/*#simple-menu{*/
+  /*z-index: 9999;*/
+  /*position: absolute;*/
+  /*top: 0px;*/
+  /*left: 0px;*/
+/*}*/
+
+#top-menu {
+  height: 40px;
+  background: #F8F8F8;
+  padding-top: 5px;
+}
+
+#search_select {
+  width: 100%;
+}
+
+#title_div {
+  position: absolute;
+  left: 20%;
+  top: 10px;
+  font-size: 21px;
+}
+
+#search_div {
+  float: right;
+  width: 40%;
+}
+
+#menu-icon {
+  height: 20px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+#title-icon {
+  height: 20px;
+  padding-left: 10px;
+}
+
+.sidr h1{
+  line-height: 44px !important;
+  font-size: 21px !important;
+}
+
+#sidr-id-close_menu{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+#sidr-id-close-menu-icon{
+  height:35px;
+  margin-top: 5px;
+  margin-right: 5px;
+}

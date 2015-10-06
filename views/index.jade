@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  #top-menu
+    a#simple-menu(href="#sidr")
+      img#menu-icon(src="/images/menu-list-3-512.png")
+    #title_div  Typhoon GIS
+      img#title-icon(src="/images/76248-200.png")
+    #search_div
+      select#search_select.js-example-basic-multiple(multiple="multiple")
+        option(value="1501") MEKSUR
+        option(value="1502") HAHAHA
+        option(value="1503") TEST
+        option(value="1504") TYPHOON
+        option(value="1505") SO MANY TYPHOON
+  #map-canvas
+  header#leftheader
+    h1 Menu
+    #close_menu
+      img#close-menu-icon(src="/images/collapse_left_menu-512.png")
+  #sidr
+    // Your content
+    ul
+      li
+        a(href="#") Sign-up
+      li.active
+        a(href="#") Login
+      li
+        a(href="#") About
+
