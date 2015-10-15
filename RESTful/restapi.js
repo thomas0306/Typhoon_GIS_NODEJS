@@ -18,7 +18,7 @@ router.get('/', function(req, res) {
     res.json({ message: 'hooray! welcome to our api!' });
 });
 
-require('./bearRest').rest(router);
-require('./tcRecordRest').rest(router);
+require('./tc_record_rest').rest(router);
+require('./tc_track_rest').rest(router);
 
 module.exports = router;

@@ -5,7 +5,7 @@
 var TcRecord = require('./../models/tc_record');
 
 function rest(router) {
-    router.route('/tcRecords')
+    router.route('/tc_records')
 
         .post(function(req, res) {
 
@@ -21,7 +21,7 @@ function rest(router) {
                 if (err)
                     res.send(err);
 
-                res.json({ message: 'Tc_Record created!' });
+                res.json({ message: 'tc_record created!' });
             });
 
         })

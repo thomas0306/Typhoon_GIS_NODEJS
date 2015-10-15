@@ -11,4 +11,4 @@ var TcRecordSchema   = new Schema({
     last_modi : Date
 });
 
-module.exports = mongoose.model('TcRecord', TcRecordSchema);
+module.exports = mongoose.model('tc_record', TcRecordSchema);
