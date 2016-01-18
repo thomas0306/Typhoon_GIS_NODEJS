@@ -5,27 +5,27 @@
 var map;
 function initialize() {
     map = new google.maps.Map(document.getElementById('map-canvas'), {
-        zoom: 8,
-        center: {lat: -34.397, lng: 150.644}
+        zoom: defZoomLvl,
+        center: {lat: defMapCent[0], lng: defMapCent[1]},
+        disableDefaultUI: true
+
     });
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
-$(document).ready(function() {
-    $('#simple-menu').sidr({
-        name: 'left_sidr',
-        source: '#leftheader, #sidr',
-        displace: false
+function drawTyphoonICON(the_lat, the_lng){
+    var beachMarker = new google.maps.Marker({
+        position: {lat: the_lat, lng: the_lng},
+        map: map,
+        icon:{
+            url: 'images/Typhoon_ICON.png',
+            // This marker is 20 pixels wide by 32 pixels high.
+            scaledSize: new google.maps.Size(20, 20),
+            // The origin for this image is (0, 0).
+            origin: new google.maps.Point(0, 0),
+            // The anchor for this image is the base of the flagpole at (0, 32).
+            anchor: new google.maps.Point(10, 10)
+        }
     });
-
-    $('.js-example-basic-multiple').select2({
-        placeholder: "Search for TC..."
-    });
-
-    Util.promptTopRightMsg('Welcome to GIS system.');
-
-    $('#sidr-id-close-menu-icon').click(function(){
-        $.sidr('close', 'left_sidr');
-    })
-});
+}

@@ -1,0 +1,8 @@
+dom-module#search-criteria-box
+    template
+        paper-dialog#search-box(class='search-box-position' entry-animation='fade-in-animation' exit-animation='fade-out-animation')
+            paper-input#criteria(label="Any criteria" on-keydown='search_event')
+    script
+        include ./../public/javascripts/search-box.js
+
+paper-dialog#info-overlay-box(class='info-overlay-box-position')

@@ -10,7 +10,7 @@
               <option value="localhost:27017" />
             </list>
           </option>
-          <option name="userDatabase" value="test" />
+          <option name="userDatabase" value="typhoon_gis" />
         </ServerConfiguration>
       </list>
     </option>

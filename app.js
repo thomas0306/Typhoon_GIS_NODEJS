@@ -1,5 +1,4 @@
 var db = require('./db_connection');
-var winston = require('./winston.js');
 
 var express = require('express');
 var path = require('path');
@@ -8,11 +7,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-
-
 //Linking router files
-var routes = require('./routes/index');
 var restapi = require('./RESTful/restapi');
+var routes = require('./routes/index');
 
 var app = express();
 

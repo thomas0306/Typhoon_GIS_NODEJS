@@ -1,0 +1,15 @@
+//
+   Created by Thomas on 18/1/2016.
+link(rel='import' href='/javascripts/bower_components/polymer/polymer.html')
+//elements
+link(rel='import' href='/javascripts/bower_components/paper-drawer-panel/paper-drawer-panel.html')
+//custom component
+link(rel='import' href='/index-panel-main-toolbar')
+
+dom-module#index-panel-main
+    template
+        index-panel-main-toolbar
+        #map-canvas
+        script(type='text/javascript', src='/javascripts/init.js')
+    script(type='text/javascript', src='/javascripts/index-panel-main.js')
+

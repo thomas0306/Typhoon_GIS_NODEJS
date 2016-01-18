@@ -6,8 +6,20 @@ var TcTrack = require('./../models/tc_track');
 var Util = require('./../generic/util')
 
 function rest(router) {
-    router.route('/tc_tracks')
+    router.route('/tc_tracks_arr')
+        .post(function(req, res){
+           for(each in res.body){
+               var tcTrack = new TcTrack(each);
+               tcTrack.save(function(err){
+                   if(err)
+                    res.send(err);
+               });
 
+               res.json({message: 'All tcTrack created!'});
+           }
+        });
+    router.route('/tc_tracks')
+        //Create
         .post(function(req, res) {
 
             var tcTrack = new TcTrack();
@@ -30,11 +42,11 @@ function rest(router) {
                 if (err)
                     res.send(err);
 
-                res.json({ message: 'tc_track created!' });
+                res.json({ message: 'tcTrack created!' });
             });
 
         })
-
+        //Retrieve all
         .get(function (req, res) {
             TcTrack.find(function (err, tcTracks) {
                 if (err)
@@ -42,6 +54,28 @@ function rest(router) {
 
                 res.json(tcTracks);
             });
+        });
+
+    router.route('/tc_tracks/:intl_no')
+        //Retrieve all location records by intl_no
+        .get(function(req, res){
+             TcTrack.find({intl_no:req.params.intl_no}, function(err, tcTracks){
+                 if(err)
+                    res.send(err);
+
+                 res.json(tcTracks);
+             })
+        })
+        //Delete all location records by intl_no
+        .delete(function(req, res){
+            TcTrack.remove({
+                intl_no: req.params.intl_no
+            }, function(err, tcTrack){
+                if(err)
+                    res.send(err);
+
+                res.json({message: 'tcTrack deleted!'})
+            })
         });
 }
 

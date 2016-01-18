@@ -6,27 +6,18 @@ var TcRecord = require('./../models/tc_record');
 
 function rest(router) {
     router.route('/tc_records')
-
+        //Create
         .post(function(req, res) {
-
-            var tcRecord = new TcRecord();
-            tcRecord.intl_no = req.body.intl_no;
-            tcRecord.trop_cyc_no = req.body.trop_cyc_no;
-            tcRecord.last_status = req.body.last_status;
-            tcRecord.dur_hour = req.body.dur_hour;
-            tcRecord.name = req.body.name;
-            tcRecord.last_modi = req.body.last_modi;
-
+            var tcRecord = new TcRecord(req.body);
             tcRecord.save(function(err) {
                 if (err)
                     res.send(err);
 
-                res.json({ message: 'tc_record created!' });
+                res.json({ message: 'tcRecord created!' });
             });
 
         })
-
-        // get all the bears (accessed at GET http://localhost:8080/api/bears)
+        //Retrieve all
         .get(function (req, res) {
             TcRecord.find(function (err, tcRecords) {
                 if (err)
@@ -35,6 +26,50 @@ function rest(router) {
                 res.json(tcRecords);
             });
         });
+
+    router.route('/tc_records/:intl_no')
+        //Retrieve single
+        .get(function(req,res){
+           TcRecord.findOne({intl_no:req.params.intl_no}, function(err, tcRecord){
+               if(err)
+                 res.send(err);
+
+               res.json(tcRecord);
+           })
+        })
+        //Update
+        .put(function(req, res){
+            TcRecord.findOne({intl_no:req.params.intl_no}, function(err, tcRecord){
+                if(err)
+                    res.send(err);
+
+                for(prop in req.body){
+                    tcRecord[prop] = req.body[prop];
+                }
+
+                tcRecord.save(function(err){
+                    if(err)
+                        res.send(err);
+
+                    res.json({ message: 'tcRecord updated!'});
+                })
+            })
+        })
+        .delete(function(req, res){
+            TcRecord.remove({
+                intl_no: req.params.intl_no
+            }, function(err, movie){
+                if(err)
+                    res.send(err);
+
+                res.json({message: 'tcRecord deleted!'});
+            })
+        });
+
+    router.route('/tc_list')
+        .get(function(req, res){
+
+        })
 }
 
 module.exports.rest = rest;

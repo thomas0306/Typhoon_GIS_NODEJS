@@ -1,0 +1,21 @@
+//
+   Created by Thomas on 18/1/2016.
+
+link(rel='import' href='/javascripts/bower_components/polymer/polymer.html')
+link(rel='import' href='/javascripts/bower_components/paper-toolbar/paper-toolbar.html')
+link(rel='import' href='/javascripts/bower_components/paper-icon-button/paper-icon-button.html')
+link(rel='import' href='/javascripts/bower_components/iron-icons/iron-icons.html')
+link(rel='import' href='/javascripts/bower_components/paper-drawer-panel/paper-drawer-panel.html')
+
+dom-module#index-panel-main-toolbar
+    template
+        paper-toolbar(flex)
+            div(class='horizontal layout flex')
+                div
+                    paper-icon-button#drawer-toggle(icon='menu')
+                div(class='horizontal layout center flex')
+                    div Typhoon GIS
+                div
+                    section(onclick='clickHandler(event)')
+                        paper-icon-button(icon='search' class='bottom')
+    script(type='text/javascript', src='/javascripts/index-panel-main-toolbar.js')
