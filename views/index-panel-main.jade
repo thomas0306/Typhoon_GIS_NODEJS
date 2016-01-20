@@ -2,14 +2,30 @@
    Created by Thomas on 18/1/2016.
 link(rel='import' href='/javascripts/bower_components/polymer/polymer.html')
 //elements
-link(rel='import' href='/javascripts/bower_components/paper-drawer-panel/paper-drawer-panel.html')
+link(rel='import' href='/javascripts/bower_components/paper-toolbar/paper-toolbar.html')
+link(rel='import' href='/javascripts/bower_components/iron-flex-layout/iron-flex-layout.html')
+link(rel='import' href='/javascripts/bower_components/paper-icon-button/paper-icon-button.html')
+link(rel='import' href='/javascripts/bower_components/iron-icons/iron-icons.html')
+
 //custom component
-link(rel='import' href='/index-panel-main-toolbar')
+link(rel='import' href='/index-panel-main-dialog')
+
+//css
+link(rel='import' href='/stylesheets/index-panel-main.html')
 
 dom-module#index-panel-main
     template
-        index-panel-main-toolbar
-        #map-canvas
+        index-panel-main-dialog
+        style(include='index-panel-main-styles')
+        paper-toolbar
+            div.container
+                div
+                    paper-icon-button#drawer-toggle(icon='menu')
+                div.flexchild Typhoon GIS
+                div.rightchild
+                paper-icon-button#search-dialog-toggle(icon='search' class='bottom')
+        div#map-canvas
         script(type='text/javascript', src='/javascripts/init.js')
+        script(async defer src='https://maps.googleapis.com/maps/api/js?key=#{apiKey}&callback=initMap')
     script(type='text/javascript', src='/javascripts/index-panel-main.js')
 

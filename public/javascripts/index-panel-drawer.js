@@ -5,6 +5,6 @@ Polymer({
     is: "index-panel-drawer",
 
     ready: function(){
-        console.log("index-panel-drawer ready!");
+        Util.log("index-panel-drawer ready!");
     }
 });

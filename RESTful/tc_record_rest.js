@@ -58,7 +58,7 @@ function rest(router) {
         .delete(function(req, res){
             TcRecord.remove({
                 intl_no: req.params.intl_no
-            }, function(err, movie){
+            }, function(err, tcRecord){
                 if(err)
                     res.send(err);
 
@@ -66,10 +66,43 @@ function rest(router) {
             })
         });
 
-    router.route('/tc_list')
-        .get(function(req, res){
+    router.route('/tc_records_search/list')
+        .get(function (req, res) {
+            TcRecord.find(function (err, tcRecords) {
+                if (err)
+                    res.send(err);
 
-        })
+                res.json(tcRecords);
+            });
+        });
+    router.route('/tc_records_search/')
+        .get(function (req, res) {
+            res.json([]);
+        });
+
+    router.route('/tc_records_search/:criteria')
+        .get(function(req, res){
+            var crits = req.params.criteria.split(/\s+/g);
+
+            var and = [];
+            crits.forEach(function(each) {
+                var or = [];
+                each = each.toUpperCase();
+                or.push({'intl_no': new RegExp('.*' + each + '.*')});
+                or.push({'name': new RegExp('.*' + each + '.*')});
+                or.push({'trop_cyc_no': parseInt(each) || -1});
+                and.push({$or:or});
+            });
+
+            TcRecord.find({
+                $and: and
+            }, function(err, tcRecords){
+               if(err)
+                   res.send(err);
+
+               res.json(tcRecords);
+            });
+        });
 }
 
 module.exports.rest = rest;

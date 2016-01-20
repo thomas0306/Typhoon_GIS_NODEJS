@@ -1,0 +1,88 @@
+<!-- shared-styles.html -->
+<dom-module id="index-panel-main-dialog-styles">
+    <template>
+        <style>
+
+            paper-dialog.search-dialog{
+                position: fixed;
+                top: 0px;
+                right: 0px;
+            }
+
+            paper-progress.blue {
+                width: 100%;
+                --paper-progress-active-color: var(--paper-light-blue-500);
+                --paper-progress-secondary-color: var(--paper-light-blue-100);
+            }
+
+            .hori-container{
+                @apply(--layout-horizontal);
+            }
+
+            .cus-item-body{
+                width: 300px;
+                height: 70px;
+            }
+
+            .typhoon-status-active{
+                padding: 5px 0px;
+                background: green;
+                width: 2%;
+                height: 100%;
+            }
+
+            .typhoon-status-inactive{
+                padding: 5px 0px;
+                background: darkgray;
+                width: 2%;
+                height: 100%;
+            }
+
+            .typhoon-status-outofrange{
+                padding: 5px 0px;
+                background: yellow;
+                width: 2%;
+                height: 100%;
+            }
+
+            .no-padding-left{
+                padding-left: 0px;
+            }
+
+            .item-strech-vert{
+                @apply(--layout-vertical);
+            }
+
+            .middle-node{
+                @apply(--layout-flex);
+                padding-left: 1%;
+            }
+
+            .last-node{
+                @apply(--layout-right-justified);
+            }
+
+            .item-typ-name{
+
+            }
+            .item-typ-intl-no{
+                font-size:smaller;
+                color: var(paper-grey-900);
+                vertical-align: top;
+                font-style: italic;
+            }
+            .item.typ.dur-hour{
+                @apply(--layout-flex);
+                text-align: right;
+                vertical-align: top;
+                font-size: small;
+                color: var(--paper-grey-700);
+            }
+            .item.typ.last-modi{
+                font-size: x-small;
+                @apply(--layout-right-justified);
+            }
+
+        </style>
+    </template>
+</dom-module>

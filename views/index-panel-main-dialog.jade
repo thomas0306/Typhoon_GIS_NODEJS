@@ -1,0 +1,46 @@
+//
+   Created by Thomas on 18/1/2016.
+link(rel='import' href='/javascripts/bower_components/polymer/polymer.html')
+//elements
+link(rel='import' href='/javascripts/bower_components/iron-ajax/iron-ajax.html')
+link(rel='import' href='/javascripts/bower_components/iron-flex-layout/iron-flex-layout.html')
+link(rel='import' href='/javascripts/bower_components/paper-dialog/paper-dialog.html')
+link(rel='import' href='/javascripts/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html')
+link(rel='import' href='/javascripts/bower_components/paper-input/paper-input.html')
+link(rel='import' href='/javascripts/bower_components/paper-progress/paper-progress.html')
+link(rel='import' href='/javascripts/bower_components/paper-styles/color.html')
+link(rel='import' href='/javascripts/bower_components/paper-listbox/paper-listbox.html')
+link(rel='import' href='/javascripts/bower_components/paper-item/paper-item.html')
+link(rel='import' href='/javascripts/bower_components/paper-icon-button/paper-icon-button.html')
+link(rel='import' href='/javascripts/bower_components/paper-tooltip/paper-tooltip.html')
+
+
+//css
+link(rel='import' href='/stylesheets/index-panel-main-dialog.html')
+
+dom-module#index-panel-main-dialog
+    template
+        style(include='index-panel-main-dialog-styles')
+        iron-ajax#searchAjax(auto url='/api/tc_records_search/{{criteria}}' handle-as='json' last-response='{{ajaxResponse}}')
+        paper-dialog#searchDialog.search-dialog
+            h2
+                | Typhoon Search
+                div
+                    paper-input(label='Criteria' value="{{criteria}}")
+                    paper-icon-button#listAll(icon='icons:list')
+                    paper-icon-button(icon='icons:help')
+                paper-progress#search-progress-bar.blue(disabled indeterminate)
+            paper-dialog-scrollable
+                paper-listbox#typListbox(selected='{{selectedTyp}}')
+                    template(is='dom-repeat' items='{{ajaxResponse}}' dom-change='searchAjaxOnRes')
+                        paper-item.no-padding-left
+                            paper-item-body
+                                div.hori-container.cus-item-body
+                                    div(class$="{{ statusClass(item.last_status) }}")
+                                    div.item-strech-vert.middle-node
+                                        div.item-typ-name {{item.name}}
+                                        div.item-typ-intl-no intl_no: {{item.intl_no}}
+                                    div.item-strech-vert.last-node
+                                        div.item.typ.dur-hour duration: {{item.dur_hour}} hr(s)
+                                        div.item.typ.last-modi last update: {{item.last_modi}}
+    script(type='text/javascript', src='/javascripts/index-panel-main-dialog.js')
