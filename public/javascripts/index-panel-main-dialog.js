@@ -9,7 +9,7 @@ Polymer({
         //'searchAjax.response': 'searchAjaxOnRes',
         'listAll.tap': 'listAllTyphoon',
         'typListbox.iron-items-changed': 'searchAjaxOnRes',
-        'typListbox.iron-select': 'drawTyphoon'
+        'typListbox.iron-select': 'addTyphoon'
     },
 
     ready: function(){
@@ -30,9 +30,12 @@ Polymer({
         this.criteria = 'list';
     },
 
-    drawTyphoon: function(e){
-        Util.log('onselect');
-        Util.log(this.ajaxResponse[this.selectedTyp]);
+    addTyphoon: function(e){
+        Util.log('Typhoon list on select!');
+        var idx = this.selectedTyp;
+        var typ_obj = this.ajaxResponse[idx];
+        var intl_no = typ_obj.intl_no;
+        this.fire('iron-signal', {name: 'addintlno', data: intl_no});
     },
 
     statusClass: function(idx){

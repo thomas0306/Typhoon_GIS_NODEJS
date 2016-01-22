@@ -6,6 +6,7 @@ link(rel='import' href='/javascripts/bower_components/paper-toolbar/paper-toolba
 link(rel='import' href='/javascripts/bower_components/iron-flex-layout/iron-flex-layout.html')
 link(rel='import' href='/javascripts/bower_components/paper-icon-button/paper-icon-button.html')
 link(rel='import' href='/javascripts/bower_components/iron-icons/iron-icons.html')
+link(rel='import' href='/javascripts/bower_components/iron-signals/iron-signals.html')
 
 //custom component
 link(rel='import' href='/index-panel-main-dialog')
@@ -14,7 +15,7 @@ link(rel='import' href='/index-panel-main-dialog')
 link(rel='import' href='/stylesheets/index-panel-main.html')
 
 dom-module#index-panel-main
-    template
+    template#main-panel
         index-panel-main-dialog
         style(include='index-panel-main-styles')
         paper-toolbar
@@ -24,6 +25,7 @@ dom-module#index-panel-main
                 div.flexchild Typhoon GIS
                 div.rightchild
                 paper-icon-button#search-dialog-toggle(icon='search' class='bottom')
+        iron-signals(on-iron-signal-addintlno='drawPath')
         div#map-canvas
         script(type='text/javascript', src='/javascripts/init.js')
         script(async defer src='https://maps.googleapis.com/maps/api/js?key=#{apiKey}&callback=initMap')

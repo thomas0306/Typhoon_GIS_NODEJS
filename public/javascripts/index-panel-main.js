@@ -18,7 +18,7 @@ Polymer({
 
     listeners: {
         'drawer-toggle.tap' : 'toggleDrawer',
-        'search-dialog-toggle.tap' : 'toggleSearchDialog'
+        'search-dialog-toggle.tap' : 'toggleSearchDialog',
     },
 
     toggleDrawer: function(e){
@@ -32,5 +32,9 @@ Polymer({
         var dialog = document.getElementById('searchDialog');
         if(dialog)
             dialog.open();
+    },
+
+    drawPath: function(e, detail, sender){
+        Util.log(detail);
     }
 });
