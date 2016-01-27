@@ -35,7 +35,17 @@ Polymer({
         var idx = this.selectedTyp;
         var typ_obj = this.ajaxResponse[idx];
         var intl_no = typ_obj.intl_no;
-        this.fire('iron-signal', {name: 'addintlno', data: intl_no});
+        var name = typ_obj.name;
+        this.fire('iron-signal', {
+            name: 'addintlno',
+            data: {
+                intl_no:intl_no,
+                name: name
+            }
+        });
+        var dialog = document.getElementById('searchDialog');
+        if(dialog)
+            dialog.close();
     },
 
     statusClass: function(idx){

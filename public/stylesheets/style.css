@@ -3,12 +3,24 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+.ctable {
+  display: table;
 }
 
-html, body, #map-canvas {
-  height: 300px;
-  margin: 0;
-  padding: 0;
+.crow {
+  display: table-row;
+}
+
+.ccolumn {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.cheading {
+  font-weight: bolder;
+}
+
+.clabel {
+  text-align: right;
+  padding-right: 5px;
 }

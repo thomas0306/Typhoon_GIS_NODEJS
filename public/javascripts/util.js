@@ -35,19 +35,121 @@ Util.log = function(message){
         console.log(message);
 }
 
-function clickHandler(e) {
-    var button = e.target;
-    while (!button.hasAttribute('data-dialog') && button !== document.body) {
-        button = button.parentElement;
-    }
-
-    if (!button.hasAttribute('data-dialog')) {
-        return;
-    }
-
-    var id = button.getAttribute('data-dialog');
-    var dialog = document.getElementById(id);
-    if (dialog) {
-        dialog.open();
-    }
+Util.undef2Str = function(str){
+    if(str === undefined)
+        return "No Data";
+    else
+        return str;
 }
+
+Util.ColorLuminance = function(hex, lum) {
+
+    // validate hex string
+    hex = String(hex).replace(/[^0-9a-f]/gi, '');
+    if (hex.length < 6) {
+        hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+    }
+    lum = lum || 0;
+
+    // convert to decimal and change luminosity
+    var rgb = "#", c, i;
+    for (i = 0; i < 3; i++) {
+        c = parseInt(hex.substr(i*2,2), 16);
+        c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+        rgb += ("00"+c).substr(c.length);
+    }
+
+    return rgb;
+}
+
+//2016 colors
+//var colors = [
+//    '#F6CACA',
+//    '#F5796E',
+//    '#92A9CE',
+//    '#0B5082',
+//    '#F9DE4D',
+//    '#9ADDDD',
+//    '#9896A4',
+//    '#DB4238',
+//    '#B08F6C',
+//    '#7BC55A',
+//];
+
+//london metro colors
+var path_colors = [
+    '#B36305',
+    '#E32017',
+    '#FFD300',
+    '#00782A',
+    '#00A4A7',
+    '#F3A9BB',
+    '#A0A5A9',
+    '#9B0056',
+    '#000000',
+    '#EE7C0E',
+    '#003688',
+    '#84B817',
+    '#0098D4',
+    '#95CDBA'
+];
+
+
+function drawTyphoonICON(the_lat, the_lng){
+    var map = document.querySelector('google-map').map;
+    var mkr = new google.maps.Marker({
+        position: {lat: the_lat, lng: the_lng},
+        map: map,
+        icon:{
+            url: 'images/Typhoon_ICON.png',
+            // This marker is 20 pixels wide by 32 pixels high.
+            scaledSize: new google.maps.Size(20, 20),
+            // The origin for this image is (0, 0).
+            origin: new google.maps.Point(0, 0),
+            // The anchor for this image is the base of the flagpole at (0, 32).
+            anchor: new google.maps.Point(10, 10)
+        }
+    });
+
+    return mkr;
+}
+
+//[{lat:lat1, lng:lng1}, {lat2, lng2}, ... ,{latX, lngX}]
+function drawPath(coords){
+    var map = document.querySelector('google-map').map;
+
+    var lineSymbol = {
+        path: 'M 0,2 L 2,-3 L 0,-1 L -2,-3 Z M 0,0 L 0,1',
+        strokeOpacity: 1,
+        scale: 2
+    }
+
+    var randCol = path_colors[Math.round(Math.random()*100%path_colors.length)];
+    var path = new google.maps.Polyline({
+        path: coords,
+        geodesic: true,
+        strokeColor: randCol,
+        strokeOpacity: 0,
+        icons: [{
+            icon: lineSymbol,
+            offset: '0',
+            repeat: '15px'
+        }],
+        strokeWeight: 10,
+        map: map
+    });
+
+    //path.setMap(map);
+    path.oldColor = randCol;
+
+    return path;
+}
+
+
+//{lat,lng}
+function addCoord(path, coord){
+    var coordObj = new google.maps.LatLng(coord);
+    path.getPath.push(coordObj);
+    return path;
+}
+

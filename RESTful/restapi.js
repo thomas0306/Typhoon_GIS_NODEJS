@@ -21,6 +21,7 @@ router.get('/', function(req, res) {
 require('./tc_record_rest').rest(router);
 require('./tc_track_rest').rest(router);
 require('./usr_acc_rest').rest(router);
+require('./flag_dir_rest').rest(router);
 require('./import').rest(router);
 
 module.exports = router;

@@ -59,7 +59,7 @@ function rest(router) {
     router.route('/tc_tracks/:intl_no')
         //Retrieve all location records by intl_no
         .get(function(req, res){
-             TcTrack.find({intl_no:req.params.intl_no}, function(err, tcTracks){
+             TcTrack.find({intl_no:req.params.intl_no}, null, {sort: {"rec_time":-1  } }, function(err, tcTracks){
                  if(err)
                     res.send(err);
 

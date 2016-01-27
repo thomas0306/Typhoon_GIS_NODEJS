@@ -7,6 +7,9 @@ link(rel='import' href='/javascripts/bower_components/iron-flex-layout/iron-flex
 link(rel='import' href='/javascripts/bower_components/paper-icon-button/paper-icon-button.html')
 link(rel='import' href='/javascripts/bower_components/iron-icons/iron-icons.html')
 link(rel='import' href='/javascripts/bower_components/iron-signals/iron-signals.html')
+link(rel='import' href='/javascripts/bower_components/iron-ajax/iron-ajax.html')
+link(rel='import' href='/javascripts/bower_components/google-map/google-map.html')
+link(rel='import' href='/javascripts/bower_components/google-apis/google-maps-api.html')
 
 //custom component
 link(rel='import' href='/index-panel-main-dialog')
@@ -25,9 +28,9 @@ dom-module#index-panel-main
                 div.flexchild Typhoon GIS
                 div.rightchild
                 paper-icon-button#search-dialog-toggle(icon='search' class='bottom')
-        iron-signals(on-iron-signal-addintlno='drawPath')
-        div#map-canvas
-        script(type='text/javascript', src='/javascripts/init.js')
-        script(async defer src='https://maps.googleapis.com/maps/api/js?key=#{apiKey}&callback=initMap')
+        iron-signals(on-iron-signal-addintlno='reqPath')
+        iron-ajax#getDirIdx(url='/api/flag_dir' handle-as='json' last-response='{{dirs}}')
+        iron-ajax#getPathAjax(url='/api/tc_tracks/{{intl_req}}' handle-as='json' on-response='addPathToList' debounce-duration='300')
+        google-map#map-canvas(api-key='[[apiKey]]' latitude='{{latitude}}' longitude='{{longitude}}' zoom='{{zoom}}' disableDefaultUi='[[disableUI]]')
     script(type='text/javascript', src='/javascripts/index-panel-main.js')
 
