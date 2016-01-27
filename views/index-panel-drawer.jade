@@ -6,16 +6,9 @@ link(rel='import' href='/javascripts/bower_components/paper-menu/paper-menu.html
 link(rel='import' href='/javascripts/bower_components/paper-item/paper-item.html')
 
 //css
-link(rel='import' href='/stylesheets/index-panel-drawer.html')
+//link(rel='import' href='/stylesheets/index-panel-drawer.html')
 
 dom-module#index-panel-drawer
     template
-        style(include='index-panel-drawer-styles')
-        paper-toolbar
-            div Navigation
-        paper-menu
-            paper-item
-                div Current Typhoon
-            paper-item
-                div Prediction System
+        index-panel-main-dialog
     script(type='text/javascript', src='/javascripts/index-panel-drawer.js')

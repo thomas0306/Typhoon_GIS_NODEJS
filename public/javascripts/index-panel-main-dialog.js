@@ -6,10 +6,13 @@ Polymer({
 
     listeners: {
         'searchAjax.request': 'searchAjaxOnReq',
-        //'searchAjax.response': 'searchAjaxOnRes',
-        'listAll.tap': 'listAllTyphoon',
-        'typListbox.iron-items-changed': 'searchAjaxOnRes',
-        'typListbox.iron-select': 'addTyphoon'
+        'searchAjax.response': 'searchAjaxOnRes'
+    },
+
+    properties: {
+      selectedTyp: {
+          type: Object
+      }
     },
 
     ready: function(){
@@ -18,12 +21,12 @@ Polymer({
 
     searchAjaxOnReq: function(e){
         Util.log('searchAjax obj on request!');
-        this.$$('#search-progress-bar').disabled = false;
+        this.$$('#search-spinner').active = true;
     },
 
     searchAjaxOnRes: function(e){
         Util.log('searchAjax obj on response!');
-        this.$$('#search-progress-bar').disabled = true;
+        this.$$('#search-spinner').active = false;
     },
 
     listAllTyphoon: function(e){
@@ -32,7 +35,7 @@ Polymer({
 
     addTyphoon: function(e){
         Util.log('Typhoon list on select!');
-        var idx = this.selectedTyp;
+        var idx = e.model.index;
         var typ_obj = this.ajaxResponse[idx];
         var intl_no = typ_obj.intl_no;
         var name = typ_obj.name;
@@ -43,9 +46,9 @@ Polymer({
                 name: name
             }
         });
-        var dialog = document.getElementById('searchDialog');
+        var dialog = document.getElementById('paperDrawerPanel');
         if(dialog)
-            dialog.close();
+            dialog.closeDrawer();
     },
 
     statusClass: function(idx){
@@ -57,5 +60,13 @@ Polymer({
             default:
                 return 'typhoon-status-active';
         }
+    },
+
+    _computedClass: function(isSelected) {
+        var classes = 'item';
+        if (isSelected) {
+            classes += ' selected';
+        }
+        return classes;
     }
 });

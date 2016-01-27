@@ -19,15 +19,14 @@ link(rel='import' href='/stylesheets/index-panel-main.html')
 
 dom-module#index-panel-main
     template#main-panel
-        index-panel-main-dialog
         style(include='index-panel-main-styles')
         paper-toolbar
             div.container
                 div
-                    paper-icon-button#drawer-toggle(icon='menu')
+                    paper-icon-button#drawer-toggle(icon='search')
                 div.flexchild Typhoon GIS
                 div.rightchild
-                paper-icon-button#search-dialog-toggle(icon='search' class='bottom')
+                paper-icon-button#search-dialog-toggle(icon='menu' class='bottom')
         iron-signals(on-iron-signal-addintlno='reqPath')
         iron-ajax#getDirIdx(url='/api/flag_dir' handle-as='json' last-response='{{dirs}}')
         iron-ajax#getPathAjax(url='/api/tc_tracks/{{intl_req}}' handle-as='json' on-response='addPathToList' debounce-duration='300')

@@ -2,19 +2,16 @@
 <dom-module id="index-panel-main-dialog-styles">
     <template>
         <style>
-
-            paper-dialog.search-dialog{
-                position: fixed;
-                top: 3.2%;
-                right: 5%;
-                left: 5%;
-                bottom: 5%;
+            .padding-side {
+                padding: 0px 5px;
             }
 
-            paper-progress.blue {
-                width: 100%;
-                --paper-progress-active-color: var(--paper-light-blue-500);
-                --paper-progress-secondary-color: var(--paper-light-blue-100);
+            .item.selected {
+                background-color: var(--google-grey-100);
+            }
+
+            paper-scroll-header-panel{
+                height: 100%;
             }
 
             .hori-container{
@@ -22,28 +19,28 @@
             }
 
             .cus-item-body{
-                width: 300px;
+                width: 100%;
                 height: 70px;
             }
 
             .typhoon-status-active{
                 padding: 5px 0px;
                 background: green;
-                width: 2%;
+                width: 4%;
                 height: 100%;
             }
 
             .typhoon-status-inactive{
                 padding: 5px 0px;
                 background: darkgray;
-                width: 2%;
+                width: 4%;
                 height: 100%;
             }
 
             .typhoon-status-outofrange{
                 padding: 5px 0px;
                 background: yellow;
-                width: 2%;
+                width: 4%;
                 height: 100%;
             }
 
@@ -83,6 +80,13 @@
             .item.typ.last-modi{
                 font-size: x-small;
                 @apply(--layout-right-justified);
+            }
+
+            paper-input.on-toolbar {
+                --paper-input-container-color: #FFC041;
+                --paper-input-container-focus-color: #F9C013;
+                --paper-input-container-invalid-color: red;
+                --paper-input-container-input-color: white;
             }
 
         </style>
