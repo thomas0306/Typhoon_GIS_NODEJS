@@ -1,0 +1,27 @@
+//
+   Created by Thomas on 27/1/2016.
+link(rel='import' href='/javascripts/bower_components/polymer/polymer.html')
+//elements
+link(rel='import' href='/javascripts/bower_components/paper-dialog/paper-dialog.html')
+link(rel='import' href='/javascripts/bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html')
+link(rel='import' href='/javascripts/bower_components/iron-signals/iron-signals.html')
+link(rel='import' href='/javascripts/bower_components/iron-ajax/iron-ajax.html')
+link(rel='import' href='/javascripts/bower_components/iron-list/iron-list.html')
+
+//custom elements
+
+//css
+link(rel='import' href='/stylesheets/index-panel-onmaptyp-dialog.html')
+
+dom-module#index-panel-onmaptyp-dialog
+    template
+        style(include='index-panel-onmaptyp-dialog-styles')
+        iron-ajax#getTypInfo(url='/api/tc_records/{{req_intl_no}}' handle-as='json' last-response='{{res}}' on-response='addTypToList' debounce-duration='300')
+        iron-signals(on-iron-signal-addshownintl='addShownTyp')
+        paper-dialog#onMapTypDialog
+            h2 Typhoon(s) on Map
+            paper-dialog-scrollable
+                div#emptyTypList
+                    | No Typhoon(s) is/are currently displaying
+                div#typList
+    script(type='text/javascript', src='/javascripts/index-panel-onmaptyp-dialog.js')

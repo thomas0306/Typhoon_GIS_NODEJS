@@ -66,8 +66,8 @@ Polymer({
     },
 
     toggleSearchDialog: function(e){
-        Util.log("search-dialog-toggle onTap");
-        var dialog = document.getElementById('searchDialog');
+        Util.log("onmap-dialog-toggle onTap");
+        var dialog = document.getElementById('onMapTypDialog');
         if(dialog)
             dialog.toggle();
     },
@@ -137,7 +137,12 @@ Polymer({
         var map = document.querySelector('google-map').map;
         map.fitBounds(bounds);
 
-        Util.log(this.typ_paths);
+        this.fire('iron-signal', {
+            name: 'addshownintl',
+            data: {
+                intl_no:res[0].intl_no
+            }
+        });
     },
 
     getContentStrIW: function(name, track){
@@ -181,7 +186,7 @@ Polymer({
         //wind_dir_50kt_plus
         var dir50 = Util.undef2Str(track.wind_dir_50kt_plus);
         if(dir50 !== 'No Data' && this.dirs.length > parseInt(dir50)-1){
-            dir50 = this.dirs[parseInt(dir50)-1].description;
+            dir50 = this.dirs[parseInt(dir50)-1];
         }
         str +=  "<div class='crow'>" +
             "<div class='ccolumn clabel'>Wind Direction (>50kt): </div>" +

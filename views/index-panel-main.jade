@@ -12,7 +12,7 @@ link(rel='import' href='/javascripts/bower_components/google-map/google-map.html
 link(rel='import' href='/javascripts/bower_components/google-apis/google-maps-api.html')
 
 //custom component
-link(rel='import' href='/index-panel-main-dialog')
+link(rel='import' href='/index-panel-onmaptyp-dialog')
 
 //css
 link(rel='import' href='/stylesheets/index-panel-main.html')
@@ -31,5 +31,6 @@ dom-module#index-panel-main
         iron-ajax#getDirIdx(url='/api/flag_dir' handle-as='json' last-response='{{dirs}}')
         iron-ajax#getPathAjax(url='/api/tc_tracks/{{intl_req}}' handle-as='json' on-response='addPathToList' debounce-duration='300')
         google-map#map-canvas(api-key='[[apiKey]]' latitude='{{latitude}}' longitude='{{longitude}}' zoom='{{zoom}}' disableDefaultUi='[[disableUI]]')
+        index-panel-onmaptyp-dialog
     script(type='text/javascript', src='/javascripts/index-panel-main.js')
 

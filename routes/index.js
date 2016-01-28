@@ -21,6 +21,10 @@ router
 
     .get('/index-panel-main-dialog', function(req, res, next){
       res.render('index-panel-main-dialog');
+    })
+
+    .get('/index-panel-onmaptyp-dialog', function(req, res, next){
+      res.render('index-panel-onmaptyp-dialog');
     });
 
 

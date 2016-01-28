@@ -14,6 +14,7 @@ link(rel='import' href='/javascripts/bower_components/iron-signals/iron-signals.
 link(rel='import' href='/javascripts/bower_components/iron-list/iron-list.html')
 link(rel='import' href='/javascripts/bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html')
 link(rel='import' href='/javascripts/bower_components/paper-toolbar/paper-toolbar.html')
+link(rel='import' href='/javascripts/bower_components/paper-ripple/paper-ripple.html')
 
 //css
 link(rel='import' href='/stylesheets/index-panel-main-dialog.html')
@@ -22,7 +23,6 @@ dom-module#index-panel-main-dialog
     template
         style(include='index-panel-main-dialog-styles')
         iron-ajax#searchAjax(auto url='/api/tc_records_search/{{criteria}}' handle-as='json' last-response='{{ajaxResponse}}')
-        //div#searchDialog.search-dialog
         paper-scroll-header-panel(fixed="")
             paper-toolbar
                 paper-input.on-toolbar(label='Criteria' value="{{criteria}}")
@@ -31,6 +31,7 @@ dom-module#index-panel-main-dialog
                 iron-list#typList(items='{{ajaxResponse}}' as='item' selected-items="{{selectedTyp}}" selection-enabled='true')
                     template
                         div.no-padding-left(intl_no='{{item.intl_no}}' intl_name='{{item.name}}' class$="[[_computedClass(selected)]]" on-tap='addTyphoon')
+                            paper-ripple
                             div.hori-container.cus-item-body
                                 div(class$="{{ statusClass(item.last_status) }}")
                                 div.item-strech-vert.middle-node

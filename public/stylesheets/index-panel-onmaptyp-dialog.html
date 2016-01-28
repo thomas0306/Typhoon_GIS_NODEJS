@@ -1,0 +1,78 @@
+<!-- shared-styles.html -->
+<dom-module id="index-panel-onmaptyp-dialog-styles">
+    <template>
+        <style>
+            .padding-side {
+                padding: 0px 5px;
+            }
+
+            .item.selected {
+                background-color: var(--google-grey-100);
+            }
+
+            paper-scroll-header-panel{
+                height: 100%;
+            }
+
+            .cus-item-body{
+                overflow: hidden;
+                width: 200px;
+                height: 50px;
+            }
+
+            .cus-inner-item{
+                float: left;
+                height:100%;
+            }
+
+            .typhoon-status-active{
+                padding: 5px 0px;
+                background: green;
+                width: 2%;
+                height: 20%;
+            }
+
+            .typhoon-status-inactive{
+                padding: 5px 0px;
+                background: darkgray;
+                width: 2%;
+                height: 20%;
+            }
+
+            .typhoon-status-outofrange{
+                padding: 5px 0px;
+                background: yellow;
+                width: 2%;
+                height: 20%;
+            }
+
+            .no-padding-left{
+                padding-left: 0px;
+            }
+
+
+
+            .item-typ-name{
+
+            }
+            .item-typ-intl-no{
+                font-size:smaller;
+                color: var(paper-grey-900);
+                vertical-align: top;
+                font-style: italic;
+            }
+            .item.typ.dur-hour{
+                @apply(--layout-flex);
+                text-align: right;
+                vertical-align: top;
+                font-size: small;
+                color: var(--paper-grey-700);
+            }
+            .item.typ.last-modi{
+                font-size: x-small;
+                @apply(--layout-right-justified);
+            }
+
+        </style>
+    </template>
+</dom-module>
