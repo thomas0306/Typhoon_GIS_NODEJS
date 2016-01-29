@@ -24,3 +24,43 @@ body {
   text-align: right;
   padding-right: 5px;
 }
+
+#cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #315FB5;
+  z-index: 999;
+}
+
+#cover_inner{
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 75%;
+  height: 50%;
+  background: white;
+  border-radius: 15px;
+}
+
+#cover_title {
+  font-weight: bold;
+  width:100%;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 50px;
+  background: #DEDCDE; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(#EEECEE, #D2D0D2); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#EEECEE, #D2D0D2); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#EEECEE, #D2D0D2); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#EEECEE, #D2D0D2); /* Standard syntax */
+  border-radius: 15px 15px 0px 0px;
+  height:50px
+}
+
+

@@ -15,6 +15,7 @@ link(rel='import' href='/javascripts/bower_components/iron-list/iron-list.html')
 link(rel='import' href='/javascripts/bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html')
 link(rel='import' href='/javascripts/bower_components/paper-toolbar/paper-toolbar.html')
 link(rel='import' href='/javascripts/bower_components/paper-ripple/paper-ripple.html')
+link(rel='import' href='/javascripts/bower_components/paper-toast/paper-toast.html')
 
 //css
 link(rel='import' href='/stylesheets/index-panel-main-dialog.html')
@@ -22,7 +23,9 @@ link(rel='import' href='/stylesheets/index-panel-main-dialog.html')
 dom-module#index-panel-main-dialog
     template
         style(include='index-panel-main-dialog-styles')
+        iron-signals(on-iron-signal-rtnisdisplaying='addTyphoon')
         iron-ajax#searchAjax(auto url='/api/tc_records_search/{{criteria}}' handle-as='json' last-response='{{ajaxResponse}}')
+        paper-toast#t_isdisplaying.t_err(text='That typhoon is already displaying!')
         paper-scroll-header-panel(fixed="")
             paper-toolbar
                 paper-input.on-toolbar(label='Criteria' value="{{criteria}}")
@@ -30,7 +33,7 @@ dom-module#index-panel-main-dialog
             .content.padding-side
                 iron-list#typList(items='{{ajaxResponse}}' as='item' selected-items="{{selectedTyp}}" selection-enabled='true')
                     template
-                        div.no-padding-left(intl_no='{{item.intl_no}}' intl_name='{{item.name}}' class$="[[_computedClass(selected)]]" on-tap='addTyphoon')
+                        div.no-padding-left(intl_no='{{item.intl_no}}' intl_name='{{item.name}}' class$="[[_computedClass(selected)]]" on-tap='isDisplaying')
                             paper-ripple
                             div.hori-container.cus-item-body
                                 div(class$="{{ statusClass(item.last_status) }}")

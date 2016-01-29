@@ -41,22 +41,11 @@ Polymer({
             this.$.emptyTypList.setAttribute('style', 'display: none;');
         }
         this.shownTypList.push(res);
-
-        var item = document.createElement('div');
-        item.setAttribute('class', 'cus-item-body');
-        var firstNode = document.createElement('div');
-        firstNode.setAttribute('class', 'cus-inner-item');
-        item.appendChild(firstNode);
-        var middleNode = document.createElement('div');
-        middleNode.setAttribute('class', 'cus-inner-item');
-        middleNode.innerHTML = res.name;
-        item.appendChild(middleNode);
-        var lastNode = document.createElement('div');
-        lastNode.setAttribute('class', 'cus-inner-item');
-        lastNode.innerHTML = res.intl_no;
-        item.appendChild(lastNode);
+        var item = document.createElement('index-panel-onmaptyp-dialog-typ-list-item');
+        item.name = res.name;
+        item.intl_no = res.intl_no;
+        item.last_status = res.last_status;
         document.querySelector('#typList').appendChild(item);
-
         Util.log(this.shownTypList);
     },
 
@@ -68,6 +57,40 @@ Polymer({
                 return 'typhoon-status-outofrange';
             default:
                 return 'typhoon-status-active';
+        }
+    },
+
+    checkDisplaying: function(e, detail, sender){
+        var isDisplaying = false;
+        for(var x = 0; x < this.shownTypList.length; x++){
+            if(this.shownTypList[x].intl_no === detail.intl_no)
+                isDisplaying = true;
+        }
+
+        this.fire('iron-signal', {
+            name: 'rtnisdisplaying',
+            data: {
+                intl_no: detail.intl_no,
+                name: detail.name,
+                isDisplaying: isDisplaying
+            }
+        });
+    },
+
+    deleteShownTyp: function(e, detail, sender){
+        Util.log('receive delete request...')
+        var intl_no = detail.intl_no;
+        var found = false;
+        for(var x = 0; x < shownTypList.length;  x++){
+            if(shownTypList[x].intl_no === intl_no){
+                found = true;
+                shownTypList.splice(x, 1);
+                break;
+            }
+        }
+        if(found){
+            //fire to main to delete markers
+            Util.log('check complete, fire delete command to map');
         }
     }
 });

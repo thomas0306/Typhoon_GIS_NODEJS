@@ -1,0 +1,25 @@
+//
+   Created by Thomas on 28/1/2016.
+
+link(rel='import' href='/javascripts/bower_components/polymer/polymer.html')
+
+//elements
+link(rel='import' href='/javascripts/bower_components/paper-icon-button/paper-icon-button.html')
+
+link(rel='import' href='/stylesheets/index-panel-onmaptyp-dialog-typ-list-item.html')
+
+dom-module#index-panel-onmaptyp-dialog-typ-list-item
+    template
+        style(include='index-panel-onmaptyp-dialog-typ-list-item-styles')
+        div.cus-item-body
+            div.cus-inner-item(class$="{{ statusClass(last_status) }}")
+                | &nbsp;
+            div.cus-inner-item
+                | {{name}}
+                | {{intl_no}}
+            div.cus-inner-item
+                paper-icon-button#delete-typhoon(icon='icons:clear' raised intl_no='[[intl_no]]')
+
+
+    script(type='text/javascript', src='/javascripts/index-panel-onmaptyp-dialog-typ-list-item.js')
+

@@ -2,6 +2,11 @@ extends layout
 
 block header
     script(type='text/javascript', src='/javascripts/bower_components/webcomponentsjs/webcomponents.js')
+
+    //elements
+    link(rel='import' href='/javascripts/bower_components/paper-spinner/paper-spinner-lite.html')
+    link(rel='import' href='/javascripts/bower_components/paper-styles/color.html')
+
     //custom elements
     link(rel='import' href='/index-panel')
 
@@ -9,4 +14,59 @@ block header
 
 block content
     body(unresolved fullbleed)
+        style(is='custom-style')
+            | paper-spinner-lite.spn1{
+            |     --paper-spinner-color: var(--google-blue-500);
+            |     width: 100px;
+            |     height: 100px;
+            |     margin: auto;
+            |     position: absolute;
+            |     top: 0;
+            |     bottom: 0;
+            |     left: 0;
+            |     right: 0;
+            | }
+            | paper-spinner-lite.spn2{
+            |     --paper-spinner-color: var(--google-red-500);
+            |     width: 95px;
+            |     height: 95px;
+            |     margin: auto;
+            |     position: absolute;
+            |     top: 0;
+            |     bottom: 0;
+            |     left: 0;
+            |     right: 0;
+            | }
+            | paper-spinner-lite.spn3{
+            |     --paper-spinner-color: var(--google-yellow-500);
+            |     width: 90px;
+            |     height: 90px;
+            |     margin: auto;
+            |     position: absolute;
+            |     top: 0;
+            |     bottom: 0;
+            |     left: 0;
+            |     right: 0;
+            | }
+            | paper-spinner-lite.spn4{
+            |     --paper-spinner-color: var(--google-green-500);
+            |     width: 85px;
+            |     height: 85px;
+            |     margin: auto;
+            |     position: absolute;
+            |     top: 0;
+            |     bottom: 0;
+            |     left: 0;
+            |     right: 0;
+            | }
+            | body /deep/ paper-toast .t_err {
+            |     --paper-toast-background-color: red;
+            |     --paper-toast-color: white;
+            | }
+        div#cover
+            div#cover_inner
+                div#cover_title
+                    | Typhoon GIS v1.0
+                div#spinner
+                    paper-spinner-lite.spn1(active)
         index-panel

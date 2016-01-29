@@ -30,7 +30,7 @@ dom-module#index-panel-main
         iron-signals(on-iron-signal-addintlno='reqPath')
         iron-ajax#getDirIdx(url='/api/flag_dir' handle-as='json' last-response='{{dirs}}')
         iron-ajax#getPathAjax(url='/api/tc_tracks/{{intl_req}}' handle-as='json' on-response='addPathToList' debounce-duration='300')
-        google-map#map-canvas(api-key='[[apiKey]]' latitude='{{latitude}}' longitude='{{longitude}}' zoom='{{zoom}}' disableDefaultUi='[[disableUI]]')
+        google-map#map-canvas(api-key='[[apiKey]]' latitude='{{latitude}}' longitude='{{longitude}}' zoom='{{zoom}}' min-zoom='{{minZoom}}' styles='{{mapStyle}}' disable-default-ui='[[disableUI]]')
         index-panel-onmaptyp-dialog
     script(type='text/javascript', src='/javascripts/index-panel-main.js')
 

@@ -33,22 +33,39 @@ Polymer({
         this.criteria = 'list';
     },
 
-    addTyphoon: function(e){
+    isDisplaying: function(e){
         Util.log('Typhoon list on select!');
         var idx = e.model.index;
         var typ_obj = this.ajaxResponse[idx];
         var intl_no = typ_obj.intl_no;
-        var name = typ_obj.name;
         this.fire('iron-signal', {
-            name: 'addintlno',
+            name: 'checkdisplaying',
             data: {
                 intl_no:intl_no,
                 name: name
             }
         });
-        var dialog = document.getElementById('paperDrawerPanel');
-        if(dialog)
-            dialog.closeDrawer();
+    },
+
+    addTyphoon: function(e, detail, sender){
+        Util.log('Check displaying return!');
+        if(detail.isDisplaying === false) {
+            var intl_no = detail.intl_no;
+            var name = detail.name;
+            this.fire('iron-signal', {
+                name: 'addintlno',
+                data: {
+                    intl_no: intl_no,
+                    name: name
+                }
+            });
+            var dialog = document.getElementById('paperDrawerPanel');
+            if (dialog)
+                dialog.closeDrawer();
+        }else{
+            Util.log('Already displaying...');
+            this.$.t_isdisplaying.open();
+        }
     },
 
     statusClass: function(idx){

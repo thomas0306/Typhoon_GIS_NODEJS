@@ -28,9 +28,132 @@ Polymer({
             type: Number,
             value: 5
         },
+        minZoom: {
+            type: Number,
+            value: 2
+        },
         disableUI: {
             type: Boolean,
             value: true
+        },
+
+        mapStyle: {
+            type: Object,
+            value: [
+                {
+                    "stylers":[
+                        {
+                            "saturation":-100
+                        },
+                        {
+                            "gamma":1
+                        }
+                    ]
+                },
+                {
+                    "elementType":"labels.text.stroke",
+                    "stylers":[
+                        {
+                            "visibility":"off"
+                        }
+                    ]
+                },
+                {
+                    "featureType":"poi.business",
+                    "elementType":"labels.text",
+                    "stylers":[
+                        {
+                            "visibility":"off"
+                        }
+                    ]
+                },
+                {
+                    "featureType":"poi.business",
+                    "elementType":"labels.icon",
+                    "stylers":[
+                        {
+                            "visibility":"off"
+                        }
+                    ]
+                },
+                {
+                    "featureType":"poi.place_of_worship",
+                    "elementType":"labels.text",
+                    "stylers":[
+                        {
+                            "visibility":"off"
+                        }
+                    ]
+                },
+                {
+                    "featureType":"poi.place_of_worship",
+                    "elementType":"labels.icon",
+                    "stylers":[
+                        {
+                            "visibility":"off"
+                        }
+                    ]
+                },
+                {
+                    "featureType":"road",
+                    "elementType":"geometry",
+                    "stylers":[
+                        {
+                            "visibility":"simplified"
+                        }
+                    ]
+                },
+                {
+                    "featureType":"water",
+                    "stylers":[
+                        {
+                            "visibility":"on"
+                        },
+                        {
+                            "saturation":50
+                        },
+                        {
+                            "gamma":0
+                        },
+                        {
+                            "hue":"#50a5d1"
+                        }
+                    ]
+                },
+                {
+                    "featureType":"administrative.neighborhood",
+                    "elementType":"labels.text.fill",
+                    "stylers":[
+                        {
+                            "color":"#333333"
+                        }
+                    ]
+                },
+                {
+                    "featureType":"road.local",
+                    "elementType":"labels.text",
+                    "stylers":[
+                        {
+                            "weight":0.5
+                        },
+                        {
+                            "color":"#333333"
+                        }
+                    ]
+                },
+                {
+                    "featureType":"transit.station",
+                    "elementType":"labels.icon",
+                    "stylers":[
+                        {
+                            "gamma":1
+                        },
+                        {
+                            "saturation":50
+                        }
+                    ]
+                }
+            ]
         },
 
         typ_paths: {
@@ -57,6 +180,7 @@ Polymer({
     listeners: {
         'drawer-toggle.tap' : 'toggleDrawer',
         'search-dialog-toggle.tap' : 'toggleSearchDialog',
+        'map-canvas.google-map-ready' : 'rmCover'
     },
 
     toggleDrawer: function(e){
@@ -70,6 +194,16 @@ Polymer({
         var dialog = document.getElementById('onMapTypDialog');
         if(dialog)
             dialog.toggle();
+    },
+
+    rmCover: function(e){
+        Util.log('maps ready!');
+        var map = document.querySelector('google-map').map;
+        google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
+            //this part runs when the mapobject is created and rendered
+                var cover = document.querySelector('#cover');
+                cover.parentNode.removeChild(cover);
+        });
     },
 
     reqPath: function(e, detail, sender){
@@ -122,7 +256,7 @@ Polymer({
         var path = drawPath(plyLn);
         path.addListener('mouseover', function(){
             Util.log('path mouseover');
-            this.setOptions({strokeColor: Util.ColorLuminance(this.oldColor, 0.4)});
+            this.setOptions({strokeColor: Util.ColorLuminance(this.oldColor, 0.6)});
         });
 
         path.addListener('mouseout', function(){

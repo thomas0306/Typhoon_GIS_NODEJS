@@ -25,6 +25,10 @@ router
 
     .get('/index-panel-onmaptyp-dialog', function(req, res, next){
       res.render('index-panel-onmaptyp-dialog');
+    })
+
+    .get('/index-panel-onmaptyp-dialog-typ-list-item', function(req, res, next){
+        res.render('index-panel-onmaptyp-dialog-typ-list-item');
     });
 
 
