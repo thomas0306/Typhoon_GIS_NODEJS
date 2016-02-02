@@ -201,8 +201,8 @@ Polymer({
         var map = document.querySelector('google-map').map;
         google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
             //this part runs when the mapobject is created and rendered
-                var cover = document.querySelector('#cover');
-                cover.parentNode.removeChild(cover);
+            var cover = document.querySelector('#cover');
+            cover.parentNode.removeChild(cover);
         });
     },
 
