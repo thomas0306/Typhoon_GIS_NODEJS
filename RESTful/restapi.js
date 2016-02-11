@@ -23,5 +23,7 @@ require('./tc_track_rest').rest(router);
 require('./usr_acc_rest').rest(router);
 require('./flag_dir_rest').rest(router);
 require('./import').rest(router);
+require('./test_ml').rest(router);
+require('./geo_query_rest').rest(router);
 
 module.exports = router;

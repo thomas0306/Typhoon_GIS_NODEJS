@@ -10,6 +10,8 @@ link(rel='import' href='/javascripts/bower_components/iron-signals/iron-signals.
 link(rel='import' href='/javascripts/bower_components/iron-ajax/iron-ajax.html')
 link(rel='import' href='/javascripts/bower_components/google-map/google-map.html')
 link(rel='import' href='/javascripts/bower_components/google-apis/google-maps-api.html')
+link(rel='import' href='/javascripts/bower_components/paper-fab/paper-fab.html')
+link(rel='import' href='/javascripts/bower_components/paper-fab-transitions/paper-fab-speed-dial.html')
 
 //custom component
 link(rel='import' href='/index-panel-onmaptyp-dialog')
@@ -26,11 +28,19 @@ dom-module#index-panel-main
                     paper-icon-button#drawer-toggle(icon='search')
                 div.flexchild Typhoon GIS
                 div.rightchild
-                paper-icon-button#search-dialog-toggle(icon='menu' class='bottom')
+                paper-icon-button#search-dialog-toggle(icon='icons:assignment' class='bottom')
+        paper-fab-speed-dial.spd_dial(direction='top')
+            paper-fab.indigo(icon='menu' class='dropdown-trigger')
+            div.dropdown-content
+                template(is='dom-repeat' items='{{menu_btns}}')
+                    paper-fab.indigo(id='{{item.id}}' icon='{{item.icon}}' mini on-tap='fabCallback')
         iron-signals(on-iron-signal-addintlno='reqPath')
         iron-ajax#getDirIdx(url='/api/flag_dir' handle-as='json' last-response='{{dirs}}')
         iron-ajax#getPathAjax(url='/api/tc_tracks/{{intl_req}}' handle-as='json' on-response='addPathToList' debounce-duration='300')
-        google-map#map-canvas(api-key='[[apiKey]]' latitude='{{latitude}}' longitude='{{longitude}}' zoom='{{zoom}}' min-zoom='{{minZoom}}' styles='{{mapStyle}}' disable-default-ui='[[disableUI]]')
+        iron-signals(on-iron-signal-rectsrchchg='rectSrch')
+        iron-signals(on-iron-signal-deletepathonmap='deletePath')
+        iron-ajax#getRectSrch(url='/api/geo_query_rect/{{rect_srch_coord_lat1}}/{{rect_srch_coord_lng1}}/{{rect_srch_coord_lat2}}/{{rect_srch_coord_lng2}}' handle-as='json' on-response='drawEach' debounce-duration='300' last-response='{{rect_srch_res}}')
+        google-map#map-canvas(api-key='[[apiKey]]' latitude='{{latitude}}' longitude='{{longitude}}' zoom='{{zoom}}' min-zoom='{{minZoom}}' styles='{{mapStyle}}' disable-default-ui='[[disableUI]]' mouse-events='true')
         index-panel-onmaptyp-dialog
     script(type='text/javascript', src='/javascripts/index-panel-main.js')
 

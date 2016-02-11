@@ -156,6 +156,30 @@ Polymer({
             ]
         },
 
+        menu_btns: {
+            type: Array,
+            value: [
+                {
+                    id: 'btn-my-location',
+                    icon: 'maps:my-location',
+                    tooltip: 'Find my location',
+                    callback: null
+                },
+                {
+                    id: 'btn-find-park',
+                    icon: 'maps:local-florist',
+                    tooltip: 'Find nearest park',
+                    callback: null
+                },
+                {
+                    id: 'btn-get-directions',
+                    icon: 'maps:directions',
+                    tooltip: 'Find cleanest route',
+                    callback: null
+                }
+            ]
+        },
+
         typ_paths: {
             value: [],
             writable: true
@@ -174,6 +198,33 @@ Polymer({
         intl_req_name:{
             value: '',
             type: String
+        },
+
+        map_rect: {
+            type: Object,
+            value: null
+        },
+
+        rect_srch_coord_lat1:{
+            type: String,
+            value: ''
+        },
+        rect_srch_coord_lng1:{
+            type: String,
+            value: ''
+        },
+        rect_srch_coord_lat2:{
+            type: String,
+            value: ''
+        },
+        rect_srch_coord_lng2:{
+            type: String,
+            value: ''
+        },
+
+        rect_srch_res: {
+            type: [],
+            writable: true
         }
     },
 
@@ -199,6 +250,18 @@ Polymer({
     rmCover: function(e){
         Util.log('maps ready!');
         var map = document.querySelector('google-map').map;
+        //this.map_rect = new google.maps.Rectangle({
+        //    bounds: {
+        //        north: 20.2,
+        //        south: 20.0,
+        //        east: 125.3,
+        //        west: 125.1
+        //    },
+        //    editable: true,
+        //    draggable: true
+        //});
+        //this.map_rect.setMap(map);
+        //this.map_rect.addListener('bounds_changed', this.mapRectBoundsChanged);
         google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
             //this part runs when the mapobject is created and rendered
             var cover = document.querySelector('#cover');
@@ -206,10 +269,60 @@ Polymer({
         });
     },
 
+    mapRectBoundsChanged: function(e){
+        var ne = this.getBounds().getNorthEast();
+        var sw = this.getBounds().getSouthWest();
+
+        document.querySelector('#getRectSrch').fire('iron-signal', {
+            name: 'rectsrchchg',
+            data: {
+                lat1: sw.lat(),
+                lng1: sw.lng(),
+                lat2: ne.lat(),
+                lng2: ne.lng()
+            }
+        });
+    },
+
+    rectSrch: function(e, detail, sender){
+
+        Util.log(detail.lat1);
+        this.rect_srch_coord_lat1 = detail.lat1;
+        this.rect_srch_coord_lng1 = detail.lng1;
+        this.rect_srch_coord_lat2 = detail.lat2;
+        this.rect_srch_coord_lng2 = detail.lng2;
+
+        document.querySelector('#getRectSrch').generateRequest();
+    },
+
+    drawEach: function(e){
+        Util.log(this.rect_srch_res);
+        for(var x = 0; x < this.rect_srch_res.length; x++){
+            this.fire('iron-signal', {
+                name: 'addintlno',
+                data: {
+                    intl_no: this.rect_srch_res[x],
+                    name: 'test'
+                }
+            });
+        }
+    },
+
     reqPath: function(e, detail, sender){
         this.intl_req = detail.intl_no;
         this.intl_req_name = detail.name;
         this.$$('#getPathAjax').generateRequest();
+    },
+
+    deletePath: function(e, detail, sender){
+        for(x = 0; x < this.typ_paths.length; x++){
+            if(this.typ_paths[x].intl_no === detail.intl_no){
+                for(y = 0; y < this.typ_paths[x].gl_obj.length; y++){
+                    this.typ_paths[x].gl_obj[y].setMap(null);
+                }
+                this.typ_paths.splice(x, 1);
+            }
+        }
     },
 
     addPathToList: function(e){
@@ -266,7 +379,7 @@ Polymer({
 
         path_map_obj.push(path);
 
-        this.typ_paths.push(path_map_obj);
+        this.typ_paths.push({intl_no: res[0].intl_no, gl_obj: path_map_obj});
 
         var map = document.querySelector('google-map').map;
         map.fitBounds(bounds);
@@ -319,8 +432,10 @@ Polymer({
             "</div>";
         //wind_dir_50kt_plus
         var dir50 = Util.undef2Str(track.wind_dir_50kt_plus);
-        if(dir50 !== 'No Data' && this.dirs.length > parseInt(dir50)-1){
-            dir50 = this.dirs[parseInt(dir50)-1];
+        if(parseInt(dir50) === 0){
+            dir50 = 'No Data';
+        }else if(dir50 !== 'No Data' && this.dirs.length > parseInt(dir50)-1){
+            dir50 = this.dirs[parseInt(dir50)-1].description;
         }
         str +=  "<div class='crow'>" +
             "<div class='ccolumn clabel'>Wind Direction (>50kt): </div>" +

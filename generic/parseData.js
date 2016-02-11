@@ -91,9 +91,11 @@ var parseTrackLine = function(intlNo, line){
                 tcTrack.loc = [parseInt(line[4])/10, parseInt(line[3])/10].map(Number);
             tcTrack.cent_pressure = parseInt(line[5]);
             tcTrack.max_sus_wind_spd = parseInt(line[6]);
+            tcTrack.wind_dir_50kt_plus = parseInt(line[7].substr(0, 1));
+            tcTrack.max_wind_50kt_plus_radius = parseInt(line[7].substr(1, 4));
             tcTrack.min_wind_50kt_plus_radius = parseInt(line[8]);
             tcTrack.wind_dir_30kt_plus = parseInt(line[9].substr(0, 1));
-            tcTrack.max_wind_30kt_plus_radius = parseInt(line[9].substr(1, 3));
+            tcTrack.max_wind_30kt_plus_radius = parseInt(line[9].substr(1, 4));
             tcTrack.min_wind_30kt_plus_radius = parseInt(line[10]);
             tcTrack.landfall_passage_indi = (line[11] == "1") ? true : false;
             break;

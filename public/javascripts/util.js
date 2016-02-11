@@ -100,18 +100,39 @@ function drawTyphoonICON(the_lat, the_lng){
     var mkr = new google.maps.Marker({
         position: {lat: the_lat, lng: the_lng},
         map: map,
-        icon:{
-            url: 'images/Typhoon_ICON.png',
-            // This marker is 20 pixels wide by 32 pixels high.
-            scaledSize: new google.maps.Size(20, 20),
-            // The origin for this image is (0, 0).
-            origin: new google.maps.Point(0, 0),
-            // The anchor for this image is the base of the flagpole at (0, 32).
-            anchor: new google.maps.Point(10, 10)
+        icon: {
+            path: 'M53,35.7C58.2,19,22-1.7,9.5,33.1 M23.1,29.8 L9.2,33.4 L5.6,19.5 M46,44.8c-16.8,4.7-14.3,46.4,21.7,37.8 M57.4,73.1 L68,82.7 L58.4,93.3 M60.3,45.7C73.4,57.3,107,32.6,80.4,7 M77.9,20.8 L80.2,6.7 L94.4,9',
+            scale: 0.2,
+            strokeColor: '#393',
+            rotation: 100,
+            strokeWeight: 3
         }
+        //icon:{
+        //    url: 'images/Typhoon_ICON.png',
+        //    // This marker is 20 pixels wide by 32 pixels high.
+        //    scaledSize: new google.maps.Size(20, 20),
+        //    // The origin for this image is (0, 0).
+        //    origin: new google.maps.Point(0, 0),
+        //    // The anchor for this image is the base of the flagpole at (0, 32).
+        //    anchor: new google.maps.Point(10, 10),
+        //    rotation: 70
+        //}
     });
 
+    spinningIcon(mkr, 100);
+
     return mkr;
+}
+
+function spinningIcon(mkr, ms){
+    var count = 0;
+    window.setInterval(function(){
+        count = (count + 1) % 360;
+
+        var icon = mkr.get('icon');
+        icon.rotation = count;
+        mkr.set('icon', icon);
+    }, ms);
 }
 
 //[{lat:lat1, lng:lng1}, {lat2, lng2}, ... ,{latX, lngX}]

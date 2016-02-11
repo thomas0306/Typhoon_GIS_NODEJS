@@ -26,13 +26,13 @@ Polymer({
 
     deleteTyphoon: function(e){
         Util.log('delete button on tap!');
-        this.remove();
         this.fire('iron-signal', {
             name: 'deleteshownintl',
             data: {
                 intl_no: this.intl_no
             }
         });
+        this.remove();
     },
 
     statusClass: function(idx){

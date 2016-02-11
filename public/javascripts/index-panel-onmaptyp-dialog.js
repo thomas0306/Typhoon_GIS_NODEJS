@@ -81,16 +81,22 @@ Polymer({
         Util.log('receive delete request...')
         var intl_no = detail.intl_no;
         var found = false;
-        for(var x = 0; x < shownTypList.length;  x++){
-            if(shownTypList[x].intl_no === intl_no){
+        for(var x = 0; x < this.shownTypList.length;  x++){
+            if(this.shownTypList[x].intl_no === intl_no){
                 found = true;
-                shownTypList.splice(x, 1);
+                this.shownTypList.splice(x, 1);
                 break;
             }
         }
         if(found){
             //fire to main to delete markers
             Util.log('check complete, fire delete command to map');
+            this.fire('iron-signal', {
+                name: 'deletepathonmap',
+                data: {
+                    intl_no: intl_no
+                }
+            });
         }
     }
 });
