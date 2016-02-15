@@ -102,10 +102,35 @@ var parseTrackLine = function(intlNo, line){
     }
     return tcTrack;
 };
-//var file2Json = function(file){
-//
-//};
+
+var appendNextPointer = function(TcTrack, tracks){
+    for(i = 0; i < tracks.length; i++){
+        if(i !== tracks.length-1)
+            TcTrack.update({ _id: tracks[i]._id }, { $set: { next: tracks[i+1]._id }}, updateCallback);
+    }
+};
+
+var appendPrevPointer = function(TcTrack, tracks){
+    for(i = tracks.length-1; i >= 0; i--){
+        if(i !== 0)
+            TcTrack.update({ _id: tracks[i]._id}, { $set: { prev: tracks[i-1]._id }}, updateCallback);
+    }
+};
+
+var updateCallback = function(err){
+    if(err) console.log(err);
+}
+
+var connectTracks = function(TcTrack, intl_no){
+    TcTrack.find({ intl_no:intl_no }).select('_id').sort({'rec_time': 'asc'}).exec(function(err, tracks){
+        if(err)
+           console.log(err);
+        appendNextPointer(TcTrack, tracks);
+        appendPrevPointer(TcTrack, tracks);
+    });
+}
 
 module.exports.parseRecordLine = parseRecordLine;
 module.exports.parseTrackLine = parseTrackLine;
+module.exports.connectTracks = connectTracks;
 //module.exports.file2Json = file2Json;

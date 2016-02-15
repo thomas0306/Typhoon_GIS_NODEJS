@@ -17,7 +17,9 @@ var TcTrackSchema   = new Schema({
     wind_dir_30kt_plus: Number,
     max_wind_30kt_plus_radius: Number,
     min_wind_30kt_plus_radius: Number,
-    landfall_passage_indi: Boolean
+    landfall_passage_indi: Boolean,
+    prev: { type: Schema.Types.ObjectId, ref: 'tc_track' },
+    next: { type: Schema.Types.ObjectId, ref: 'tc_track' }
 });
 
 module.exports = mongoose.model('tc_track', TcTrackSchema);

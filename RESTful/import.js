@@ -15,19 +15,19 @@ function rest(router) {
                     //for each line
 
                     var linesArr = body.split('\n');
-                    var currIntlNo = "";
+                    var currIntlNo = ""
                     for(var lineIdx in linesArr){
                         var lineArr = linesArr[lineIdx].split(/\s+/g);
 
                         //data line 1
                         if(lineArr[0] == '66666'){
+                            if(currIntlNo !== '')
+                                parseData.connectTracks(TcTrack, currIntlNo);
                             currIntlNo = lineArr[1];
                             var tcRecord = parseData.parseRecordLine(lineArr);
                             tcRecord.save(function(err){
                                 if(err)
                                     console.log(err);
-                                else
-                                    console.log('saved record line!');
                             });
                         }
                         //data line 2
@@ -36,8 +36,6 @@ function rest(router) {
                             tcTrack.save(function(err){
                                 if(err)
                                     console.log(err);
-                                else
-                                    console.log('saved track line!');
                             });
                         }
 
