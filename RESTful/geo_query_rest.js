@@ -37,7 +37,7 @@ function rest(router) {
                     if(err)
                         res.send(err);
                    res.json(data);
-                })
+                });
         });
 }
 

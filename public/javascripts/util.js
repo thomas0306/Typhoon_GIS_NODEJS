@@ -105,7 +105,8 @@ function drawTyphoonICON(the_lat, the_lng){
             scale: 0.2,
             strokeColor: '#393',
             rotation: 100,
-            strokeWeight: 3
+            strokeWeight: 3,
+            anchor: new google.maps.Point(52.2, 42.5)
         }
         //icon:{
         //    url: 'images/Typhoon_ICON.png',
@@ -127,7 +128,7 @@ function drawTyphoonICON(the_lat, the_lng){
 function spinningIcon(mkr, ms){
     var count = 0;
     window.setInterval(function(){
-        count = (count + 1) % 360;
+        count = (count - 1) % 360;
 
         var icon = mkr.get('icon');
         icon.rotation = count;
