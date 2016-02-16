@@ -167,6 +167,23 @@ function drawPath(coords){
     return path;
 }
 
+function drawPredictedCircle(center, radius){
+    var map = document.querySelector('google-map').map;
+
+    var circle = new google.maps.Circle({
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35,
+        map: map,
+        center: center,
+        radius: radius
+    });
+
+    return circle;
+}
+
 
 //{lat,lng}
 function addCoord(path, coord){
