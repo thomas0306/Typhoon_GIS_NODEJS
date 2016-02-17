@@ -78,6 +78,30 @@ var getRadiusM = function(center, candidates){
     return radius;
 };
 
+var calculateIntersection = function(prediction, target_loc){
+    var
+        x1 = target_loc[0],
+        y1 = target_loc[1],
+        x2 = prediction.center.lat,
+        y2 = prediction.center.lng,
+        distance = distanceUtil.getDistanceFromLatLonInKm(x1, y1, x2, y2);
+        r2 = prediction.radius,
+        r1 = Math.sqrt(Math.pow(distance*1000,2) * Math.pow(r2,2));
+
+    var
+        intersections = [],
+        aIntersect = {},
+        bIntersect = {};
+
+    aIntersect.lat = (1/2) * (x2+x1) + (1/2) * (x2-x1) * (Math.pow(r1,2) - Math.pow(r2,2)) / Math.pow(d,2) + 2 * (y2-y1) * K / Math.pow(d,2);
+    aIntersect.lng = (1/2) * (x2+x1) + (1/2) * (x2-x1) * (Math.pow(r1,2) - Math.pow(r2,2)) / Math.pow(d,2) - 2 * (y2-y1) * K / Math.pow(d,2);
+    bIntersect.lat = (1/2) * (y2+y1) + (1/2) * (y2-y1) * (Math.pow(r1,2) - Math.pow(r2,2)) / Math.pow(d,2) + (-2) * (x2-x1) * K / Math.pow(d,2);
+    bIntersect.lng = (1/2) * (y2+y1) + (1/2) * (y2-y1) * (Math.pow(r1,2) - Math.pow(r2,2)) / Math.pow(d,2) - (-2) * (x2-x1) * K / Math.pow(d,2);
+
+    intersections.push(aIntersect);
+    intersections.push(bIntersect);
+}
+
 module.exports.pruneDuplicateTyphoon = pruneDuplicateTyphoon;
 module.exports.pruneTyphoonByDistance = pruneTyphoonByDistance;
 module.exports.calculatePredictedCircle = calculatePredictedCircle;

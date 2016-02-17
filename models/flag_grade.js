@@ -4,10 +4,10 @@
 var mongoose     = require('mongoose');
 var Schema       = mongoose.Schema;
 
-var FlagDirSchema   = new Schema({
+var FlagGradeSchema   = new Schema({
     flag_no : Number,
     description : String,
-    angle: Number
+    colorHSB: Array
 });
 
-module.exports = mongoose.model('flag_dir', FlagDirSchema);
+module.exports = mongoose.model('flag_grade', FlagGradeSchema);

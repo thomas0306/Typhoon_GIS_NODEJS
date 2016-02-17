@@ -94,19 +94,46 @@ var path_colors = [
     '#95CDBA'
 ];
 
+var iconSVG = {
+    ONE_DIRECTION:  'M -2,3 L 0,-3 L 2,3 C 1,1.5 -1,1.5 -2,3 Z ' +
+                    'M-5,0a5,5 0 1,0 10,0a5,5 0 1,0 -10,0',
+    NO_DATA:        'M 0.5,2 L 0.5,3 L -0.5,3  L -0.5,2 Z ' +
+                    'M -1,-1.5 L -2,-1.5 C -1.5,-4 1.5,-4, 2,-1.5 C 2,0 1,0 0.5,1.5 L -0.5,1.5 C 0,0 1,0 1,-1.5 C 1,-3 -1,-3 -1,-1.5 Z ' +
+                    'M-5,0a5,5 0 1,0 10,0a5,5 0 1,0 -10,0',
+    SYMMETRIC:      'M-4.5,0.5a4.5,4.5 0 1,0 9,0 a3,3 0 1,0 -6,0 a2.5,2.5 0 1,0 5,0 a1.5,1.5 0 1,0 -3,0 '+
+                    'M-5,0a5,5 0 1,0 10,0a5,5 0 1,0 -10,0'
 
-function drawTyphoonICON(the_lat, the_lng){
+};
+
+function drawTyphoonICON(the_lat, the_lng, angle, color){
     var map = document.querySelector('google-map').map;
+    var iconPATH;
+    var rotation = 0;
+    switch(angle){
+        case -1:
+            iconPATH = iconSVG.NO_DATA;
+            break;
+        case 360:
+            iconPATH = iconSVG.SYMMETRIC;
+            break;
+        default:
+            iconPATH = iconSVG.ONE_DIRECTION;
+            rotation = angle;
+            break;
+    }
     var mkr = new google.maps.Marker({
         position: {lat: the_lat, lng: the_lng},
         map: map,
         icon: {
-            path: 'M53,35.7C58.2,19,22-1.7,9.5,33.1 M23.1,29.8 L9.2,33.4 L5.6,19.5 M46,44.8c-16.8,4.7-14.3,46.4,21.7,37.8 M57.4,73.1 L68,82.7 L58.4,93.3 M60.3,45.7C73.4,57.3,107,32.6,80.4,7 M77.9,20.8 L80.2,6.7 L94.4,9',
-            scale: 0.2,
-            strokeColor: '#393',
-            rotation: 100,
+            //path: 'M53,35.7C58.2,19,22-1.7,9.5,33.1 M23.1,29.8 L9.2,33.4 L5.6,19.5 M46,44.8c-16.8,4.7-14.3,46.4,21.7,37.8 M57.4,73.1 L68,82.7 L58.4,93.3 M60.3,45.7C73.4,57.3,107,32.6,80.4,7 M77.9,20.8 L80.2,6.7 L94.4,9',
+            path: iconPATH,
+            scale: 4,
+            strokeColor: 'hsl('+color.join()+')',
+            fillColor: 'hsl('+color.join()+')',
+            fillOpacity: .6,
+            rotation: rotation,
             strokeWeight: 3,
-            anchor: new google.maps.Point(52.2, 42.5)
+            //anchor: new google.maps.Point(52.2, 42.5)
         }
         //icon:{
         //    url: 'images/Typhoon_ICON.png',
@@ -120,7 +147,7 @@ function drawTyphoonICON(the_lat, the_lng){
         //}
     });
 
-    spinningIcon(mkr, 100);
+    //spinningIcon(mkr, 100);
 
     return mkr;
 }
@@ -182,6 +209,16 @@ function drawPredictedCircle(center, radius){
     });
 
     return circle;
+}
+
+function getTyphoonAngle(dirValue, ref){
+    if(dirValue === -1)
+        return -1;
+    return ref[dirValue-1].angle;
+}
+
+function getColorByTyphoonGrade(grade, ref){
+    return ref[grade-1].colorHSB;
 }
 
 

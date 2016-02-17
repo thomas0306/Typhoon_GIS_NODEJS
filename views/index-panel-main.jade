@@ -36,6 +36,7 @@ dom-module#index-panel-main
                     paper-fab.indigo(id='{{item.id}}' icon='{{item.icon}}' mini on-tap='fabCallback')
         iron-signals(on-iron-signal-addintlno='reqPath')
         iron-ajax#getDirIdx(url='/api/flag_dir' handle-as='json' last-response='{{dirs}}')
+        iron-ajax#getGradesIdx(url='/api/flag_grade' handle-as='json' last-response='{{grades}}')
         iron-ajax#getPathAjax(url='/api/tc_tracks/{{intl_req}}' handle-as='json' on-response='addPathToList' debounce-duration='300')
         iron-signals(on-iron-signal-rectsrchchg='rectSrch')
         iron-signals(on-iron-signal-deletepathonmap='deletePath')

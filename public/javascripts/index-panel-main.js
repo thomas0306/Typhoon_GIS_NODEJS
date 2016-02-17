@@ -7,7 +7,7 @@ Polymer({
     ready: function(){
         Util.log("index-panel-main ready!");
         this.$$('#getDirIdx').generateRequest();
-
+        this.$$('#getGradesIdx').generateRequest();
     },
 
     properties: {
@@ -190,6 +190,11 @@ Polymer({
             writable: true
         },
 
+        grades: {
+            value: [],
+            writable: true
+        },
+
         intl_req: {
             value: '',
             type: String
@@ -232,6 +237,25 @@ Polymer({
         'drawer-toggle.tap' : 'toggleDrawer',
         'search-dialog-toggle.tap' : 'toggleSearchDialog',
         'map-canvas.google-map-ready' : 'rmCover'
+    },
+
+    observers: [
+        'zoomChanged(zoom)'
+    ],
+
+    zoomChanged: function(zoom){
+        console.log('On zoom! '+zoom);
+        console.log(this.typ_paths);
+        for(i in this.typ_paths){
+            for (j in this.typ_paths[i].gl_obj){
+                var map_obj = this.typ_paths[i].gl_obj[j];
+                if(map_obj instanceof google.maps.Marker){
+                    var icon = map_obj.getIcon();
+                    icon.scale = zoom+1;
+                    map_obj.setOptions({icon:icon});
+                }
+            }
+        }
     },
 
     toggleDrawer: function(e){
@@ -341,7 +365,22 @@ Polymer({
         for(var x = 0; x < res.length; x++){
             var lat = res[x].loc[1];
             var lng = res[x].loc[0];
-            var mkr = drawTyphoonICON(lat, lng);
+            //getTyphoonAngle return:
+            // 0: N
+            // 45: NE
+            // 90: E
+            // 135: SE
+            // 180: S
+            // 225: SW
+            // 270: W
+            // 315: NW
+            //===============
+            // 360: Symmetric
+            //===============
+            // -1: No Data
+            var angle = getTyphoonAngle(res[x].wind_dir_50kt_plus||res[x].wind_dir_30kt_plus||-1, this.dirs);
+            var color = getColorByTyphoonGrade(res[x].grade||6, this.grades);
+            var mkr = drawTyphoonICON(lat, lng, angle, color);
 
             mkr.iw_html = this.getContentStrIW(this.intl_req_name, res[x]);
 
