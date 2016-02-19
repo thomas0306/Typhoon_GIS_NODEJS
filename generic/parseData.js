@@ -5,6 +5,10 @@ var util = require('./../generic/util');
 var TcRecord = require('./../models/tc_record');
 var TcTrack = require('./../models/tc_track');
 
+function isModifiedVal(oldVal, newVal){
+    return oldVal !== newVal;
+}
+
 //Length: 8
 //LineArr: 66666,6106,7,6106,0,6,19890601,
 //
@@ -40,6 +44,35 @@ var parseRecordLine = function(line){
             tcRecord.dur_hour = parseInt(line[6]);
             tcRecord.name = line[7];
             tcRecord.last_modi = util.parseYYYYMMDD(line[8]);
+            break;
+    }
+
+    return tcRecord;
+};
+
+var updateRecordLine = function(tcRecord, line){
+    console.log(line[1]);
+    //case 8 and case 9 for old data...
+    switch(line.length){
+        case 8:
+            if(isModifiedVal(tcRecord.last_status, parseInt(line[4]))) tcRecord.last_status = parseInt(line[4]);
+            if(isModifiedVal(tcRecord.dur_hour, parseInt(line[5]))) tcRecord.dur_hour = parseInt(line[5]);
+            if(isModifiedVal(tcRecord.name, line[6])) tcRecord.name = line[6];
+            if(isModifiedVal(tcRecord.last_modi, util.parseYYYYMMDD(line[6]))) tcRecord.last_modi = util.parseYYYYMMDD(line[6]);
+            break;
+        case 9:
+            if(isModifiedVal(tcRecord.last_status, parseInt(line[4]))) tcRecord.last_status = parseInt(line[4]);
+            if(isModifiedVal(tcRecord.dur_hour, parseInt(line[5]))) tcRecord.dur_hour = parseInt(line[5]);
+            if(isModifiedVal(tcRecord.name, line[6])) tcRecord.name = line[6];
+            if(isModifiedVal(tcRecord.last_modi, util.parseYYYYMMDD(line[7]))) tcRecord.last_modi = util.parseYYYYMMDD(line[7]);
+            break;
+        case 10:
+        default:
+            if(isModifiedVal(tcRecord.trop_cyc_no, parseInt(line[3]))) tcRecord.trop_cyc_no = parseInt(line[3]);
+            if(isModifiedVal(tcRecord.last_status, parseInt(line[5]))) tcRecord.last_status = parseInt(line[5]);
+            if(isModifiedVal(tcRecord.dur_hour, parseInt(line[6]))) tcRecord.dur_hour = parseInt(line[6]);
+            if(isModifiedVal(tcRecord.name, line[7])) tcRecord.name = line[7];
+            if(isModifiedVal(tcRecord.last_modi, util.parseYYYYMMDD(line[8]))) tcRecord.last_modi = util.parseYYYYMMDD(line[8]);
             break;
     }
 
@@ -103,6 +136,46 @@ var parseTrackLine = function(intlNo, line){
     return tcTrack;
 };
 
+var updateTrackLine = function(tcTrack, line){
+    switch(line.length){
+        case 7:
+            tcTrack.grade = parseInt(line[2]);
+            if(parseInt(line[4])/10 > 180)
+                tcTrack.loc = [(parseInt(line[4])/10)-360, parseInt(line[3])/10].map(Number);
+            else
+                tcTrack.loc = [parseInt(line[4])/10, parseInt(line[3])/10].map(Number);
+            tcTrack.cent_pressure = parseInt(line[5]);
+            break;
+        case 8:
+            tcTrack.grade = parseInt(line[2]);
+            if(parseInt(line[4])/10 > 180)
+                tcTrack.loc = [(parseInt(line[4])/10)-360, parseInt(line[3])/10].map(Number);
+            else
+                tcTrack.loc = [parseInt(line[4])/10, parseInt(line[3])/10].map(Number);
+            tcTrack.cent_pressure = parseInt(line[5]);
+            tcTrack.max_sus_wind_spd = parseInt(line[6]);
+            break;
+        case 12:
+            tcTrack.grade = parseInt(line[2]);
+            if(parseInt(line[4])/10 > 180)
+                tcTrack.loc = [(parseInt(line[4])/10)-360, parseInt(line[3])/10].map(Number);
+            else
+                tcTrack.loc = [parseInt(line[4])/10, parseInt(line[3])/10].map(Number);
+            tcTrack.cent_pressure = parseInt(line[5]);
+            tcTrack.max_sus_wind_spd = parseInt(line[6]);
+            tcTrack.wind_dir_50kt_plus = parseInt(line[7].substr(0, 1));
+            tcTrack.max_wind_50kt_plus_radius = parseInt(line[7].substr(1, 4));
+            tcTrack.min_wind_50kt_plus_radius = parseInt(line[8]);
+            tcTrack.wind_dir_30kt_plus = parseInt(line[9].substr(0, 1));
+            tcTrack.max_wind_30kt_plus_radius = parseInt(line[9].substr(1, 4));
+            tcTrack.min_wind_30kt_plus_radius = parseInt(line[10]);
+            tcTrack.landfall_passage_indi = (line[11] == "1") ? true : false;
+            break;
+    }
+
+    return tcTrack;
+};
+
 var appendNextPointer = function(TcTrack, tracks){
     for(i = 0; i < tracks.length; i++){
         if(i !== tracks.length-1)
@@ -131,6 +204,8 @@ var connectTracks = function(TcTrack, intl_no){
 }
 
 module.exports.parseRecordLine = parseRecordLine;
+module.exports.updateRecordLine = updateRecordLine;
 module.exports.parseTrackLine = parseTrackLine;
+module.exports.updateTrackLine = updateTrackLine;
 module.exports.connectTracks = connectTracks;
 //module.exports.file2Json = file2Json;

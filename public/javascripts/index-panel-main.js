@@ -239,9 +239,9 @@ Polymer({
         'map-canvas.google-map-ready' : 'rmCover'
     },
 
-    observers: [
-        'zoomChanged(zoom)'
-    ],
+    //observers: [
+    //    'zoomChanged(zoom)'
+    //],
 
     zoomChanged: function(zoom){
         console.log('On zoom! '+zoom);
@@ -251,7 +251,7 @@ Polymer({
                 var map_obj = this.typ_paths[i].gl_obj[j];
                 if(map_obj instanceof google.maps.Marker){
                     var icon = map_obj.getIcon();
-                    icon.scale = zoom+1;
+                    icon.scale = Math.pow(zoom,2);
                     map_obj.setOptions({icon:icon});
                 }
             }

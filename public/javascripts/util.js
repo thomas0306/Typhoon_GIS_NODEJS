@@ -98,26 +98,14 @@ function drawTyphoonICON(the_lat, the_lng, angle, color){
         position: {lat: the_lat, lng: the_lng},
         map: map,
         icon: {
-            //path: 'M53,35.7C58.2,19,22-1.7,9.5,33.1 M23.1,29.8 L9.2,33.4 L5.6,19.5 M46,44.8c-16.8,4.7-14.3,46.4,21.7,37.8 M57.4,73.1 L68,82.7 L58.4,93.3 M60.3,45.7C73.4,57.3,107,32.6,80.4,7 M77.9,20.8 L80.2,6.7 L94.4,9',
             path: iconPATH,
             scale: 4,
-            strokeColor: 'hsl('+color.join()+')',
+            strokeColor: '#000000',
             fillColor: 'hsl('+color.join()+')',
-            fillOpacity: .6,
+            fillOpacity: .8,
             rotation: rotation,
-            strokeWeight: 3,
-            //anchor: new google.maps.Point(52.2, 42.5)
+            strokeWeight: 2
         }
-        //icon:{
-        //    url: 'images/Typhoon_ICON.png',
-        //    // This marker is 20 pixels wide by 32 pixels high.
-        //    scaledSize: new google.maps.Size(20, 20),
-        //    // The origin for this image is (0, 0).
-        //    origin: new google.maps.Point(0, 0),
-        //    // The anchor for this image is the base of the flagpole at (0, 32).
-        //    anchor: new google.maps.Point(10, 10),
-        //    rotation: 70
-        //}
     });
 
     //spinningIcon(mkr, 100);

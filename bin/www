@@ -88,3 +88,8 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+/**
+ * Cron jobs
+ */
+var cron = require('../cron_config');
