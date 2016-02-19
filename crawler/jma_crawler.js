@@ -22,7 +22,7 @@ var JmaCrawler = {
 
     crawl: function(crawler){
         crawler.setCurrentYear();
-        console.log(new Date().getTime()+': Crawling from: '+ crawler.URL.join(''));
+        console.log(new Date()+': Crawling from: '+ crawler.URL.join(''));
         request.get(crawler.URL.join(''), crawler.reqCallback.bind(crawler));
     },
 

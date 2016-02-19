@@ -95,7 +95,7 @@ var parseTrackLine = function(intlNo, line){
     switch(line.length){
         case 7:
             tcTrack.intl_no = intlNo;
-            tcTrack.rec_time = util.toDate(line[0]);
+            tcTrack.rec_time = util.japanTime2UTCDate(line[0]);
             tcTrack.grade = parseInt(line[2]);
             if(parseInt(line[4])/10 > 180)
                 tcTrack.loc = [(parseInt(line[4])/10)-360, parseInt(line[3])/10].map(Number);
@@ -105,7 +105,7 @@ var parseTrackLine = function(intlNo, line){
             break;
         case 8:
             tcTrack.intl_no = intlNo;
-            tcTrack.rec_time = util.toDate(line[0]);
+            tcTrack.rec_time = util.japanTime2UTCDate(line[0]);
             tcTrack.grade = parseInt(line[2]);
             if(parseInt(line[4])/10 > 180)
                 tcTrack.loc = [(parseInt(line[4])/10)-360, parseInt(line[3])/10].map(Number);
@@ -116,7 +116,7 @@ var parseTrackLine = function(intlNo, line){
             break;
         case 12:
             tcTrack.intl_no = intlNo;
-            tcTrack.rec_time = util.toDate(line[0]);
+            tcTrack.rec_time = util.japanTime2UTCDate(line[0]);
             tcTrack.grade = parseInt(line[2]);
             if(parseInt(line[4])/10 > 180)
                 tcTrack.loc = [(parseInt(line[4])/10)-360, parseInt(line[3])/10].map(Number);

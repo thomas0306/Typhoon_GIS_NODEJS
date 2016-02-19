@@ -85,5 +85,9 @@ Polymer({
             classes += ' selected';
         }
         return classes;
+    },
+
+    _computeTimezone: function(date){
+        return moment.tz(date,moment.tz.guess()).format('lll z');
     }
 });

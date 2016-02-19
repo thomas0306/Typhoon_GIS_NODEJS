@@ -455,9 +455,13 @@ Polymer({
             "<div class='ccolumn'>" + Util.undef2Str(track.grade) + "</div>" +
             "</div>";
         //record time
+        var rec_time = Util.undef2Str(track.rec_time);
+        if(rec_time !== 'No Data'){
+            rec_time = moment.tz(rec_time,moment.tz.guess()).format('lll z')
+        }
         str +=  "<div class='crow'>" +
             "<div class='ccolumn clabel'>Time: </div>" +
-            "<div class='ccolumn'>" + Util.undef2Str(track.rec_time) + "</div>" +
+            "<div class='ccolumn'>" + rec_time + "</div>" +
             "</div>";
         //center pressure
         str +=  "<div class='crow'>" +
