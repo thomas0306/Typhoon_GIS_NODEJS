@@ -160,20 +160,26 @@ Polymer({
             type: Array,
             value: [
                 {
-                    id: 'btn-my-location',
-                    icon: 'maps:my-location',
+                    id: 'btn-system-predict',
+                    icon: 'icons:timeline',
                     tooltip: 'Find my location',
                     callback: null
                 },
                 {
-                    id: 'btn-find-park',
-                    icon: 'maps:local-florist',
+                    id: 'btn-user-predict',
+                    icon: 'icons:gesture',
+                    tooltip: 'Find my location',
+                    callback: null
+                },
+                {
+                    id: 'btn-share',
+                    icon: 'social:share',
                     tooltip: 'Find nearest park',
                     callback: null
                 },
                 {
-                    id: 'btn-get-directions',
-                    icon: 'maps:directions',
+                    id: 'btn-retrieve-prediction',
+                    icon: 'icons:arrow-downward',
                     tooltip: 'Find cleanest route',
                     callback: null
                 }
