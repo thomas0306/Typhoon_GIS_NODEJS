@@ -13,7 +13,6 @@ function rest(router) {
             request.get('http://localhost:3000/uploads/' + req.params.filename + '?rand='+Math.floor((Math.random() * 100) + 1), function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     //for each line
-
                     var linesArr = body.split('\n');
                     var currIntlNo = ""
                     for(var lineIdx in linesArr){
@@ -40,6 +39,7 @@ function rest(router) {
                         }
 
                     }
+                    parseData.connectTracks(TcTrack, currIntlNo);
 
                     done = true;
                     // Continue with your processing here.

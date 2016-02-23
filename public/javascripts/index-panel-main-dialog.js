@@ -38,6 +38,7 @@ Polymer({
         var idx = e.model.index;
         var typ_obj = this.ajaxResponse[idx];
         var intl_no = typ_obj.intl_no;
+        var name = typ_obj.name;
         this.fire('iron-signal', {
             name: 'checkdisplaying',
             data: {

@@ -162,25 +162,25 @@ Polymer({
                 {
                     id: 'btn-system-predict',
                     icon: 'icons:timeline',
-                    tooltip: 'Find my location',
+                    tooltip: 'System Prediction',
                     callback: null
                 },
                 {
                     id: 'btn-user-predict',
                     icon: 'icons:gesture',
-                    tooltip: 'Find my location',
+                    tooltip: 'Predict Yourself',
                     callback: null
                 },
                 {
                     id: 'btn-share',
                     icon: 'social:share',
-                    tooltip: 'Find nearest park',
+                    tooltip: 'Share Prediction',
                     callback: null
                 },
                 {
                     id: 'btn-retrieve-prediction',
                     icon: 'icons:arrow-downward',
-                    tooltip: 'Find cleanest route',
+                    tooltip: 'Retrieve Prediction',
                     callback: null
                 }
             ]
@@ -216,6 +216,21 @@ Polymer({
             value: null
         },
 
+        predict_basic_criteria: {
+            type: Object,
+            value: {
+                intl_no: 'Nothing',
+                date: new Date(),
+                name: 'Nothing'
+            },
+            notify: true
+        },
+
+        predict_basic_result: {
+            type: Object,
+            value: {}
+        },
+
         rect_srch_coord_lat1:{
             type: String,
             value: ''
@@ -242,12 +257,11 @@ Polymer({
     listeners: {
         'drawer-toggle.tap' : 'toggleDrawer',
         'search-dialog-toggle.tap' : 'toggleSearchDialog',
-        'map-canvas.google-map-ready' : 'rmCover'
+        'map-canvas.google-map-ready' : 'rmCover',
+        'close-predict-info.tap' : 'predictIWClose',
+        'show-basic-predict.tap': 'drawPredictedBasicCircle',
+        'show-advanced-predict.tap': 'drawPredictedAdvancedCircle'
     },
-
-    //observers: [
-    //    'zoomChanged(zoom)'
-    //],
 
     zoomChanged: function(zoom){
         console.log('On zoom! '+zoom);
@@ -297,6 +311,19 @@ Polymer({
             var cover = document.querySelector('#cover');
             cover.parentNode.removeChild(cover);
         });
+    },
+
+    predictIWClose: function(e){
+      this.$$('#predict-info').close();
+    },
+
+    drawPredictedBasicCircle: function(e){
+        var circle = drawPredictedCircle(this.predict_basic_result.center, this.predict_basic_result.radius);
+        var map = document.querySelector('google-map').map;
+        map.fitBounds(circle.getBounds());
+    },
+    drawPredictedAdvancedCircle: function(e){
+
     },
 
     mapRectBoundsChanged: function(e){
@@ -355,6 +382,22 @@ Polymer({
         }
     },
 
+    predictRequests: function(e, detail, sender){
+        Util.log('predict Requests trigger!');
+        this.predict_basic_criteria = {intl_no: detail.intl_no, name: detail.typ_name, date: detail.date};
+        this.$$('#getBasicPredict').generateRequest();
+    },
+
+    processPredictBasic: function(e){
+        if(this.predict_basic_result.message === 'Predicted'){
+            //enable
+            this.$$('#show-basic-predict').disabled = false;
+        }else{
+            //disable
+            this.$$('#show-basic-predict').disabled = true;
+        }
+    },
+
     addPathToList: function(e){
         var res = this.$.getPathAjax.lastResponse;
 
@@ -389,12 +432,25 @@ Polymer({
             var mkr = drawTyphoonICON(lat, lng, angle, color);
 
             mkr.iw_html = this.getContentStrIW(this.intl_req_name, res[x]);
+            mkr.intl_no = res[x].intl_no;
+            mkr.date = res[x].rec_time;
+            mkr.typ_name = this.intl_req_name;
 
-            mkr.addListener('click', function(){
+            mkr.addListener('click', function(e){
                 Util.log('mkr click');
                 var map = document.querySelector('google-map').map;
                 infoWin.setContent(this.iw_html);
                 infoWin.open(map, this);
+                console.log(this.intl_no+this.typ_name+this.date);
+                document.querySelector('#predict-info').fire('iron-signal', {
+                    name: 'predictinfotrigger',
+                    data: {
+                        intl_no: this.intl_no,
+                        date: this.date,
+                        typ_name: this.typ_name
+                    }
+                });
+                document.querySelector('#predict-info').show();
             });
 
             mkr.addListener('mouseover', function(){

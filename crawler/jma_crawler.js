@@ -51,6 +51,7 @@ var JmaCrawler = {
             else
                 this.retrieveTrackLine(colArr, intl_no);
         }
+        parseData.connectTracks(TcTrack, intl_no);
         console.log('Update complete');
     },
 

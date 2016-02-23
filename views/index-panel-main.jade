@@ -14,6 +14,8 @@ link(rel='import' href='/javascripts/bower_components/google-apis/google-maps-ap
 link(rel='import' href='/javascripts/bower_components/paper-fab/paper-fab.html')
 link(rel='import' href='/javascripts/bower_components/paper-fab-transitions/paper-fab-speed-dial.html')
 link(rel='import' href='/javascripts/bower_components/paper-tooltip/paper-tooltip.html')
+link(rel='import' href='/javascripts/bower_components/paper-toast/paper-toast.html')
+link(rel='import' href='/javascripts/bower_components/paper-button/paper-button.html')
 
 //custom component
 link(rel='import' href='/index-panel-onmaptyp-dialog')
@@ -45,6 +47,22 @@ dom-module#index-panel-main
         iron-signals(on-iron-signal-rectsrchchg='rectSrch')
         iron-signals(on-iron-signal-deletepathonmap='deletePath')
         iron-ajax#getRectSrch(url='/api/geo_query_rect/{{rect_srch_coord_lat1}}/{{rect_srch_coord_lng1}}/{{rect_srch_coord_lat2}}/{{rect_srch_coord_lng2}}' handle-as='json' on-response='drawEach' debounce-duration='300' last-response='{{rect_srch_res}}')
+
+        paper-toast#predict-info(duration='-1')
+            iron-ajax#getBasicPredict(url='/api/predict_basic/{{predict_basic_criteria.intl_no}}/{{predict_basic_criteria.date}}' handle-as='json' on-response='processPredictBasic' debounce-duration='300' last-response='{{predict_basic_result}}')
+            iron-signals(on-iron-signal-predictinfotrigger='predictRequests')
+            paper-icon-button#close-predict-info.top-right(icon='icons:close')
+            #selected_typ Selected Typhoon
+            #name
+                | {{predict_basic_criteria.name}}
+                b  {{predict_basic_criteria.intl_no}}
+            #date {{predict_basic_criteria.date}}
+            | Prediction:
+            #wrapper
+                #left
+                    paper-button#show-basic-predict(raised disabled) Basic
+                #right
+                    paper-button#show-advanced-predict(raised disabled) Advanced
         google-map#map-canvas(api-key='[[apiKey]]' latitude='{{latitude}}' longitude='{{longitude}}' zoom='{{zoom}}' min-zoom='{{minZoom}}' styles='{{mapStyle}}' disable-default-ui='[[disableUI]]' mouse-events='true')
         index-panel-onmaptyp-dialog
     script(type='text/javascript', src='/javascripts/index-panel-main.js')

@@ -45,16 +45,7 @@ function rest(router) {
                 res.json({ message: 'tcTrack created!' });
             });
 
-        })
-        //Retrieve all
-        //.get(function (req, res) {
-        //    TcTrack.find(function (err, tcTracks) {
-        //        if (err)
-        //            res.send(err);
-        //
-        //        res.json(tcTracks);
-        //    });
-        //});
+        });
 
     router.route('/tc_tracks/:intl_no')
         //Retrieve all location records by intl_no

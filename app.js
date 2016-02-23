@@ -6,6 +6,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var rio_config = require('./data_mining/rio_config');
 
 //Linking router files
 var restapi = require('./RESTful/restapi');

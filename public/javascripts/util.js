@@ -102,7 +102,7 @@ function drawTyphoonICON(the_lat, the_lng, angle, color){
             scale: 4,
             strokeColor: '#000000',
             fillColor: 'hsl('+color.join()+')',
-            fillOpacity: .8,
+            fillOpacity: .95,
             rotation: rotation,
             strokeWeight: 2
         }

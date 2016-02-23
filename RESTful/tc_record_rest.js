@@ -135,25 +135,41 @@ function rest(router) {
                         res.send(err);
                     if(dateCriteria !== {}){
                         console.log(dateCriteria);
-                        for(x = 0; x < data.length; x++){
-                            data[x].rec_dates.sort(function(a, b){
-                                return a.rec_time - b.rec_time;
-                            });
-                            data[x].rec_dates.splice(1, data[x].rec_dates.length-2);
-                            var trim = false;
+
+                        //filter out
+                        data = data.filter(function(doc){
+                            //reduce rec_dates
+                            doc.rec_dates = doc.rec_dates.reduce(function(range, each){
+                                if(range.length === 0)
+                                    range.push(each.rec_time);
+                                else if(range.length === 1 && each.rec_time < range[0])
+                                    range.unshift(each.rec_time);
+                                else if(range.length === 1 && each.rec_time > range[0]){
+                                    range.push(each.rec_time);
+                                }else if(each.rec_time < range[0]){
+                                    range.shift();
+                                    range.unshift(each.rec_time);
+                                }else if(each.rec_time > range[range.length-1]){
+                                    range.pop();
+                                    range.push(each.rec_time);
+                                }
+                                return range;
+                            }
+                            ,[]);
+
+                            var keep = true;
                             if(dateCriteria['before'] !== undefined){
-                                if(!dateCriteria['before'].getTime() > data[x].rec_dates[0].rec_time.getTime()) trim = true;
+                                if(!dateCriteria['before'].getTime() > doc.rec_dates[0].getTime()) keep = false;
                             }
                             if(dateCriteria['after'] !== undefined){
-                                if(!dateCriteria['after'].getTime() < data[x].rec_dates[1].rec_time.getTime()) trim = true;
+                                if(!dateCriteria['after'].getTime() < doc.rec_dates[1].getTime()) keep = false;
                             }
                             if(dateCriteria['between'] !== undefined){
-                                if(!(dateCriteria['between'].start.getTime() < data[x].rec_dates[1].rec_time.getTime() && dateCriteria['between'].end.getTime() > data[x].rec_dates[0].rec_time.getTime())) trim = true;
+                                if(!(dateCriteria['between'].start.getTime() < doc.rec_dates[1].getTime() && dateCriteria['between'].end.getTime() > doc.rec_dates[0].getTime())) keep = false;
                             }
 
-                            if(trim)
-                                data.slice(x, 1);
-                        }
+                            return keep;
+                        });
                     }
 
                     res.json(data);
