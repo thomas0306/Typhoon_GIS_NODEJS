@@ -9,7 +9,7 @@ var router = express.Router();              // get an instance of the express Ro
 // middleware to use for all requests
 router.use(function(req, res, next) {
     // do logging
-    console.log('Receiving API call...');
+    console.log(new Date()+': Receiving API call...');
     next(); // make sure we go to the next routes and don't stop here
 });
 
@@ -26,6 +26,6 @@ require('./flag_grade_rest').rest(router);
 require('./import').rest(router);
 require('./geo_query_rest').rest(router);
 require('./predict_rest').rest(router);
-require('./advanced_datamining_rest').rest(router);
+require('./csv_rest').rest(router);
 
 module.exports = router;

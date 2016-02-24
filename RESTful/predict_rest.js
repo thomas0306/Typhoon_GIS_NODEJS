@@ -82,6 +82,11 @@ function rest(router) {
                     //);
                 });
         });
+
+    router.route('/predict_basic/:intl_no/:timestamp')
+        .get(function(req, res){
+
+        });
 }
 
 module.exports.rest = rest;

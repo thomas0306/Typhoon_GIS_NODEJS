@@ -62,3 +62,9 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+//var os = require( 'os' );
+//
+//var networkInterfaces = os.networkInterfaces( );
+//
+//console.log( networkInterfaces );

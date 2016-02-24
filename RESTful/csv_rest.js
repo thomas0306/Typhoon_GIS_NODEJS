@@ -5,9 +5,13 @@ var TcTrack = require('./../models/tc_track');
 var LatLon = require('./../node_modules/geodesy/latlon-spherical');
 var json2csv = require('json2csv');
 
-var fields = [
-    { label: 'bearing', value: 'bearing', default: '' },
-    { label: 'distance', value: 'distance', default: '' },
+var distanceField = [
+    { label: 'distance', value: 'distance', default: '' }
+];
+var bearingField = [
+    { label: 'bearing', value: 'bearing', default: '' }
+]
+var currentFields = [
     { label: 'cent_pressure', value: 'cent_pressure', default: '' },
     { label: 'grade', value: 'grade', default: '' },
     { label: 'lat', value: function(row){ return row.loc[1]; } },
@@ -21,22 +25,24 @@ var fields = [
     { label: 'month', value: function(row){ return row.rec_time.getMonth(); }, default: '' },
     { label: 'wind_dir_30kt_plus', value: 'wind_dir_30kt_plus', default: '' },
     { label: 'wind_dir_50kt_plus', value: 'wind_dir_50kt_plus', default: '' },
-    { label: '', value: '', default: '' },
-
+];
+var nextFields = [
     { label: 'next_cent_pressure', value: 'next.cent_pressure', default: '' },
     { label: 'next_grade', value: 'next.grade', default: '' },
-    { label: 'next_lat', value: function(row){ return row.next.loc[1]; } },
-    { label: 'next_lon', value: function(row){ return row.next.loc[0]; } },
+    { label: 'next_lat', value: function(row){ return row.next===undefined?'':row.next.loc[1]; } },
+    { label: 'next_lon', value: function(row){ return row.next===undefined?'':row.next.loc[0]; } },
     { label: 'next_landfall_passage_indi', value: 'next.landfall_passage_indi', default: '' },
     { label: 'next_max_sus_wind_spd', value: 'next.max_sus_wind_spd', default:'' },
     { label: 'next_max_wind_30kt_plus_radius', value: 'next.max_wind_30kt_plus_radius', default: '' },
     { label: 'next_max_wind_50kt_plus_radius', value: 'next.max_wind_50kt_plus_radius', default: '' },
     { label: 'next_min_wind_30kt_plus_radius', value: 'next.min_wind_30kt_plus_radius', default: '' },
     { label: 'next_min_wind_50kt_plus_radius', value: 'next.min_wind_50kt_plus_radius', default: '' },
-    { label: 'next_month', value: function(row){ return row.next.rec_time.getMonth(); }, default: '' },
+    { label: 'next_month', value: function(row){ return row.next===undefined?'':row.next.rec_time.getMonth(); }, default: '' },
     { label: 'next_wind_dir_30kt_plus', value: 'next.wind_dir_30kt_plus', default: '' },
-    { label: 'next_wind_dir_50kt_plus', value: 'next.wind_dir_50kt_plus', default: '' },
+    { label: 'next_wind_dir_50kt_plus', value: 'next.wind_dir_50kt_plus', default: '' }
+]
 
+var prevFields = [
     { label: 'prev_cent_pressure', value: 'prev.cent_pressure', default: '' },
     { label: 'prev_grade', value: 'prev.grade', default: '' },
     { label: 'prev_lat', value: function(row){ return row.prev===undefined?'':row.prev.loc[1]; } },
@@ -50,8 +56,23 @@ var fields = [
     { label: 'prev_month', value: function(row){ return row.prev===undefined?'':row.prev.rec_time.getMonth(); }, default: '' },
     { label: 'prev_wind_dir_30kt_plus', value: 'prev.wind_dir_30kt_plus', default: '' },
     { label: 'prev_wind_dir_50kt_plus', value: 'prev.wind_dir_50kt_plus', default: '' }
-    //{ label: '', value: '', default: '' },
 ];
+
+//var prev2Fields = [
+//    { label: 'prev2_cent_pressure', value: 'prev2.cent_pressure', default: '' },
+//    { label: 'prev2_grade', value: 'prev2.grade', default: '' },
+//    { label: 'prev2_lat', value: function(row){ return row.prev2===undefined?'':row.prev2.loc[1]; } },
+//    { label: 'prev2_lon', value: function(row){ return row.prev2===undefined?'':row.prev2.loc[0]; } },
+//    { label: 'prev2_landfall_passage_indi', value: 'prev2.landfall_passage_indi', default: '' },
+//    { label: 'prev2_max_sus_wind_spd', value: 'prev2.max_sus_wind_spd', default:'' },
+//    { label: 'prev2_max_wind_30kt_plus_radius', value: 'prev2.max_wind_30kt_plus_radius', default: '' },
+//    { label: 'prev2_max_wind_50kt_plus_radius', value: 'prev2.max_wind_50kt_plus_radius', default: '' },
+//    { label: 'prev2_min_wind_30kt_plus_radius', value: 'prev2.min_wind_30kt_plus_radius', default: '' },
+//    { label: 'prev2_min_wind_50kt_plus_radius', value: 'prev2.min_wind_50kt_plus_radius', default: '' },
+//    { label: 'prev2_month', value: function(row){ return row.prev2===undefined?'':row.prev2.rec_time.getMonth(); }, default: '' },
+//    { label: 'prev2_wind_dir_30kt_plus', value: 'prev2.wind_dir_30kt_plus', default: '' },
+//    { label: 'prev2_wind_dir_50kt_plus', value: 'prev2.wind_dir_50kt_plus', default: '' }
+//]
 
 function calculateDistance(lat1, lng1, lat2, lng2){
     var p1 = new LatLon(lat1,lng1);
@@ -66,35 +87,40 @@ function calculateBearing(lat1, lng1, lat2, lng2){
 }
 
 function fieldManipulation(data){
-    return data.filter(function(each){
-        if(each.next !== undefined) {
-            each.distance = calculateDistance(each.loc[1], each.loc[0], each.next.loc[1], each.next.loc[0]);
-            each.bearing = calculateBearing(each.loc[1], each.loc[0], each.next.loc[1], each.next.loc[0]);
-            return true;
+    return data.map(function(each){
+        if(each.prev !== undefined) {
+            each.distance = calculateDistance(each.loc[1], each.loc[0], each.prev.loc[1], each.prev.loc[0]);
+            each.bearing = calculateBearing(each.prev.loc[1], each.prev.loc[0], each.loc[1], each.loc[0]);
         }
-        return false;
+        return each;
     });
 }
 
 function rest(router) {
     router.route('/getCSV')
         .get(function(req, res){
-            TcTrack
-                .find()
-                .populate('next prev')
-                .lean()
-                .exec(function(err, data){
-                    if(err)
-                        res.send(err);
-                    data = fieldManipulation(data);
-                    json2csv({ data: data, fields: fields }, function(err, csv) {
-                        if (err) console.log(err);
-                        res.contentType('csv');
-                        res.send(new Buffer(csv));
-                    });
-                    //res.json(data);
+
+        var fields = [].concat(distanceField,bearingField,nextFields,prevFields,currentFields);
+        TcTrack.find()
+            .populate({
+                path: 'next prev',
+                populate: {
+                    path: 'prev'
+                }
+            })
+            .lean()
+            .exec(function(err, data){
+                if(err)
+                    res.send(err);
+                data = fieldManipulation(data);
+                json2csv({ data: data, fields: fields }, function(err, csv) {
+                    if (err) console.log(err);
+                    res.contentType('csv');
+                    res.send(new Buffer(csv));
                 });
-        });
+                //res.json(data);
+            });
+    });
 }
 
 module.exports.rest = rest;
