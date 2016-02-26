@@ -216,7 +216,7 @@ Polymer({
             value: null
         },
 
-        predict_basic_criteria: {
+        predict_criteria: {
             type: Object,
             value: {
                 intl_no: 'Nothing',
@@ -227,6 +227,11 @@ Polymer({
         },
 
         predict_basic_result: {
+            type: Object,
+            value: {}
+        },
+
+        predict_advance_result: {
             type: Object,
             value: {}
         },
@@ -260,7 +265,7 @@ Polymer({
         'map-canvas.google-map-ready' : 'rmCover',
         'close-predict-info.tap' : 'predictIWClose',
         'show-basic-predict.tap': 'drawPredictedBasicCircle',
-        'show-advanced-predict.tap': 'drawPredictedAdvancedCircle'
+        'show-advance-predict.tap': 'drawPredictedAdvancedCircle'
     },
 
     zoomChanged: function(zoom){
@@ -323,7 +328,9 @@ Polymer({
         map.fitBounds(circle.getBounds());
     },
     drawPredictedAdvancedCircle: function(e){
-
+        var circle = drawPredictedCircle(this.predict_advance_result.center, this.predict_advance_result.radius);
+        var map = document.querySelector('google-map').map;
+        map.fitBounds(circle.getBounds());
     },
 
     mapRectBoundsChanged: function(e){
@@ -384,8 +391,9 @@ Polymer({
 
     predictRequests: function(e, detail, sender){
         Util.log('predict Requests trigger!');
-        this.predict_basic_criteria = {intl_no: detail.intl_no, name: detail.typ_name, date: detail.date};
+        this.predict_criteria = {intl_no: detail.intl_no, name: detail.typ_name, date: detail.date};
         this.$$('#getBasicPredict').generateRequest();
+        this.$$('#getAdvancePredict').generateRequest();
     },
 
     processPredictBasic: function(e){
@@ -395,6 +403,16 @@ Polymer({
         }else{
             //disable
             this.$$('#show-basic-predict').disabled = true;
+        }
+    },
+
+    processPredictAdvance: function(e){
+        if(this.predict_advance_result.message === 'Predicted'){
+            //enable
+            this.$$('#show-advance-predict').disabled = false;
+        }else{
+            //disable
+            this.$$('#show-advance-predict').disabled = true;
         }
     },
 
@@ -598,5 +616,9 @@ Polymer({
         str += "</div>";
 
         return str;
+    },
+
+    _computeTimezone: function(date){
+        return moment.tz(date,moment.tz.guess()).format('lll z');
     }
 });

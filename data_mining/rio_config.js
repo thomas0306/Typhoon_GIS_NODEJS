@@ -14,9 +14,15 @@ var rio_helper = {
         this.code = [];
         return cmd;
     },
-    evaluate: function(){
+    evaluate: function(cus_callback){
         if(!this.code.length){
             return "No code to be processed!";
+        }
+        if(cus_callback) this.options.callback = cus_callback;
+        else this.options.callback = this.callback;
+
+        for(idx in this.code){
+            console.log(this.code[idx]);
         }
 
         this.options.command = this.code2command();

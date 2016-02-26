@@ -14,7 +14,7 @@ var pruneDuplicateTyphoon = function(candidates){
 
 var pruneTyphoonByDistance = function(targetPastLoc, candidates){
     for(each in candidates){
-        if(candidates.prev === undefined) {
+        if(candidates[each].prev === undefined) {
             candidates.splice(each, 1);
             continue;
         }
@@ -66,8 +66,9 @@ var getRadiusM = function(center, candidates){
     var cnt = 0;
 
     for(each in candidates){
-        var loc = candidates[each].next.loc;
-        if(loc !== undefined) {
+
+        if(candidates[each].next !== undefined) {
+            var loc = candidates[each].next.loc;
             radius += distanceUtil.getDistanceFromLatLonInKm(loc[1], loc[0], center.lat, center.lng);
             cnt++;
         }

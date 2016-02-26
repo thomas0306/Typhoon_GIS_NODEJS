@@ -49,20 +49,21 @@ dom-module#index-panel-main
         iron-ajax#getRectSrch(url='/api/geo_query_rect/{{rect_srch_coord_lat1}}/{{rect_srch_coord_lng1}}/{{rect_srch_coord_lat2}}/{{rect_srch_coord_lng2}}' handle-as='json' on-response='drawEach' debounce-duration='300' last-response='{{rect_srch_res}}')
 
         paper-toast#predict-info(duration='-1')
-            iron-ajax#getBasicPredict(url='/api/predict_basic/{{predict_basic_criteria.intl_no}}/{{predict_basic_criteria.date}}' handle-as='json' on-response='processPredictBasic' debounce-duration='300' last-response='{{predict_basic_result}}')
+            iron-ajax#getBasicPredict(url='/api/predict_basic/{{predict_criteria.intl_no}}/{{predict_criteria.date}}' handle-as='json' on-response='processPredictBasic' debounce-duration='300' last-response='{{predict_basic_result}}')
             iron-signals(on-iron-signal-predictinfotrigger='predictRequests')
+            iron-ajax#getAdvancePredict(url='/api/predict_advance/{{predict_criteria.intl_no}}/{{predict_criteria.date}}' handle-as='json' on-response='processPredictAdvance' debounce-duration='300' last-response='{{predict_advance_result}}')
             paper-icon-button#close-predict-info.top-right(icon='icons:close')
             #selected_typ Selected Typhoon
             #name
-                | {{predict_basic_criteria.name}}
-                b  {{predict_basic_criteria.intl_no}}
-            #date {{predict_basic_criteria.date}}
+                | {{predict_criteria.name}}
+                b  {{predict_criteria.intl_no}}
+            #date {{_computeTimezone(predict_criteria.date)}}
             | Prediction:
             #wrapper
                 #left
                     paper-button#show-basic-predict(raised disabled) Basic
                 #right
-                    paper-button#show-advanced-predict(raised disabled) Advanced
+                    paper-button#show-advance-predict(raised disabled) Advanced
         google-map#map-canvas(api-key='[[apiKey]]' latitude='{{latitude}}' longitude='{{longitude}}' zoom='{{zoom}}' min-zoom='{{minZoom}}' styles='{{mapStyle}}' disable-default-ui='[[disableUI]]' mouse-events='true')
         index-panel-onmaptyp-dialog
     script(type='text/javascript', src='/javascripts/index-panel-main.js')
