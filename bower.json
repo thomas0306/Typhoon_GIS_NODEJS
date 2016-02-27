@@ -1,0 +1,17 @@
+{
+  "name": "Typhoon_GIS_NODEJS",
+  "description": "Final Year Project",
+  "main": "index.html",
+  "authors": [
+    "Thomas Lee"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/thomas0306/Typhoon_GIS_NODEJS",
+  "moduleType": [
+    "node"
+  ],
+  "private": true,
+  "dependencies": {
+
+  }
+}

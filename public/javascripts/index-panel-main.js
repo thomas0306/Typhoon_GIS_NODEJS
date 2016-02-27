@@ -160,26 +160,14 @@ Polymer({
             type: Array,
             value: [
                 {
-                    id: 'btn-system-predict',
-                    icon: 'icons:timeline',
-                    tooltip: 'System Prediction',
-                    callback: null
-                },
-                {
                     id: 'btn-user-predict',
-                    icon: 'icons:gesture',
+                    icon: 'editor:mode-edit',
                     tooltip: 'Predict Yourself',
                     callback: null
                 },
                 {
-                    id: 'btn-share',
-                    icon: 'social:share',
-                    tooltip: 'Share Prediction',
-                    callback: null
-                },
-                {
                     id: 'btn-retrieve-prediction',
-                    icon: 'icons:arrow-downward',
+                    icon: 'icons:file-download',
                     tooltip: 'Retrieve Prediction',
                     callback: null
                 }

@@ -7,6 +7,7 @@ link(rel='import' href='/javascripts/bower_components/iron-flex-layout/iron-flex
 link(rel='import' href='/javascripts/bower_components/paper-icon-button/paper-icon-button.html')
 link(rel='import' href='/javascripts/bower_components/iron-icons/iron-icons.html')
 link(rel='import' href='/javascripts/bower_components/iron-icons/social-icons.html')
+link(rel='import' href='/javascripts/bower_components/iron-icons/editor-icons.html')
 link(rel='import' href='/javascripts/bower_components/iron-signals/iron-signals.html')
 link(rel='import' href='/javascripts/bower_components/iron-ajax/iron-ajax.html')
 link(rel='import' href='/javascripts/bower_components/google-map/google-map.html')
@@ -33,8 +34,12 @@ dom-module#index-panel-main
                 div.flexchild Typhoon GIS
                 div.rightchild
                     paper-icon-button#search-dialog-toggle(icon='icons:assignment' class='bottom')
-        paper-fab-speed-dial.spd_dial(direction='top')
-            paper-fab.indigo(icon='menu' class='dropdown-trigger')
+        #uploadMenu.bottom-overlay
+            paper-fab#drawCancel.red(icon='icons:close')
+            #upload-menu-padding
+            paper-fab#drawSubmit.green(icon='icons:done')
+        paper-fab-speed-dial.spd_dial.dropdown-trigger(direction='top')
+            paper-fab.indigo(icon='social:share' class='dropdown-trigger')
             div.dropdown-content
                 template(is='dom-repeat' items='{{menu_btns}}')
                     paper-fab.indigo(id='{{item.id}}' icon='{{item.icon}}' mini on-tap='fabCallback')

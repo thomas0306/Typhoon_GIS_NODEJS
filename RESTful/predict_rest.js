@@ -151,6 +151,7 @@ function rest(router) {
                     rio_helper.evaluate(function(err, val){
                         if(err){
                             res.json({message:'Unpredicted', err:err});
+                            return;
                         }
                         val = val.map(function(each){
                            return parseFloat(each);
