@@ -34,17 +34,21 @@ dom-module#index-panel-main
                 div.flexchild Typhoon GIS
                 div.rightchild
                     paper-icon-button#search-dialog-toggle(icon='icons:assignment' class='bottom')
+
         #uploadMenu.bottom-overlay
             paper-fab#drawCancel.red(icon='icons:close')
+            paper-tooltip(for='drawCancel' position='top') Cancel
             #upload-menu-padding
             paper-fab#drawSubmit.green(icon='icons:done')
+            paper-tooltip(for='drawSubmit' position='top') Upload
+
         paper-fab-speed-dial.spd_dial.dropdown-trigger(direction='top')
-            paper-fab.indigo(icon='social:share' class='dropdown-trigger')
+            paper-fab#shareBtn.indigo(icon='social:share' class='dropdown-trigger')
+            paper-tooltip(for='shareBtn' position='left') Shareing
             div.dropdown-content
                 template(is='dom-repeat' items='{{menu_btns}}')
                     paper-fab.indigo(id='{{item.id}}' icon='{{item.icon}}' mini on-tap='fabCallback')
-        template(is='dom-repeat' items='{{menu_btns}}')
-            paper-tooltip(for='{{item.id}}' position='left') {{item.tooltip}}
+                    paper-tooltip(for='{{item.id}}' position='left') {{item.tooltip}}
         iron-signals(on-iron-signal-addintlno='reqPath')
         iron-ajax#getDirIdx(url='/api/flag_dir' handle-as='json' last-response='{{dirs}}')
         iron-ajax#getGradesIdx(url='/api/flag_grade' handle-as='json' last-response='{{grades}}')

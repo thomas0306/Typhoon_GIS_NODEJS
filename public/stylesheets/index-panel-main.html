@@ -53,11 +53,25 @@
                 position: fixed;
                 padding: 10px 5px;
                 width: 100%;
-                bottom: 0px;
+                bottom:-76px;
                 z-index: 998;
                 background: rgba(0,0,0,0.50);
                 @apply(--layout-horizontal);
                 @apply(--layout-center-justified);
+                animation-name: overlay-open;
+                animation-duration: 0.7s;
+                animation-fill-mode:forwards;
+                animation-timing-function: ease-in-out;
+            }
+
+            @keyframes overlay-open {
+                from {bottom: -76px;}
+                to {bottom: 0px;}
+            }
+
+            @keyframes overlay-close {
+                from {bottom: 0px;}
+                to {bottom: -76px;}
             }
 
             #upload-menu-padding{

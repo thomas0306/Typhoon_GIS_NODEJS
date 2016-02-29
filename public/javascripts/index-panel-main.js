@@ -163,7 +163,7 @@ Polymer({
                     id: 'btn-user-predict',
                     icon: 'editor:mode-edit',
                     tooltip: 'Predict Yourself',
-                    callback: null
+                    callback: this.toggleDrawPredict
                 },
                 {
                     id: 'btn-retrieve-prediction',
@@ -402,6 +402,10 @@ Polymer({
             //disable
             this.$$('#show-advance-predict').disabled = true;
         }
+    },
+
+    toggleDrawPredict: function(e){
+      Util.log('Toggle draw predict');
     },
 
     addPathToList: function(e){
