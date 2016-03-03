@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "postinstall": "export HOME=$HOME/app-root/runtime/repo; cd app-root/repo/public/javascripts; ./node_modules/bower/bin/bower install"
+    "start": "node ./bin/www"
   },
   "main": "./bin/www",
   "dependencies": {
