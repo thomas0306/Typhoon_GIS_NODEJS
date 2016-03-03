@@ -758,7 +758,7 @@ Polymer({
     },
 
     _computeTimezone: function(date){
-        return moment.tz(date,moment.tz.guess()).format('lll z');
+        return moment.tz(date,moment.tz.guess()).format('dd, MMM DD YYYY HH:mm z');
     },
 
     _socCurrTypChange: function(){

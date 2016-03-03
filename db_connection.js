@@ -8,5 +8,15 @@ db.on('error', console.error);
 db.once('open', function(){
 
 });
-mongoose.connect('mongodb://localhost/typhoon_gis');
+
+var connection_string = 'mongodb://localhost/typhoon_gis'
+
+if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
+    connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
+        process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
+        process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+        process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
+        process.env.OPENSHIFT_APP_NAME;
+}
+mongoose.connect(connection_string);
 
