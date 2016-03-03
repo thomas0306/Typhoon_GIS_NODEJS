@@ -3,10 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "postinstall": "HOME=$OPENSHIFT_REPO_DIR bower install || bower install"
   },
   "main": "./bin/www",
   "dependencies": {
+    "bower": "^1.4.1",
     "body-parser": "~1.13.2",
     "cookie-parser": "~1.3.5",
     "deasync": "^0.1.4",
