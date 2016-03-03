@@ -14,6 +14,15 @@ if(cluster.isMaster){
     for (var i = 0; i < cpuCount; i += 1) {
         cluster.fork();
     }
+
+    ///**
+    // * Socket.io config
+    // */
+    //var app = require('../app');
+    //var http = require('http').Server(app);
+    //var socket = require('./../SocketIO/socket');
+    //socket.init(http, socketPort);
+
 }else{
     /**
      * Module dependencies.
@@ -35,12 +44,14 @@ if(cluster.isMaster){
      */
 
     var server = http.createServer(app);
+    var socket = require('./../SocketIO/socket');
+    socket.init(server);
 
     /**
      * Listen on provided port, on all network interfaces.
      */
 
-    server.listen(process.env.OPENSHIFT_NODEJS_PORT||port, process.env.OPENSHIFT_NODEJS_IP ||'0.0.0.0');
+    server.listen(port, '0.0.0.0');
     server.on('error', onError);
     server.on('listening', onListening);
 

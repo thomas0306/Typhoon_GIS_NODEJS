@@ -4,6 +4,10 @@
 Polymer({
     is: "index-panel",
 
+    properties: {
+
+    },
+
     ready: function(){
         Util.log("index-panel ready!");
     }

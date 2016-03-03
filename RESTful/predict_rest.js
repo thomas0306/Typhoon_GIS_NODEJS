@@ -90,7 +90,8 @@ function rest(router) {
                                     },
                                     "$maxDistance": DataMine.CURR_NEAR_RADIUS_M
                                 }
-                            }
+                            },
+                            '_id': { $ne: target._id }
                         })
                         .lean()
                         .populate('prev next', 'loc')
@@ -109,6 +110,7 @@ function rest(router) {
                             }
 
                             var prediction = DataMine.calculatePredictedCircle(candidates);
+                            prediction.src = { lat: target.loc[1], lng: target.loc[0]};
                             //var prediction = distanceUtil.calculateIntersection(prediction, target.loc);
                             //{center: {lat: lat, lng: lng}, radius: radius, origin:{lat:lat, lng:lng}, intersects:[{lat:lat, lng:lng}]}
                             res.json(prediction);
@@ -168,6 +170,10 @@ function rest(router) {
                             center: {
                                 lat: distbearLatLon.lat,
                                 lng: distbearLatLon.lon
+                            },
+                            src: {
+                                lat: target.loc[1],
+                                lng: target.loc[0]
                             },
                             radius: 10000,
                             message: 'Predicted'

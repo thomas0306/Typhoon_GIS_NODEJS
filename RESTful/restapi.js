@@ -27,5 +27,7 @@ require('./import').rest(router);
 require('./geo_query_rest').rest(router);
 require('./predict_rest').rest(router);
 require('./csv_rest').rest(router);
+require('./usr_predict_rest').rest(router);
+require('./curr_tc_query_rest').rest(router);
 
 module.exports = router;

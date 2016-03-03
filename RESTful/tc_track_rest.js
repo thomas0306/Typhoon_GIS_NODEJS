@@ -68,6 +68,7 @@ function rest(router) {
                 res.json({message: 'tcTrack deleted!'})
             })
         });
+
 }
 
 module.exports.rest = rest;

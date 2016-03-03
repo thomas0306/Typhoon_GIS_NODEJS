@@ -29,6 +29,11 @@ var parseYYYYMMDD = function (str) {
     return (D.getFullYear() == y && D.getMonth() == m && D.getDate() == d) ? D : 'invalid date';
 }
 
+var generateToken = function(){
+    return Math.random().toString(36).slice(2);
+}
+
 module.exports.toDate = toDate;
 module.exports.japanTime2UTCDate = japanTime2UTCDate;
 module.exports.parseYYYYMMDD = parseYYYYMMDD;
+module.exports.generateToken = generateToken;

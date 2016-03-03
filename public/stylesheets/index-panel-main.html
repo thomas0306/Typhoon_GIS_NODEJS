@@ -2,6 +2,27 @@
 <dom-module id="index-panel-main-styles">
     <template>
         <style>
+
+            #version {
+                background: red;
+                border-radius: 2px;
+                font-size: 14px;
+                font-family: "Lucida Console", Monaco, monospace;
+                padding: 5px 5px;
+                margin-left: 10px;
+                margin-right: 2px;
+                box-shadow: 10px 5px 5px black;
+            }
+            #build {
+                background: red;
+                border-radius: 2px;
+                font-size: 14px;
+                font-family: "Lucida Console", Monaco, monospace;
+                padding: 5px 5px;
+                margin: 2px 2px;
+                box-shadow: 10px 5px 5px black;
+            }
+
             paper-toolbar{
                 color: #FFFFFF;
             }
@@ -49,32 +70,162 @@
                 z-index: 997;
             }
 
+            .bottom-panel-hide{
+                top: 100%;
+            }
+
             .bottom-overlay{
                 position: fixed;
                 padding: 10px 5px;
                 width: 100%;
-                bottom:-76px;
+                bottom: 0px;
                 z-index: 998;
                 background: rgba(0,0,0,0.50);
                 @apply(--layout-horizontal);
                 @apply(--layout-center-justified);
-                animation-name: overlay-open;
+            }
+
+            .retrieve-info-overlay{
+                color: white;
+                position: fixed;
+                width: 100%;
+                bottom: 0px;
+                z-index: 998;
+                background: rgba(0,0,0,0.50);
+            }
+
+            .upper{
+                @apply(--layout-horizontal);
+                padding: 10px 30px;
+            }
+
+            .lower{
+                border-top: 3px solid #000;
+                padding: 10px 30px;
+                height: 351px;
+            }
+
+            #info_detail{
+                @apply(--layout-flex);
+                margin: 5px 20px;
+            }
+
+            .upload-overlay-open {
+                animation-name: upload-overlay-open;
                 animation-duration: 0.7s;
                 animation-fill-mode:forwards;
                 animation-timing-function: ease-in-out;
             }
 
-            @keyframes overlay-open {
+            .upload-overlay-close{
+                animation-name: upload-overlay-close;
+                animation-duration: 0.7s;
+                animation-fill-mode:forwards;
+                animation-timing-function: ease-in-out;
+            }
+
+            @keyframes upload-overlay-open {
                 from {bottom: -76px;}
                 to {bottom: 0px;}
             }
 
-            @keyframes overlay-close {
+            @keyframes upload-overlay-close {
                 from {bottom: 0px;}
                 to {bottom: -76px;}
             }
 
-            #upload-menu-padding{
+            .retrieve-overlay-open {
+                animation-name: retrieve-overlay-open;
+                animation-duration: 0.7s;
+                animation-fill-mode:forwards;
+                animation-timing-function: ease-in-out;
+            }
+
+            .retrieve-overlay-close{
+                animation-name: retrieve-overlay-close;
+                animation-duration: 0.7s;
+                animation-fill-mode:forwards;
+                animation-timing-function: ease-in-out;
+            }
+
+            .retrieve-overlay-open {
+                animation-name: retrieve-overlay-open;
+                animation-duration: 0.7s;
+                animation-fill-mode: forwards;
+                animation-timing-function: ease-in-out;
+            }
+
+            @keyframes retrieve-overlay-open {
+                from {bottom: -76px;}
+                to {bottom: 0px;}
+            }
+
+            @keyframes retrieve-overlay-close {
+                from {bottom: 0px;}
+                to {bottom: -84px;}
+            }
+
+            .retrieve-info-semi-open {
+                animation-name: retrieve-info-semi-open;
+                animation-duration: 0.7s;
+                animation-fill-mode: forwards;
+                animation-timing-function: ease-in-out;
+            }
+
+            .retrieve-info-open-semi {
+                animation-name: retrieve-info-open-semi;
+                animation-duration: 0.7s;
+                animation-fill-mode: forwards;
+                animation-timing-function: ease-in-out;
+            }
+
+            .retrieve-info-close-semi {
+                animation-name: retrieve-info-close-semi;
+                animation-duration: 0.7s;
+                animation-fill-mode: forwards;
+                animation-timing-function: ease-in-out;
+            }
+
+            .retrieve-info-semi-close{
+                animation-name: retrieve-info-semi-close;
+                animation-duration: 0.7s;
+                animation-fill-mode: forwards;
+                animation-timing-function: ease-in-out;
+            }
+
+            .retrieve-info-open-close {
+                animation-name: retrieve-info-open-close;
+                animation-duration: 0.7s;
+                animation-fill-mode: forwards;
+                animation-timing-function: ease-in-out;
+            }
+
+            @keyframes retrieve-info-semi-open{
+                from { bottom: -371px; }
+                to { bottom: 0px; }
+            }
+
+            @keyframes retrieve-info-open-semi{
+                from { bottom: 0px; }
+                to { bottom: -371px; }
+            }
+
+            @keyframes retrieve-info-close-semi{
+                from { bottom: -450px; }
+                to { bottom: -371px; }
+            }
+
+            @keyframes retrieve-info-semi-close{
+                from { bottom: -371px; }
+                to { bottom: -450px; }
+            }
+
+            @keyframes retrieve-info-open-close{
+                from { bottom: 0px; }
+                to { bottom: -450px; }
+            }
+
+            .button-padding{
                 width: 10px;
             }
 
@@ -88,6 +239,12 @@
 
             paper-fab.red{
                 --paper-fab-background: var(--paper-red-500);
+            }
+
+            paper-input#retrieve-token-input {
+                --paper-input-container-color: var(--paper-indigo-50);
+                --paper-input-container-focus-color: var(--paper-indigo-100);
+                --paper-input-container-input-color: white;
             }
 
         </style>

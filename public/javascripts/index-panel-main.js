@@ -1,6 +1,13 @@
 /**
  * Created by Thomas on 18/1/2016.
  */
+
+var IW_STATUS = {
+    CLOSE: 0,
+    SEMI: 1,
+    OPEN: 2
+}
+
 Polymer({
     is: "index-panel-main",
 
@@ -11,6 +18,52 @@ Polymer({
     },
 
     properties: {
+        curr_typ: {
+            type: Object,
+            writable: true,
+            observer: 'render_curr_typ'
+        },
+
+        uploadMenuClass: {
+            type: String,
+            value: 'bottom-overlay bottom-panel-hide'
+        },
+
+        retrieveMenuClass: {
+            type: String,
+            value: 'bottom-overlay bottom-panel-hide'
+        },
+
+        retrieveInfoClass: {
+            type: String,
+            value: 'retrieve-info-overlay bottom-panel-hide'
+            //value: 'bottom-overlay bottom-panel-hide'
+        },
+
+        retrieveInfoStatus: {
+            type: Number,
+            value: IW_STATUS.CLOSE
+        },
+
+        srch_token: {
+            type: String,
+            value:''
+        },
+
+        usr_predict: {
+            type: Object,
+            value: {
+                name: 'UNKNOWN',
+                last_update: 'UNKNOWN',
+                comment: 'UNKNOWN',
+                message: 'UNKNOWN'
+            }
+        },
+
+        typ_heat_map_data: {
+            type:Object
+        },
+
         apiKey:{
             type: String,
             value: 'AIzaSyCg41XC9fHNb22opdSPUWHrLSpS6dxzRzw',
@@ -156,24 +209,6 @@ Polymer({
             ]
         },
 
-        menu_btns: {
-            type: Array,
-            value: [
-                {
-                    id: 'btn-user-predict',
-                    icon: 'editor:mode-edit',
-                    tooltip: 'Predict Yourself',
-                    callback: this.toggleDrawPredict
-                },
-                {
-                    id: 'btn-retrieve-prediction',
-                    icon: 'icons:file-download',
-                    tooltip: 'Retrieve Prediction',
-                    callback: null
-                }
-            ]
-        },
-
         typ_paths: {
             value: [],
             writable: true
@@ -247,13 +282,29 @@ Polymer({
         }
     },
 
+    observers: {
+        'socket_curr_typ': 'receiveSocketMessage'
+    },
+
+    receiveSocketMessage: function(e){
+        console.log(this.socket_curr_typ);
+    },
+
     listeners: {
         'drawer-toggle.tap' : 'toggleDrawer',
         'search-dialog-toggle.tap' : 'toggleSearchDialog',
         'map-canvas.google-map-ready' : 'rmCover',
         'close-predict-info.tap' : 'predictIWClose',
         'show-basic-predict.tap': 'drawPredictedBasicCircle',
-        'show-advance-predict.tap': 'drawPredictedAdvancedCircle'
+        'show-advance-predict.tap': 'drawPredictedAdvancedCircle',
+        'btn-user-predict.tap': 'toggleDrawPredict',
+        'btn-retrieve-prediction.tap': 'toggleRetrievePredictionPanel',
+        'btn-draw-cancel.tap': 'dismissUploadPanel',
+        //'btn-draw-submit.tap': 'submitSelfPrediction',
+        'btn-retrieve-cancel.tap': 'dismissRetrievePanel',
+        'btn-retrieve-submit.tap': 'submitRetrieve',
+        'info_detail.tap': 'toggleCommentSection',
+        'btn-close-retrieve-info.tap': 'dismissRetrieveInfo',
     },
 
     zoomChanged: function(zoom){
@@ -303,6 +354,20 @@ Polymer({
             //this part runs when the mapobject is created and rendered
             var cover = document.querySelector('#cover');
             cover.parentNode.removeChild(cover);
+
+            //document.querySelector('#getCurrTc').generateRequest();
+
+            //var hmData = JSON.parse(localStorage.getItem('typ-heat-map'));
+            //hmData = hmData.map(function(each){
+            //    each.location = new google.maps.LatLng(each._id[1], each._id[0]);
+            //    return each;
+            //});
+            //console.log(hmData);
+            //var heatmap = new google.maps.visualization.HeatmapLayer({
+            //    data: hmData,
+            //    radius: 2
+            //});
+            //heatmap.setMap(map);
         });
     },
 
@@ -311,12 +376,12 @@ Polymer({
     },
 
     drawPredictedBasicCircle: function(e){
-        var circle = drawPredictedCircle(this.predict_basic_result.center, this.predict_basic_result.radius);
+        var circle = drawPredictedCircle(this.predict_basic_result.center, this.predict_basic_result.radius, this.predict_basic_result.src);
         var map = document.querySelector('google-map').map;
         map.fitBounds(circle.getBounds());
     },
     drawPredictedAdvancedCircle: function(e){
-        var circle = drawPredictedCircle(this.predict_advance_result.center, this.predict_advance_result.radius);
+        var circle = drawPredictedCircle(this.predict_advance_result.center, this.predict_advance_result.radius, this.predict_advance_result.src);
         var map = document.querySelector('google-map').map;
         map.fitBounds(circle.getBounds());
     },
@@ -404,8 +469,73 @@ Polymer({
         }
     },
 
+    //populateCurrTyp: function(e){
+    //    Util.log('Populate curr typ!');
+    //    console.log(this.curr_typ);
+    //    if(!this.curr_typ || !this.curr_typ.length){
+    //        //no current typ
+    //    }else{
+    //
+    //    }
+    //},
+
     toggleDrawPredict: function(e){
-      Util.log('Toggle draw predict');
+        Util.log('Toggle draw predict');
+        this.uploadMenuClass = 'bottom-overlay upload-overlay-open';
+    },
+
+    toggleRetrievePredictionPanel: function(e){
+        Util.log('Toggle retrieve prediction panel');
+        this.retrieveMenuClass = 'bottom-overlay retrieve-overlay-open';
+    },
+
+    dismissUploadPanel: function(e){
+        Util.log('Dismiss upload panel');
+        this.uploadMenuClass = 'bottom-overlay upload-overlay-close';
+    },
+
+    dismissRetrievePanel: function(e){
+        Util.log('Dismiss retrieve panel');
+        this.retrieveMenuClass = 'bottom-overlay retrieve-overlay-close';
+    },
+
+    submitRetrieve: function(e){
+        Util.log('Submit retrieve');
+        if(this.srch_token !== '')
+            this.$$('#getUsrPredict').generateRequest();
+        else
+            this.$$('#toast-token-empty').show();
+    },
+
+    toggleCommentSection: function(e){
+        Util.log('Toggle comment section');
+        if(this.retrieveInfoStatus === IW_STATUS.SEMI){
+            this.retrieveInfoClass = 'retrieve-info-overlay retrieve-info-semi-open';
+            this.retrieveInfoStatus = IW_STATUS.OPEN;
+        }
+        else if(this.retrieveInfoStatus === IW_STATUS.OPEN){
+            this.retrieveInfoClass = 'retrieve-info-overlay retrieve-info-open-semi';
+            this.retrieveInfoStatus = IW_STATUS.SEMI;
+        }
+    },
+
+    dismissRetrieveInfo: function(e){
+        Util.log('Dismiss Retrieve Info');
+        if(this.retrieveInfoStatus === IW_STATUS.OPEN)
+            this.retrieveInfoClass = 'retrieve-info-overlay retrieve-info-open-close';
+        else if(this.retrieveInfoStatus === IW_STATUS.SEMI)
+            this.retrieveInfoClass = 'retrieve-info-overlay retrieve-info-semi-close';
+        this.retrieveInfoStatus === IW_STATUS.CLOSE;
+    },
+
+    retrieveUsrPredictRes: function(e){
+        if(this.$.getUsrPredict.lastResponse.message === 'fail')
+            this.$$('#toast-token-invalid').show();
+        else{
+            this.dismissRetrievePanel();
+            this.retrieveInfoClass = 'retrieve-info-overlay retrieve-info-close-semi';
+            this.retrieveInfoStatus = IW_STATUS.SEMI;
+        }
     },
 
     addPathToList: function(e){
@@ -610,7 +740,32 @@ Polymer({
         return str;
     },
 
+    getTypHeatMapData: function(){
+        this.$$('#getTypHeatMapDataAjax').generateRequest();
+    },
+
     _computeTimezone: function(date){
         return moment.tz(date,moment.tz.guess()).format('lll z');
+    },
+
+    _socCurrTypChange: function(){
+        console.log('Changed');
+        console.log(this.socket_curr_typ);
+    },
+
+    _currTypInit: function(e, detail, sender){
+        console.log('Inbound init data...');
+        console.log(detail);
+        this.curr_typ = detail;
+    },
+
+    _currTypUpdate: function(e, detail, sender){
+        console.log('Inbound update data...');
+        console.log(detail);
+        this.appendCurrTypUpdate(detail);
+    },
+
+    appendCurrTypUpdate: function(data){
+
     }
 });

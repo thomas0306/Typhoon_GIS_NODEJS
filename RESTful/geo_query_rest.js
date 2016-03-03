@@ -32,7 +32,7 @@ function rest(router) {
         .get(function(req, res){
            TcTrack.aggregate(
                 {
-                    $group:{ _id: '$loc', weight: {$sum: 1}}
+                    $group:{ _id: '$loc', weight: {$sum: 1}},
                 }, function(err, data){
                     if(err)
                         res.send(err);

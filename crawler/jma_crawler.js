@@ -8,6 +8,7 @@ var TcTrack = require('./../models/tc_track');
 var parseData = require('./../generic/parseData');
 var util = require('./../generic/util');
 
+var socket = require('./../SocketIO/socket');
 
 var JmaCrawler = {
     instance: undefined,
@@ -27,12 +28,21 @@ var JmaCrawler = {
     },
 
     reqCallback: function(err, res, body){
-        console.log('Response from JMA: '+ res.statusCode + ', ' + res.statusMessage);
+        if(res.statusCode !== undefined)
+            console.log('Response from JMA: '+ res.statusCode + ', ' + res.statusMessage);
         if(err){
             console.log(err);
         }else if(res.statusCode === 200){
-            this.processData(body)
+            this.processData(body);
         }
+    },
+
+    updateLastConnected: function(){
+        DataSrcModel.findOneAndUpdate({name:'JMA'}, {$set:{last_connected: new Date()}}, {upsert: true},
+            function(err, doc){
+                if(err)
+                    console.log(err);
+            });
     },
 
     processData: function(data){
@@ -52,6 +62,7 @@ var JmaCrawler = {
                 this.retrieveTrackLine(colArr, intl_no);
         }
         parseData.connectTracks(TcTrack, intl_no);
+        socket.broadcast();
         console.log('Update complete');
     },
 
@@ -65,6 +76,9 @@ var JmaCrawler = {
                     obj.save(function(err){
                         if(err)
                             console.log(err);
+                        else{
+                            socket.cacheUpdate(socket.BUFFER_TYPE.RECORD, obj);
+                        }
                     });
                 }else{
                     //update
@@ -91,6 +105,8 @@ var JmaCrawler = {
                     obj.save(function(err){
                         if(err)
                             console.log(err);
+                        else
+                            socket.cacheUpdate(socket.BUFFER_TYPE.TRACK, obj);
                     });
                 }else{
                     //update

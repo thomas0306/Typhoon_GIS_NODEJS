@@ -76,6 +76,7 @@ function rest(router) {
                 res.json(tcRecords);
             });
         });
+
     router.route('/tc_records_search/')
         .get(function (req, res) {
             res.json([]);

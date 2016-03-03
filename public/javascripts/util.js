@@ -155,7 +155,7 @@ function drawPath(coords){
     return path;
 }
 
-function drawPredictedCircle(center, radius){
+function drawPredictedCircle(center, radius, src){
     var map = document.querySelector('google-map').map;
 
     var circle = new google.maps.Circle({
@@ -167,6 +167,22 @@ function drawPredictedCircle(center, radius){
         map: map,
         center: center,
         radius: radius
+    });
+
+    var line = new google.maps.Polyline({
+        path: [center, src],
+        geodesic: true,
+        strokeColor: '#FF0000',
+        strokeOpacity: 1.0,
+        strokeWeight: 2,
+        map: map
+    });
+
+    circle.line = line;
+
+    circle.addListener('click', function(ev) {
+        this.setMap(null);
+        this.line.setMap(null);
     });
 
     return circle;

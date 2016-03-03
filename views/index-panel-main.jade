@@ -17,9 +17,13 @@ link(rel='import' href='/javascripts/bower_components/paper-fab-transitions/pape
 link(rel='import' href='/javascripts/bower_components/paper-tooltip/paper-tooltip.html')
 link(rel='import' href='/javascripts/bower_components/paper-toast/paper-toast.html')
 link(rel='import' href='/javascripts/bower_components/paper-button/paper-button.html')
+link(rel='import' href='/javascripts/bower_components/iron-localstorage/iron-localstorage.html')
+link(rel='import' href='/javascripts/bower_components/paper-input/paper-input.html')
+link(rel='import' href='/javascripts/bower_components/socket-connection/socket-connection.html')
 
 //custom component
 link(rel='import' href='/index-panel-onmaptyp-dialog')
+
 
 //css
 link(rel='import' href='/stylesheets/index-panel-main.html')
@@ -31,24 +35,58 @@ dom-module#index-panel-main
             div.container
                 div
                     paper-icon-button#drawer-toggle(icon='search')
+                    paper-tooltip(for='drawer-toggle' position='bottom') Search
                 div.flexchild Typhoon GIS
+                    span#version Integration
+                    span#build 01MAR20161719
                 div.rightchild
                     paper-icon-button#search-dialog-toggle(icon='icons:assignment' class='bottom')
+                    paper-tooltip(for='search-dialog-toggle' position='bottom') List
 
-        #uploadMenu.bottom-overlay
-            paper-fab#drawCancel.red(icon='icons:close')
-            paper-tooltip(for='drawCancel' position='top') Cancel
-            #upload-menu-padding
-            paper-fab#drawSubmit.green(icon='icons:done')
-            paper-tooltip(for='drawSubmit' position='top') Upload
+        #uploadMenu(class$='{{uploadMenuClass}}')
+            paper-fab#btn-draw-cancel.red(icon='icons:close')
+            paper-tooltip(for='btn-draw-cancel' position='top') Cancel
+            .button-padding
+            paper-fab#btn-draw-submit.green(icon='icons:done')
+            paper-tooltip(for='btn-draw-submit' position='top') Upload
+
+        #retrieveMenu(class$='{{retrieveMenuClass}}')
+            paper-input#retrieve-token-input(label='Paste your token here!' value="{{srch_token}}")
+            .button-padding
+            paper-fab#btn-retrieve-cancel.red(icon='icons:close')
+            paper-tooltip(for='btn-retrieve-cancel' position='top') Cancel
+            .button-padding
+            paper-fab#btn-retrieve-submit.green(icon='icons:done')
+            paper-tooltip(for='btn-retrieve-submit' position='top') Upload
+            iron-ajax#getUsrPredict(url='/api/usr_predict/{{srch_token}}' handle-as='json' last-response='{{usr_predict}}' on-response='retrieveUsrPredictRes')
+            paper-toast#toast-token-empty Token field is empty!
+            paper-toast#toast-token-invalid Token is invalid!
+
+        #retrieveInfo(class$='{{retrieveInfoClass}}')
+            .upper
+                #info_icon
+                    paper-fab(icon='icons:perm-identity' disabled)
+                paper-tooltip(for='info_detail' position='top') Tap to show/hide user comment
+                #info_detail
+                    div Name: {{usr_predict.name}}
+                    div Date: {{usr_predict.last_update}}
+                paper-fab#btn-close-retrieve-info(icon='icons:close')
+                paper-tooltip(for='btn-close-retrieve-info' position='top') Dismiss
+            .lower
+                | {{usr_predict.comment}}
 
         paper-fab-speed-dial.spd_dial.dropdown-trigger(direction='top')
             paper-fab#shareBtn.indigo(icon='social:share' class='dropdown-trigger')
             paper-tooltip(for='shareBtn' position='left') Shareing
             div.dropdown-content
-                template(is='dom-repeat' items='{{menu_btns}}')
-                    paper-fab.indigo(id='{{item.id}}' icon='{{item.icon}}' mini on-tap='fabCallback')
-                    paper-tooltip(for='{{item.id}}' position='left') {{item.tooltip}}
+                //template(is='dom-repeat' items='{{menu_btns}}')
+                //    paper-fab.indigo(id='{{item.id}}' icon='{{item.icon}}' mini on-tap='testing')
+                //    paper-tooltip(for='{{item.id}}' position='left') {{item.tooltip}}
+                paper-fab.indigo(id='btn-user-predict' icon='editor:mode-edit' mini)
+                paper-tooltip(for='btn-user-predict' position='left')
+                paper-fab.indigo(id='btn-retrieve-prediction' icon='file-download' mini)
+                paper-tooptip(for='btn-retrieve-prediction' position='left')
+
         iron-signals(on-iron-signal-addintlno='reqPath')
         iron-ajax#getDirIdx(url='/api/flag_dir' handle-as='json' last-response='{{dirs}}')
         iron-ajax#getGradesIdx(url='/api/flag_grade' handle-as='json' last-response='{{grades}}')
@@ -73,7 +111,23 @@ dom-module#index-panel-main
                     paper-button#show-basic-predict(raised disabled) Basic
                 #right
                     paper-button#show-advance-predict(raised disabled) Advanced
+        //4500 - testing purpose
+        //iron-ajax#getCurrTc(url='/api/curr_tc_records/4500' handle-as='json' last-response='{{curr_typ}}' on-response='populateCurrTyp')
+        socket-connection(url='/socket_curr_typ' auto)
+            socket-receiver(event='init')
+            socket-receiver(event='update')
+        iron-signals(on-iron-signal-socket-inbound-init='_currTypInit')
+        iron-signals(on-iron-signal-socket-inbound-update='_currTypUpdate')
+
+        paper-toast#toast-no-curr-typ There is no typhoon happening in the last 24hrs in JMA responsible area.
+        paper-toast#toast-exist-curr-typ
+            div The following typhoon is/are tracked by Japan in the last 24hrs in JMA responsible area:
+            template(is='dom-repeat' items='{{curr_typ}}')
+
+        iron-ajax#getTypHeatMapDataAjax(url='/api/get_heatmap_data' handle-as='json' last-response='{{typ_heat_map_data}}')
+        iron-localstorage(name='typ-heat-map' value='{{typ_heat_map_data}}' on-iron-localstorage-load-empty='getTypHeatMapData')
         google-map#map-canvas(api-key='[[apiKey]]' latitude='{{latitude}}' longitude='{{longitude}}' zoom='{{zoom}}' min-zoom='{{minZoom}}' styles='{{mapStyle}}' disable-default-ui='[[disableUI]]' mouse-events='true')
+
         index-panel-onmaptyp-dialog
     script(type='text/javascript', src='/javascripts/index-panel-main.js')
 
