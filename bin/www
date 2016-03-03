@@ -5,7 +5,7 @@ var app = require('../app');
 var server = require('http').createServer(app);
 var socket = require('./../SocketIO/socket');
 
-var port = 3000;
+var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
 socket.init(server);
 
@@ -43,7 +43,7 @@ function onError(error) {
  */
 
 function onListening() {
-    console.log('server started on ' + port + ' port');
+    console.log('Server started on ' + port + ' port');
 }
 
 if (!sticky.listen(server, port)) {
