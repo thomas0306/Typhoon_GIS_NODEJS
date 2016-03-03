@@ -2,6 +2,54 @@
 <dom-module id="index-panel-main-styles">
     <template>
         <style>
+            .label{
+                font-family: "Trebuchet MS", Helvetica, sans-serif;
+                color: var(--paper-grey-200);
+                text-align: right;
+                font-size: 60%;
+            }
+
+            .value{
+                text-align: right;
+            }
+
+            #curr-typ-listtitle{
+                border-bottom: 2px solid white;
+                margin-bottom: 3px;
+                padding-bottom: 3px;
+            }
+
+            #curr-typ-listitem{
+                @apply(--layout-horizontal);
+                @apply(--layout-center);
+            }
+
+            #curr-typ-listitem-left {
+                @apply(--layout-self-stretch);
+                @apply(--layout-flex);
+                border-left: 1px solid white;
+                padding: 0px 5px;
+            }
+
+            #curr-typ-listitem-mid {
+                @apply(--layout-self-stretch);
+                border-left: 1px solid white;
+                padding: 0px 5px;
+            }
+
+            #btn-curr-typ {
+                animation: blinker 2s linear infinite;
+            }
+
+            @keyframes blinker{
+                50% { opacity: 0.0; }
+            }
+
+            #toast-exist-curr-typ{
+                --paper-toast-background-color: var(--paper-red-500);
+                --paper-toast-color: white;
+                z-index: 989;
+            }
 
             #version {
                 background: red;
@@ -57,6 +105,7 @@
 
             .rightchild{
                 @apply(--layout-right-justified);
+                @apply(--layout-horizontal);
             }
 
             #map-canvas{
@@ -67,7 +116,7 @@
                 position: absolute;
                 bottom: 10px;
                 right: 10px;
-                z-index: 997;
+                z-index: 988;
             }
 
             .bottom-panel-hide{

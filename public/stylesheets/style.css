@@ -32,7 +32,7 @@ body {
   width: 100%;
   height: 100%;
   background: #37439A;
-  z-index: 999;
+  z-index: 2000;
 }
 
 #l1 {

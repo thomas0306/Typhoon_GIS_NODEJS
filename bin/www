@@ -1,118 +1,60 @@
 #!/usr/bin/env node
+var sticky = require('sticky-session');
 
-var cluster = require('cluster');
-if(cluster.isMaster){
+var app = require('../app');
+var server = require('http').createServer(app);
+var socket = require('./../SocketIO/socket');
+
+var port = 3000;
+
+socket.init(server);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+server.on('error', onError);
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error('requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error('is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+    console.log('server started on ' + port + ' port');
+}
+
+if (!sticky.listen(server, port)) {
     /**
      * Cron jobs
      */
     var cron = require('../cron_config');
 
-    // Count the machine's CPUs
-    var cpuCount = require('os').cpus().length;
-
-    // Create a worker for each CPU
-    for (var i = 0; i < cpuCount; i += 1) {
-        cluster.fork();
-    }
-
-    ///**
-    // * Socket.io config
-    // */
-    //var app = require('../app');
-    //var http = require('http').Server(app);
-    //var socket = require('./../SocketIO/socket');
-    //socket.init(http, socketPort);
-
-}else{
-    /**
-     * Module dependencies.
-     */
-
-    var app = require('../app');
-    var debug = require('debug')('Typhoon_GIS_NODEJS:server');
-    var http = require('http');
-
-    /**
-     * Get port from environment and store in Express.
-     */
-
-    var port = normalizePort(process.env.PORT || '3000');
-    app.set('port', port);
-
-    /**
-     * Create HTTP server.
-     */
-
-    var server = http.createServer(app);
-    var socket = require('./../SocketIO/socket');
-    socket.init(server);
-
-    /**
-     * Listen on provided port, on all network interfaces.
-     */
-
-    server.listen(port, '0.0.0.0');
-    server.on('error', onError);
-    server.on('listening', onListening);
-
-    /**
-     * Normalize a port into a number, string, or false.
-     */
-
-    function normalizePort(val) {
-        var port = parseInt(val, 10);
-
-        if (isNaN(port)) {
-            // named pipe
-            return val;
-        }
-
-        if (port >= 0) {
-            // port number
-            return port;
-        }
-
-        return false;
-    }
-
-    /**
-     * Event listener for HTTP server "error" event.
-     */
-
-    function onError(error) {
-        if (error.syscall !== 'listen') {
-            throw error;
-        }
-
-        var bind = typeof port === 'string'
-            ? 'Pipe ' + port
-            : 'Port ' + port;
-
-        // handle specific listen errors with friendly messages
-        switch (error.code) {
-            case 'EACCES':
-                console.error(bind + ' requires elevated privileges');
-                process.exit(1);
-                break;
-            case 'EADDRINUSE':
-                console.error(bind + ' is already in use');
-                process.exit(1);
-                break;
-            default:
-                throw error;
-        }
-    }
-
-    /**
-     * Event listener for HTTP server "listening" event.
-     */
-
-    function onListening() {
-        var addr = server.address();
-        var bind = typeof addr === 'string'
-            ? 'pipe ' + addr
-            : 'port ' + addr.port;
-        debug('Listening on ' + bind + ', cluster(' + cluster.worker.id + ')');
-    }
+    // Master code
+    server.once('listening', onListening);
+} else {
+    // Worker code
 
 }

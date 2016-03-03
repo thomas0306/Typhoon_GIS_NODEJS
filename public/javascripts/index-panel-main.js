@@ -20,8 +20,12 @@ Polymer({
     properties: {
         curr_typ: {
             type: Object,
-            writable: true,
-            observer: 'render_curr_typ'
+            writable: true
+        },
+
+        exist_curr_typ:{
+            type: Boolean,
+            value: false
         },
 
         uploadMenuClass: {
@@ -305,6 +309,7 @@ Polymer({
         'btn-retrieve-submit.tap': 'submitRetrieve',
         'info_detail.tap': 'toggleCommentSection',
         'btn-close-retrieve-info.tap': 'dismissRetrieveInfo',
+        'btn-close-curr-typ-info.tap': 'dismissCurrTypInfo'
     },
 
     zoomChanged: function(zoom){
@@ -538,6 +543,14 @@ Polymer({
         }
     },
 
+    toggleCurrTypToast: function(e){
+        this.$$('#toast-exist-curr-typ').toggle();
+    },
+
+    dismissCurrTypInfo: function(e){
+        this.$$('#toast-exist-curr-typ').close();
+    },
+
     addPathToList: function(e){
         var res = this.$.getPathAjax.lastResponse;
 
@@ -756,6 +769,10 @@ Polymer({
     _currTypInit: function(e, detail, sender){
         console.log('Inbound init data...');
         console.log(detail);
+        for(idx in detail){
+            detail[idx].isOnMap = false;
+        }
+        this.exist_curr_typ = !(detail.length === 0);
         this.curr_typ = detail;
     },
 
@@ -763,6 +780,10 @@ Polymer({
         console.log('Inbound update data...');
         console.log(detail);
         this.appendCurrTypUpdate(detail);
+    },
+
+    toggleRenderCurrTyp: function(e){
+        console.log(e.target.getAttribute('data-index'));
     },
 
     appendCurrTypUpdate: function(data){

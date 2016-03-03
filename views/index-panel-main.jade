@@ -11,7 +11,6 @@ link(rel='import' href='/javascripts/bower_components/iron-icons/editor-icons.ht
 link(rel='import' href='/javascripts/bower_components/iron-signals/iron-signals.html')
 link(rel='import' href='/javascripts/bower_components/iron-ajax/iron-ajax.html')
 link(rel='import' href='/javascripts/bower_components/google-map/google-map.html')
-link(rel='import' href='/javascripts/bower_components/google-apis/google-maps-api.html')
 link(rel='import' href='/javascripts/bower_components/paper-fab/paper-fab.html')
 link(rel='import' href='/javascripts/bower_components/paper-fab-transitions/paper-fab-speed-dial.html')
 link(rel='import' href='/javascripts/bower_components/paper-tooltip/paper-tooltip.html')
@@ -38,8 +37,10 @@ dom-module#index-panel-main
                     paper-tooltip(for='drawer-toggle' position='bottom') Search
                 div.flexchild Typhoon GIS
                     span#version Integration
-                    span#build 01MAR20161719
                 div.rightchild
+                    template(is='dom-if' if='[[exist_curr_typ]]')
+                        paper-icon-button#btn-curr-typ(icon='icons:track-changes' on-tap='toggleCurrTypToast')
+                        paper-tooltip(for='fab-curr-typ' position='bottom') Active Typhoon(s)
                     paper-icon-button#search-dialog-toggle(icon='icons:assignment' class='bottom')
                     paper-tooltip(for='search-dialog-toggle' position='bottom') List
 
@@ -83,9 +84,9 @@ dom-module#index-panel-main
                 //    paper-fab.indigo(id='{{item.id}}' icon='{{item.icon}}' mini on-tap='testing')
                 //    paper-tooltip(for='{{item.id}}' position='left') {{item.tooltip}}
                 paper-fab.indigo(id='btn-user-predict' icon='editor:mode-edit' mini)
-                paper-tooltip(for='btn-user-predict' position='left')
+                paper-tooltip(for='btn-user-predict' position='left') Your Predict
                 paper-fab.indigo(id='btn-retrieve-prediction' icon='file-download' mini)
-                paper-tooptip(for='btn-retrieve-prediction' position='left')
+                paper-tooltip(for='btn-retrieve-prediction' position='left') Retrieve Prediction
 
         iron-signals(on-iron-signal-addintlno='reqPath')
         iron-ajax#getDirIdx(url='/api/flag_dir' handle-as='json' last-response='{{dirs}}')
@@ -111,18 +112,36 @@ dom-module#index-panel-main
                     paper-button#show-basic-predict(raised disabled) Basic
                 #right
                     paper-button#show-advance-predict(raised disabled) Advanced
-        //4500 - testing purpose
-        //iron-ajax#getCurrTc(url='/api/curr_tc_records/4500' handle-as='json' last-response='{{curr_typ}}' on-response='populateCurrTyp')
+
         socket-connection(url='/socket_curr_typ' auto)
             socket-receiver(event='init')
             socket-receiver(event='update')
         iron-signals(on-iron-signal-socket-inbound-init='_currTypInit')
         iron-signals(on-iron-signal-socket-inbound-update='_currTypUpdate')
 
-        paper-toast#toast-no-curr-typ There is no typhoon happening in the last 24hrs in JMA responsible area.
-        paper-toast#toast-exist-curr-typ
-            div The following typhoon is/are tracked by Japan in the last 24hrs in JMA responsible area:
+        paper-toast#toast-exist-curr-typ(duration='-1')
+            paper-icon-button#btn-close-curr-typ-info.top-right(icon='icons:close')
+            #curr-typ-listtitle The following typhoon is/are tracked <br>by Japan in the last 24hrs in JMA responsible area:
             template(is='dom-repeat' items='{{curr_typ}}')
+                #curr-typ-listitem
+                    #curr-typ-listitem-left
+                        .label
+                            |name
+                            b number
+                        .value
+                            | {{item.name}}
+                            b {{item.intl_no}}
+                    #curr-typ-listitem-mid
+                        .label last update
+                        .value {{_computeTimezone(item.last_modi)}}
+                    #curr-typ-listitem-right
+                        template(is='dom-if' if='{{item.isOnMap}}')
+                            //hide
+                            paper-icon-button(icon='icons:visibility-off' on-tap='toggleRenderCurrTyp' data-index='3')
+                        template(is='dom-if' if='{{!item.isOnMap}}')
+                            //show
+                            paper-icon-button(icon='icons:visibility' on-tap='toggleRenderCurrTyp' data-index='3')
+
 
         iron-ajax#getTypHeatMapDataAjax(url='/api/get_heatmap_data' handle-as='json' last-response='{{typ_heat_map_data}}')
         iron-localstorage(name='typ-heat-map' value='{{typ_heat_map_data}}' on-iron-localstorage-load-empty='getTypHeatMapData')

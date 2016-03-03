@@ -25,7 +25,7 @@ var socket = {
 
         typ_socket.on('connection', function(getSocketInfo, io, socket){
             console.log('SOCKET(CONN): ' + getSocketInfo(socket));
-            CurrTcQuery(4500, function(records){
+            CurrTcQuery(5000, function(records){
                 socket.emit('init', records);
             });
         }.bind(null, this.getSocketInfo, this.io));
