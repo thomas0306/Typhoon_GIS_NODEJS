@@ -769,11 +769,12 @@ Polymer({
     _currTypInit: function(e, detail, sender){
         console.log('Inbound init data...');
         console.log(detail);
-        for(idx in detail){
-            detail[idx].isOnMap = false;
-        }
-        this.exist_curr_typ = !(detail.length === 0);
-        this.curr_typ = detail;
+        this.curr_typ = detail.map(function(each){
+            each.isOnMap = false;
+            each.gmElems = this.renderGmElements(each);
+            return each;
+        });
+        this.exist_curr_typ = !(this.curr_typ.length === 0);
     },
 
     _currTypUpdate: function(e, detail, sender){
@@ -782,11 +783,15 @@ Polymer({
         this.appendCurrTypUpdate(detail);
     },
 
-    toggleRenderCurrTyp: function(e){
-        console.log(e.target.getAttribute('data-index'));
+    toggleShowCurrTyp: function(e){
+        console.log(e);
     },
 
     appendCurrTypUpdate: function(data){
 
+    },
+
+    renderGmElements: function(tcTrack){
+        return tcTrack;
     }
 });

@@ -140,7 +140,7 @@ dom-module#index-panel-main
                             paper-icon-button(icon='icons:visibility-off' on-tap='toggleRenderCurrTyp' data-index='3')
                         template(is='dom-if' if='{{!item.isOnMap}}')
                             //show
-                            paper-icon-button(icon='icons:visibility' on-tap='toggleRenderCurrTyp' data-index='3')
+                            paper-icon-button(icon='icons:visibility' on-tap='toggleShowCurrTyp' data-args='3')
 
 
         iron-ajax#getTypHeatMapDataAjax(url='/api/get_heatmap_data' handle-as='json' last-response='{{typ_heat_map_data}}')
