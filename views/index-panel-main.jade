@@ -113,7 +113,7 @@ dom-module#index-panel-main
                 #right
                     paper-button#show-advance-predict(raised disabled) Advanced
 
-        socket-connection(url='/socket_curr_typ' auto)
+        socket-connection#socketCurrTyp(url='/socket_curr_typ')
             socket-receiver(event='init')
             socket-receiver(event='update')
         iron-signals(on-iron-signal-socket-inbound-init='_currTypInit')
@@ -135,13 +135,7 @@ dom-module#index-panel-main
                         .label last update
                         .value {{_computeTimezone(item.last_modi)}}
                     #curr-typ-listitem-right
-                        template(is='dom-if' if='{{item.isOnMap}}')
-                            //hide
-                            paper-icon-button(icon='icons:visibility-off' on-tap='toggleRenderCurrTyp' data-index='3')
-                        template(is='dom-if' if='{{!item.isOnMap}}')
-                            //show
-                            paper-icon-button(icon='icons:visibility' on-tap='toggleShowCurrTyp' data-args='3')
-
+                        paper-icon-button(icon='icons:visibility' on-tap='toggleShowCurrTyp')
 
         iron-ajax#getTypHeatMapDataAjax(url='/api/get_heatmap_data' handle-as='json' last-response='{{typ_heat_map_data}}')
         iron-localstorage(name='typ-heat-map' value='{{typ_heat_map_data}}' on-iron-localstorage-load-empty='getTypHeatMapData')

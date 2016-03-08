@@ -7,6 +7,8 @@ var CurrTcQuery = require('./../DTO/curr_tc_query');
 var socket = {
     io: null,
 
+    soc_curr_typ: null,
+
     buffer: {
         'record': [],
         'track': []
@@ -19,24 +21,26 @@ var socket = {
 
     init: function(server, port){
         this.io = require('socket.io').listen(server);
+        this.soc_curr_typ = this.io.of('/socket_curr_typ');
+        var mongo = require('socket.io-adapter-mongo');
+        this.io.adapter(mongo({ host: 'localhost', port: 27017, db: 'socketsub' }));
 
-
-        var typ_socket = this.io.of('/socket_curr_typ');
-
-        typ_socket.on('connection', function(getSocketInfo, io, socket){
+        this.soc_curr_typ.on('connection', function(getSocketInfo, io, socket){
             console.log('SOCKET(CONN): ' + getSocketInfo(socket));
             CurrTcQuery(5000, function(records){
                 socket.emit('init', records);
             });
         }.bind(null, this.getSocketInfo, this.io));
 
-        typ_socket.on('message', function(getSocketInfo, socket){
+        this.soc_curr_typ.on('message', function(getSocketInfo, socket){
             console.log('SOCKET(MSG): ' + this.getSocketInfo(socket));
         }.bind(null, this.getSocketInfo));
 
-        typ_socket.on('disconnect', function(getSocketInfo, socket){
+        this.soc_curr_typ.on('disconnect', function(getSocketInfo, socket){
             console.log('SOCKET(DISCONN): ' + this.getSocketInfo(socket));
         }.bind(null, this.getSocketInfo));
+
+        console.log(new Date()+': Socket.IO listening...');
 
     },
 
@@ -45,13 +49,25 @@ var socket = {
     },
 
     broadcast: function(){
-        this.io.emit('update', this.buffer);
+        //this.emit2Mongo('update', this.buffer, '/socket_curr_typ');
+        CurrTcQuery(5000, function(emit, records){
+            console.log('Emit update');
+            emit('init', records, '/socket_curr_typ');
+        }.bind(null, this.emit2Mongo));
         this.emptyCache();
+    },
+
+    emit2Mongo: function(event, obj, of){
+        var io = require('socket.io-mongodb-emitter')({ host: 'localhost', port: 27017, db: 'socketsub' });
+        if(of)
+            io.of(of).emit(event, obj);
+        else
+            io.emit(event, obj);
     },
 
     emptyCache: function(){
         for(each in this.buffer){
-            buffer[each] = [];
+            this.buffer[each] = [];
         }
     },
 

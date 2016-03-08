@@ -15,9 +15,15 @@ Polymer({
         Util.log("index-panel-main ready!");
         this.$$('#getDirIdx').generateRequest();
         this.$$('#getGradesIdx').generateRequest();
+
+        setTimeout(this.$$('#socketCurrTyp').connect, 3000);
     },
 
     properties: {
+        infoWin: {
+            type: Object
+        },
+
         curr_typ: {
             type: Object,
             writable: true
@@ -359,7 +365,9 @@ Polymer({
             //this part runs when the mapobject is created and rendered
             var cover = document.querySelector('#cover');
             cover.parentNode.removeChild(cover);
-
+            document.querySelector('#mainPanel').infoWin = new google.maps.InfoWindow({
+                content: ''
+            });
             //document.querySelector('#getCurrTc').generateRequest();
 
             //var hmData = JSON.parse(localStorage.getItem('typ-heat-map'));
@@ -558,9 +566,7 @@ Polymer({
         var plyLn = []
         Util.log(res[0]);
 
-        var infoWin = new google.maps.InfoWindow({
-            content: ''
-        });
+        var infoWin = this.infoWin;
 
         var bounds = new google.maps.LatLngBounds();
 
@@ -580,11 +586,11 @@ Polymer({
             // 360: Symmetric
             //===============
             // -1: No Data
-            var angle = getTyphoonAngle(res[x].wind_dir_50kt_plus||res[x].wind_dir_30kt_plus||-1, this.dirs);
-            var color = getColorByTyphoonGrade(res[x].grade||6, this.grades);
+            var angle = getTyphoonAngle(res[x].wind_dir_50kt_plus||res[x].wind_dir_30kt_plus||-1, document.querySelector('#mainPanel').dirs);
+            var color = getColorByTyphoonGrade(res[x].grade||6, document.querySelector('#mainPanel').grades);
             var mkr = drawTyphoonICON(lat, lng, angle, color);
 
-            mkr.iw_html = this.getContentStrIW(this.intl_req_name, res[x]);
+            mkr.iw_html = getContentStrIW(this.intl_req_name, res[x]);
             mkr.intl_no = res[x].intl_no;
             mkr.date = res[x].rec_time;
             mkr.typ_name = this.intl_req_name;
@@ -604,13 +610,6 @@ Polymer({
                     }
                 });
                 document.querySelector('#predict-info').show();
-            });
-
-            mkr.addListener('mouseover', function(){
-                Util.log('mkr mouseover');
-            });
-            mkr.addListener('mouseout', function(){
-                Util.log('mkr mouseout');
             });
 
             path_map_obj.push(mkr);
@@ -646,113 +645,6 @@ Polymer({
         });
     },
 
-    getContentStrIW: function(name, track){
-        var str = "";
-
-        str += "<div class='ctable'>";
-        //Typhoon name
-        str += "<div class='crow'><div class='ccolumn cheading'>"+ name + "</div></div>";
-
-        //each
-        //international number
-        str +=  "<div class='crow'>" +
-            "<div class='ccolumn clabel'>International number: </div>" +
-            "<div class='ccolumn'>" + Util.undef2Str(track.intl_no) + "</div>" +
-            "</div>";
-        //coordinates
-        str +=  "<div class='crow'>" +
-            "<div class='ccolumn clabel'>Coordinates: </div>" +
-            "<div class='ccolumn'>" + Util.undef2Str(track.loc) + "</div>" +
-            "</div>";
-        //grade
-        str +=  "<div class='crow'>" +
-            "<div class='ccolumn clabel'>Grade: </div>" +
-            "<div class='ccolumn'>" + Util.undef2Str(track.grade) + "</div>" +
-            "</div>";
-        //record time
-        var rec_time = Util.undef2Str(track.rec_time);
-        if(rec_time !== 'No Data'){
-            rec_time = moment.tz(rec_time,moment.tz.guess()).format('lll z')
-        }
-        str +=  "<div class='crow'>" +
-            "<div class='ccolumn clabel'>Time: </div>" +
-            "<div class='ccolumn'>" + rec_time + "</div>" +
-            "</div>";
-        //center pressure
-        str +=  "<div class='crow'>" +
-            "<div class='ccolumn clabel'>Center Pressure: </div>" +
-            "<div class='ccolumn'>" + Util.undef2Str(track.cent_pressure) + "</div>" +
-            "</div>";
-        //maximum sustain wind speed
-        str +=  "<div class='crow'>" +
-            "<div class='ccolumn clabel'>Max Sustain Wind Speed: </div>" +
-            "<div class='ccolumn'>" + Util.undef2Str(track.max_sus_wind_spd) + "</div>" +
-            "</div>";
-        //wind_dir_50kt_plus
-        var dir50 = Util.undef2Str(track.wind_dir_50kt_plus);
-        if(parseInt(dir50) === 0){
-            dir50 = 'No Data';
-        }else if(dir50 !== 'No Data' && this.dirs.length > parseInt(dir50)-1){
-            dir50 = this.dirs[parseInt(dir50)-1].description;
-        }
-        str +=  "<div class='crow'>" +
-            "<div class='ccolumn clabel'>Wind Direction (>50kt): </div>" +
-            "<div class='ccolumn'>" + dir50 + "</div>" +
-            "</div>";
-        //max_wind_50kt_plus_radius
-        str +=  "<div class='crow'>" +
-            "<div class='ccolumn clabel'>Maximum Wind Radius (>50kt): </div>" +
-            "<div class='ccolumn'>" + Util.undef2Str(track.max_wind_50kt_plus_radius) + "</div>" +
-            "</div>";
-        //min_wind_50kt_plus_radius
-        str +=  "<div class='crow'>" +
-            "<div class='ccolumn clabel'>Minumum Wind Radius (>50kt): </div>" +
-            "<div class='ccolumn'>" + Util.undef2Str(track.min_wind_50kt_plus_radius) + "</div>" +
-            "</div>";
-        //wind_dir_30kt_plus
-        var dir30 = Util.undef2Str(track.wind_dir_30kt_plus);
-        if(dir30 !== 'No Data' && this.dirs.length > parseInt(dir30)-1){
-            dir30 = this.dirs[parseInt(dir30)-1].description;
-            Util.log(dir30);
-        }
-        str +=  "<div class='crow'>" +
-            "<div class='ccolumn clabel'>Wind Direction (>30kt): </div>" +
-            "<div class='ccolumn'>" + dir30 + "</div>" +
-            "</div>";
-        //max_wind_30kt_plus_radius
-        str +=  "<div class='crow'>" +
-            "<div class='ccolumn clabel'>Maximum Wind Radius (>30kt): </div>" +
-            "<div class='ccolumn'>" + Util.undef2Str(track.max_wind_30kt_plus_radius) + "</div>" +
-            "</div>";
-        //min_wind_30kt_plus_radius
-        str +=  "<div class='crow'>" +
-            "<div class='ccolumn clabel'>Minimum Wind Radius (>30kt): </div>" +
-            "<div class='ccolumn'>" + Util.undef2Str(track.min_wind_30kt_plus_radius) + "</div>" +
-            "</div>";
-        //landfall_passage_indi
-        var indicator = "";
-        switch(track.landfall_passage_indi){
-            case undefined:
-            default:
-                indicator = 'No Data';
-                break;
-            case true:
-                indicator = 'Existed';
-                break;
-            case false:
-                indicator = 'Not Existed';
-                break;
-        }
-        str +=  "<div class='crow'>" +
-            "<div class='ccolumn clabel'>Landfall or Passage (Japan): </div>" +
-            "<div class='ccolumn'>" + indicator + "</div>" +
-            "</div>";
-
-        str += "</div>";
-
-        return str;
-    },
-
     getTypHeatMapData: function(){
         this.$$('#getTypHeatMapDataAjax').generateRequest();
     },
@@ -761,37 +653,153 @@ Polymer({
         return moment.tz(date,moment.tz.guess()).format('dd, MMM DD YYYY HH:mm z');
     },
 
-    _socCurrTypChange: function(){
-        console.log('Changed');
-        console.log(this.socket_curr_typ);
-    },
-
     _currTypInit: function(e, detail, sender){
         console.log('Inbound init data...');
         console.log(detail);
         this.curr_typ = detail.map(function(each){
             each.isOnMap = false;
-            each.gmElems = this.renderGmElements(each);
+            each.gmElems = document.querySelector('#mainPanel').renderGmElements(each);
             return each;
         });
         this.exist_curr_typ = !(this.curr_typ.length === 0);
     },
 
     _currTypUpdate: function(e, detail, sender){
-        console.log('Inbound update data...');
+        console.log("Inbound update data...");
         console.log(detail);
-        this.appendCurrTypUpdate(detail);
+        detail.record.forEach(function(each){
+            each.isOnMap = false
+            each.gmElems = [];
+            document.querySelector('#mainPanel').curr_typ = document.querySelector('#mainPanel').curr_typ.push(each);
+        });
+        var curr_typ = document.querySelector('#mainPanel').curr_typ;
+        detail.track.forEach(function(each){
+            for(idx in curr_typ){
+                if(curr_typ[idx].intl_no === each.intl_no){
+                    curr_typ[idx].tracks.unshift(each);
+                    var angle = getTyphoonAngle(each.wind_dir_50kt_plus||each.wind_dir_30kt_plus||-1, document.querySelector('#mainPanel').dirs);
+                    var color = getColorByTyphoonGrade(each.grade||6, document.querySelector('#mainPanel').grades);
+                    var lat = each.loc[1];
+                    var lng = each.loc[0];
+                    var mkr = renderTyphoonMkr(angle, lat, lng, color);
+                    mkr.iw_html = getContentStrIW(temp[idx].name, each);
+                    mkr.intl_no = each.intl_no;
+                    mkr.date = each.rec_time;
+                    mkr.typ_name = temp[idx].name;
+
+                    mkr.addListener('click', function(e){
+                        Util.log('mkr click');
+                        var map = document.querySelector('google-map').map;
+                        document.querySelector('#mainPanel').infoWin.setContent(this.iw_html);
+                        document.querySelector('#mainPanel').infoWin.open(map, this);
+                        console.log(this.intl_no+this.typ_name+this.date);
+                        document.querySelector('#predict-info').fire('iron-signal', {
+                            name: 'predictinfotrigger',
+                            data: {
+                                intl_no: this.intl_no,
+                                date: this.date,
+                                typ_name: this.typ_name
+                            }
+                        });
+                        document.querySelector('#predict-info').show();
+                    });
+                    curr_typ[idx].gmElems.unshift(mkr);
+
+                    if(curr_typ[idx].gmElems.length === 1){
+                        //create
+                        var path = renderPath([{lat:each.loc[1], lng:each.loc[0]}]);
+                        path.addListener('mouseover', function(){
+                            Util.log('path mouseover');
+                            this.setOptions({strokeColor: Util.ColorLuminance(this.oldColor, 0.6)});
+                        });
+
+                        path.addListener('mouseout', function(){
+                            Util.log('path mouseout');
+                            this.setOptions({strokeColor: this.oldColor});
+                        });
+
+                        curr_typ[idx].gmElems.push(path);
+                    }else{
+                        //push latlng
+                        var path = curr_typ[idx].gmElems.pop();
+                        path.setPath(path.getPath().unshift({lat:each.loc[1], lng:each.loc[0]}));
+                        curr_typ[idx].gmElems.push(path);
+                    }
+
+                    break;
+                }
+            }
+        });
+    },
+
+    renderGmElements: function(tcRecord){
+        var tracks = tcRecord.tracks;
+
+        //toMarkers
+        var gmElems = tracks.map(function(each){
+            var angle = getTyphoonAngle(each.wind_dir_50kt_plus||each.wind_dir_30kt_plus||-1, document.querySelector('#mainPanel').dirs);
+            var color = getColorByTyphoonGrade(each.grade||6, document.querySelector('#mainPanel').grades);
+            var lat = each.loc[1];
+            var lng = each.loc[0];
+            var mkr = renderTyphoonMkr(angle, lat, lng, color);
+            mkr.iw_html = getContentStrIW(tcRecord.name, each);
+            mkr.intl_no = each.intl_no;
+            mkr.date = each.rec_time;
+            mkr.typ_name = tcRecord.name;
+
+            mkr.addListener('click', function(e){
+                Util.log('mkr click');
+                var map = document.querySelector('google-map').map;
+                document.querySelector('#mainPanel').infoWin.setContent(this.iw_html);
+                document.querySelector('#mainPanel').infoWin.open(map, this);
+                document.querySelector('#predict-info').fire('iron-signal', {
+                    name: 'predictinfotrigger',
+                    data: {
+                        intl_no: this.intl_no,
+                        date: this.date,
+                        typ_name: this.typ_name
+                    }
+                });
+                document.querySelector('#predict-info').show();
+            });
+            return mkr;
+        });
+
+        var coords = tracks.map(function(each){
+            return {lat: each.loc[1], lng: each.loc[0]};
+        });
+
+        var path = renderPath(coords);
+        path.addListener('mouseover', function(){
+            Util.log('path mouseover');
+            this.setOptions({strokeColor: Util.ColorLuminance(this.oldColor, 0.6)});
+        });
+
+        path.addListener('mouseout', function(){
+            Util.log('path mouseout');
+            this.setOptions({strokeColor: this.oldColor});
+        });
+
+        gmElems.push(path);
+
+        return gmElems;
     },
 
     toggleShowCurrTyp: function(e){
-        console.log(e);
+        var index = e.model.index;
+        if(this.curr_typ[index].isOnMap){
+            this.curr_typ[index].isOnMap = false;
+            //setmap null
+            bulkSetMap(null, this.curr_typ[index].gmElems);
+        }else{
+            this.curr_typ[index].isOnMap = true;
+            //setmap map
+            var map = document.querySelector('google-map').map;
+            bulkSetMap(map, this.curr_typ[index].gmElems);
+        }
     },
 
     appendCurrTypUpdate: function(data){
 
-    },
-
-    renderGmElements: function(tcTrack){
-        return tcTrack;
     }
 });

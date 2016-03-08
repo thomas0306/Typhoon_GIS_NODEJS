@@ -22,21 +22,21 @@ var parseRecordLine = function(line){
     var tcRecord = new TcRecord();
     //case 8 and case 9 for old data...
     switch(line.length){
-        case 8:
+        case 7:
             tcRecord.intl_no = line[1];
             tcRecord.last_status = parseInt(line[4]);
             tcRecord.dur_hour = parseInt(line[5]);
             tcRecord.name = line[6];
             tcRecord.last_modi = util.parseYYYYMMDD(line[6]);
             break;
-        case 9:
+        case 8:
             tcRecord.intl_no = line[1];
             tcRecord.last_status = parseInt(line[4]);
             tcRecord.dur_hour = parseInt(line[5]);
             tcRecord.name = line[6];
             tcRecord.last_modi = util.parseYYYYMMDD(line[7]);
             break;
-        case 10:
+        case 9:
         default:
             tcRecord.intl_no = line[1];
             tcRecord.trop_cyc_no = parseInt(line[3]);
@@ -54,19 +54,19 @@ var updateRecordLine = function(tcRecord, line){
     console.log(line[1]);
     //case 8 and case 9 for old data...
     switch(line.length){
-        case 8:
+        case 7:
             if(isModifiedVal(tcRecord.last_status, parseInt(line[4]))) tcRecord.last_status = parseInt(line[4]);
             if(isModifiedVal(tcRecord.dur_hour, parseInt(line[5]))) tcRecord.dur_hour = parseInt(line[5]);
             if(isModifiedVal(tcRecord.name, line[6])) tcRecord.name = line[6];
             if(isModifiedVal(tcRecord.last_modi, util.parseYYYYMMDD(line[6]))) tcRecord.last_modi = util.parseYYYYMMDD(line[6]);
             break;
-        case 9:
+        case 8:
             if(isModifiedVal(tcRecord.last_status, parseInt(line[4]))) tcRecord.last_status = parseInt(line[4]);
             if(isModifiedVal(tcRecord.dur_hour, parseInt(line[5]))) tcRecord.dur_hour = parseInt(line[5]);
             if(isModifiedVal(tcRecord.name, line[6])) tcRecord.name = line[6];
             if(isModifiedVal(tcRecord.last_modi, util.parseYYYYMMDD(line[7]))) tcRecord.last_modi = util.parseYYYYMMDD(line[7]);
             break;
-        case 10:
+        case 9:
         default:
             if(isModifiedVal(tcRecord.trop_cyc_no, parseInt(line[3]))) tcRecord.trop_cyc_no = parseInt(line[3]);
             if(isModifiedVal(tcRecord.last_status, parseInt(line[5]))) tcRecord.last_status = parseInt(line[5]);
@@ -195,7 +195,7 @@ var updateCallback = function(err){
 }
 
 var connectTracks = function(TcTrack, intl_no){
-    TcTrack.find({ intl_no:intl_no }).select('_id').sort({'rec_time': 'asc'}).exec(function(err, tracks){
+    return TcTrack.find({ intl_no:intl_no }).select('_id').sort({'rec_time': 'asc'}).exec(function(err, tracks){
         if(err)
            console.log(err);
         appendNextPointer(TcTrack, tracks);

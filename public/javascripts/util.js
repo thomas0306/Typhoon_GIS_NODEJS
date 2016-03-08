@@ -78,11 +78,10 @@ var iconSVG = {
 
 };
 
-function drawTyphoonICON(the_lat, the_lng, angle, color){
-    var map = document.querySelector('google-map').map;
+function renderTyphoonMkr(angle, the_lat, the_lng, color) {
     var iconPATH;
     var rotation = 0;
-    switch(angle){
+    switch (angle) {
         case -1:
             iconPATH = iconSVG.NO_DATA;
             break;
@@ -96,17 +95,22 @@ function drawTyphoonICON(the_lat, the_lng, angle, color){
     }
     var mkr = new google.maps.Marker({
         position: {lat: the_lat, lng: the_lng},
-        map: map,
         icon: {
             path: iconPATH,
             scale: 4,
             strokeColor: '#000000',
-            fillColor: 'hsl('+color.join()+')',
+            fillColor: 'hsl(' + color.join() + ')',
             fillOpacity: .95,
             rotation: rotation,
             strokeWeight: 2
         }
     });
+    return mkr;
+}
+function drawTyphoonICON(the_lat, the_lng, angle, color){
+    var map = document.querySelector('google-map').map;
+    var mkr = renderTyphoonMkr(angle, the_lat, the_lng, color);
+    mkr.setMap(map);
 
     //spinningIcon(mkr, 100);
 
@@ -128,6 +132,14 @@ function spinningIcon(mkr, ms){
 function drawPath(coords){
     var map = document.querySelector('google-map').map;
 
+    var path = renderPath(coords);
+
+    path.setMap(map);
+
+    return path;
+}
+
+function renderPath(coords){
     var lineSymbol = {
         path: 'M 0,2 L 2,-3 L 0,-1 L -2,-3 Z M 0,0 L 0,1',
         strokeOpacity: 1,
@@ -146,12 +158,8 @@ function drawPath(coords){
             repeat: '15px'
         }],
         strokeWeight: 10,
-        map: map
+        oldColor: randCol
     });
-
-    //path.setMap(map);
-    path.oldColor = randCol;
-
     return path;
 }
 
@@ -179,10 +187,16 @@ function drawPredictedCircle(center, radius, src){
     });
 
     circle.line = line;
+    line.circle = circle;
 
     circle.addListener('click', function(ev) {
         this.setMap(null);
         this.line.setMap(null);
+    });
+
+    line.addListener('click', function(e){
+        this.setMap(null);
+        this.circle.setMap(null);
     });
 
     return circle;
@@ -204,5 +218,118 @@ function addCoord(path, coord){
     var coordObj = new google.maps.LatLng(coord);
     path.getPath.push(coordObj);
     return path;
+}
+
+function bulkSetMap(map, gmElems){
+    gmElems.forEach(function(each){
+        each.setMap(map);
+    });
+}
+
+function getContentStrIW(name, track){
+    var str = "";
+
+    str += "<div class='ctable'>";
+    //Typhoon name
+    str += "<div class='crow'><div class='ccolumn cheading'>"+ name + "</div></div>";
+
+    //each
+    //international number
+    str +=  "<div class='crow'>" +
+        "<div class='ccolumn clabel'>International number: </div>" +
+        "<div class='ccolumn'>" + Util.undef2Str(track.intl_no) + "</div>" +
+        "</div>";
+    //coordinates
+    str +=  "<div class='crow'>" +
+        "<div class='ccolumn clabel'>Coordinates: </div>" +
+        "<div class='ccolumn'>" + Util.undef2Str(track.loc) + "</div>" +
+        "</div>";
+    //grade
+    str +=  "<div class='crow'>" +
+        "<div class='ccolumn clabel'>Grade: </div>" +
+        "<div class='ccolumn'>" + Util.undef2Str(track.grade) + "</div>" +
+        "</div>";
+    //record time
+    var rec_time = Util.undef2Str(track.rec_time);
+    if(rec_time !== 'No Data'){
+        rec_time = moment.tz(rec_time,moment.tz.guess()).format('lll z')
+    }
+    str +=  "<div class='crow'>" +
+        "<div class='ccolumn clabel'>Time: </div>" +
+        "<div class='ccolumn'>" + rec_time + "</div>" +
+        "</div>";
+    //center pressure
+    str +=  "<div class='crow'>" +
+        "<div class='ccolumn clabel'>Center Pressure: </div>" +
+        "<div class='ccolumn'>" + Util.undef2Str(track.cent_pressure) + "</div>" +
+        "</div>";
+    //maximum sustain wind speed
+    str +=  "<div class='crow'>" +
+        "<div class='ccolumn clabel'>Max Sustain Wind Speed: </div>" +
+        "<div class='ccolumn'>" + Util.undef2Str(track.max_sus_wind_spd) + "</div>" +
+        "</div>";
+    //wind_dir_50kt_plus
+    var dir50 = Util.undef2Str(track.wind_dir_50kt_plus);
+    if(parseInt(dir50) === 0){
+        dir50 = 'No Data';
+    }else if(dir50 !== 'No Data' && document.querySelector('#mainPanel').dirs.length > parseInt(dir50)-1){
+        dir50 = document.querySelector('#mainPanel').dirs[parseInt(dir50)-1].description;
+    }
+    str +=  "<div class='crow'>" +
+        "<div class='ccolumn clabel'>Wind Direction (>50kt): </div>" +
+        "<div class='ccolumn'>" + dir50 + "</div>" +
+        "</div>";
+    //max_wind_50kt_plus_radius
+    str +=  "<div class='crow'>" +
+        "<div class='ccolumn clabel'>Maximum Wind Radius (>50kt): </div>" +
+        "<div class='ccolumn'>" + Util.undef2Str(track.max_wind_50kt_plus_radius) + "</div>" +
+        "</div>";
+    //min_wind_50kt_plus_radius
+    str +=  "<div class='crow'>" +
+        "<div class='ccolumn clabel'>Minumum Wind Radius (>50kt): </div>" +
+        "<div class='ccolumn'>" + Util.undef2Str(track.min_wind_50kt_plus_radius) + "</div>" +
+        "</div>";
+    //wind_dir_30kt_plus
+    var dir30 = Util.undef2Str(track.wind_dir_30kt_plus);
+    if(dir30 !== 'No Data' && document.querySelector('#mainPanel').dirs.length > parseInt(dir30)-1){
+        dir30 = document.querySelector('#mainPanel').dirs[parseInt(dir30)-1].description;
+        Util.log(dir30);
+    }
+    str +=  "<div class='crow'>" +
+        "<div class='ccolumn clabel'>Wind Direction (>30kt): </div>" +
+        "<div class='ccolumn'>" + dir30 + "</div>" +
+        "</div>";
+    //max_wind_30kt_plus_radius
+    str +=  "<div class='crow'>" +
+        "<div class='ccolumn clabel'>Maximum Wind Radius (>30kt): </div>" +
+        "<div class='ccolumn'>" + Util.undef2Str(track.max_wind_30kt_plus_radius) + "</div>" +
+        "</div>";
+    //min_wind_30kt_plus_radius
+    str +=  "<div class='crow'>" +
+        "<div class='ccolumn clabel'>Minimum Wind Radius (>30kt): </div>" +
+        "<div class='ccolumn'>" + Util.undef2Str(track.min_wind_30kt_plus_radius) + "</div>" +
+        "</div>";
+    //landfall_passage_indi
+    var indicator = "";
+    switch(track.landfall_passage_indi){
+        case undefined:
+        default:
+            indicator = 'No Data';
+            break;
+        case true:
+            indicator = 'Existed';
+            break;
+        case false:
+            indicator = 'Not Existed';
+            break;
+    }
+    str +=  "<div class='crow'>" +
+        "<div class='ccolumn clabel'>Landfall or Passage (Japan): </div>" +
+        "<div class='ccolumn'>" + indicator + "</div>" +
+        "</div>";
+
+    str += "</div>";
+
+    return str;
 }
 

@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 var sticky = require('sticky-session');
+var cluster = require('cluster');
 
 var app = require('../app');
 var server = require('http').createServer(app);
 var socket = require('./../SocketIO/socket');
 
 var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
+var ip = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
 
-socket.init(server);
+
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -43,10 +45,10 @@ function onError(error) {
  */
 
 function onListening() {
-    console.log('Server started on ' + port + ' port');
+    console.log(new Date() + ': Server started on ' + port + ' port');
 }
 
-if (!sticky.listen(server, port)) {
+if (!sticky.listen(server, port, {workers:1})) {
     /**
      * Cron jobs
      */
@@ -54,7 +56,9 @@ if (!sticky.listen(server, port)) {
 
     // Master code
     server.once('listening', onListening);
+
 } else {
     // Worker code
-
+    if(cluster.worker.id === 1)
+    socket.init(server);
 }

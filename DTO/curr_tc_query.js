@@ -31,7 +31,7 @@ function retrieveTcTracksWithinNhrs(hrs, callback){
                 }
                 records = records.map(function(each){
                     each.tracks = each.tracks.sort(function(a,b){
-                        return a.rec_time - b.rec_time;
+                        return b.rec_time - a.rec_time;
                     });
                     return each;
                 });

@@ -6,6 +6,12 @@ var TcRecord = require('./../models/tc_record');
 var TcTrack = require('./../models/tc_track');
 
 function rest(router){
+
+    router.route('/test_socket').get(function(req, res){
+        require('./../SocketIO/socket').broadcast();
+        res.json();
+    });
+
     //hrs: range from x hrs before to current time
     router.route('/curr_tc_records/:hrs')
         .get(function(req, res){
