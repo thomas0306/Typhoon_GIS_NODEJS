@@ -1,0 +1,105 @@
+<dom-module id="share-styles">
+    <template>
+        <style>
+            paper-scroll-header-panel {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                background-color: var(--paper-indigo-500);
+
+                /* background for toolbar when it is at its full size */
+                --paper-scroll-header-panel-full-header: {
+                    background-image: url(../images/panel_bg.jpg);
+                };
+
+                /* background for toolbar when it is condensed */
+                --paper-scroll-header-panel-condensed-header: {
+                    background-color: var(--paper-indigo-100);
+                };
+            }
+
+            paper-toolbar {
+                /* custom toolbar height */
+                height: 256px;
+                background-color: transparent;
+                overflow: visible;
+                box-shadow: 0px 3px 15px #000;
+            }
+
+            paper-icon-button {
+                margin: 0 8px;
+                --paper-icon-button-ink-color: white;
+            }
+
+            .bottom-text {
+                -webkit-transform: translateZ(0);
+                transform: translateZ(0);
+
+                font-size: 20px;
+                padding-bottom: 10px;
+            }
+
+            .subtitle {
+                padding-top: 4px;
+                font-size: 16px;
+                color: #ccc;
+            }
+
+            .bookmark {
+                position: absolute;
+                bottom: -24px;
+                right: 24px;
+                fill: #4285f4;
+                height: 48px;
+                width: 48px;
+            }
+
+            .content {
+                padding: 16px 30px;
+                font-family: Verdana, Geneva, sans-serif;
+            }
+
+            .indent {
+                margin-left: 60px;
+            }
+
+            .spacer {
+                @apply(--layout-flex);
+            }
+
+            .clear-bg {
+                background: rgba(0,0,0,0.5);
+                display: inline-block;
+            }
+
+            .card-title{
+                display: block;
+                font-size: 22px;
+                padding: 8px 0 8px;
+                color: #FFF;
+                @apply(--layout-flex);
+            }
+
+            .question{
+                padding-bottom: 30px;
+            }
+
+            .question-txt{
+
+            }
+
+            .card-header {
+                @apply(--layout-horizontal);
+            }
+
+
+
+            .list-heading {
+                display: block;
+                font-size: 18px;
+            }
+        </style>
+    </template>
+</dom-module>

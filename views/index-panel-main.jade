@@ -18,6 +18,8 @@ link(rel='import' href='/javascripts/bower_components/paper-toast/paper-toast.ht
 link(rel='import' href='/javascripts/bower_components/paper-button/paper-button.html')
 link(rel='import' href='/javascripts/bower_components/iron-localstorage/iron-localstorage.html')
 link(rel='import' href='/javascripts/bower_components/paper-input/paper-input.html')
+link(rel='import' href='/javascripts/bower_components/paper-input/paper-textarea.html')
+link(rel='import' href='/javascripts/bower_components/paper-progress/paper-progress.html')
 link(rel='import' href='/javascripts/bower_components/socket-connection/socket-connection.html')
 
 //custom component
@@ -40,7 +42,7 @@ dom-module#index-panel-main
                 div.rightchild
                     template(is='dom-if' if='[[exist_curr_typ]]')
                         paper-icon-button#btn-curr-typ(icon='icons:track-changes' on-tap='toggleCurrTypToast')
-                        paper-tooltip(for='fab-curr-typ' position='bottom') Active Typhoon(s)
+                        paper-tooltip(for='btn-curr-typ' position='bottom') Active Typhoon(s)
                     paper-icon-button#search-dialog-toggle(icon='icons:assignment' class='bottom')
                     paper-tooltip(for='search-dialog-toggle' position='bottom') List
 
@@ -48,11 +50,33 @@ dom-module#index-panel-main
             paper-fab#btn-draw-cancel.red(icon='icons:close')
             paper-tooltip(for='btn-draw-cancel' position='top') Cancel
             .button-padding
-            paper-fab#btn-draw-submit.green(icon='icons:done')
-            paper-tooltip(for='btn-draw-submit' position='top') Upload
+            paper-fab#btn-draw-forward.green(icon='icons:chevron-right' disabled)
+            paper-tooltip(for='btn-draw-forward' position='top') Next
+
+        #uploadForm(class$='{{uploadFormClass}}')
+            paper-progress#uploadProgress.upload-progress(intermediate disabled='true')
+            div
+                div.form-with-padding
+                    paper-input.on-overlay(label='Name' value='{{usr_predict.name}}')
+                    paper-textarea.on-overlay(label='Comment' value='{{usr_predict.comment}}')
+                .bottom-form-control
+                    paper-fab#btn-predict-form-back.red(icon='icons:chevron-left')
+                    paper-tooltip(for='btn-predict-form-back' position='top') Back
+                    .button-padding
+                    paper-fab#btn-predict-form-submit.green(icon='icons:file-upload')
+                    paper-tooltip(for='btn-predict-form-submit' position='top') Submit
+
+        #uploadComplete(class$='{{uploadCompleteClass}}')
+            paper-input#complete-token-input.on-overlay(label='copy and share with your friends!' value='{{complete_token}}')
+            .button-padding
+            paper-fab#btn-complete-close.red(icon='icons:close')
+            .button-padding
+            paper-fab#btn-copy.green(icon='icons:content-copy')
+
+        iron-ajax#putUsrPredict(url='/api/usr_predict' method='PUT' handle-as='json' content-type="application/json" on-response='postPutUsrPredictHook' debounce-duration='300')
 
         #retrieveMenu(class$='{{retrieveMenuClass}}')
-            paper-input#retrieve-token-input(label='Paste your token here!' value="{{srch_token}}")
+            paper-input#retrieve-token-input.on-overlay(label='Paste your token here!' value="{{srch_token}}")
             .button-padding
             paper-fab#btn-retrieve-cancel.red(icon='icons:close')
             paper-tooltip(for='btn-retrieve-cancel' position='top') Cancel
@@ -69,23 +93,20 @@ dom-module#index-panel-main
                     paper-fab(icon='icons:perm-identity' disabled)
                 paper-tooltip(for='info_detail' position='top') Tap to show/hide user comment
                 #info_detail
-                    div Name: {{usr_predict.name}}
-                    div Date: {{usr_predict.last_update}}
+                    div Name: {{usr_predict.info.name}}
+                    div Date: {{_computeTimezone(usr_predict.info.last_update)}}
                 paper-fab#btn-close-retrieve-info(icon='icons:close')
                 paper-tooltip(for='btn-close-retrieve-info' position='top') Dismiss
             .lower
-                | {{usr_predict.comment}}
+                | {{usr_predict.info.comment}}
 
         paper-fab-speed-dial.spd_dial.dropdown-trigger(direction='top')
             paper-fab#shareBtn.indigo(icon='social:share' class='dropdown-trigger')
             paper-tooltip(for='shareBtn' position='left') Shareing
             div.dropdown-content
-                //template(is='dom-repeat' items='{{menu_btns}}')
-                //    paper-fab.indigo(id='{{item.id}}' icon='{{item.icon}}' mini on-tap='testing')
-                //    paper-tooltip(for='{{item.id}}' position='left') {{item.tooltip}}
-                paper-fab.indigo(id='btn-user-predict' icon='editor:mode-edit' mini)
+                paper-fab#btn-user-predict.indigo(icon='editor:mode-edit' mini disabled)
                 paper-tooltip(for='btn-user-predict' position='left') Your Predict
-                paper-fab.indigo(id='btn-retrieve-prediction' icon='file-download' mini)
+                paper-fab#btn-retrieve-prediction.indigo(icon='file-download' mini)
                 paper-tooltip(for='btn-retrieve-prediction' position='left') Retrieve Prediction
 
         iron-signals(on-iron-signal-addintlno='reqPath')
@@ -96,7 +117,7 @@ dom-module#index-panel-main
         iron-signals(on-iron-signal-deletepathonmap='deletePath')
         iron-ajax#getRectSrch(url='/api/geo_query_rect/{{rect_srch_coord_lat1}}/{{rect_srch_coord_lng1}}/{{rect_srch_coord_lat2}}/{{rect_srch_coord_lng2}}' handle-as='json' on-response='drawEach' debounce-duration='300' last-response='{{rect_srch_res}}')
 
-        paper-toast#predict-info(duration='-1')
+        paper-toast#predict-info(duration='-1' on-iron-overlay-opened='_enableSelfPredict' on-iron-overlay-closed='_disableSelfPredict')
             iron-ajax#getBasicPredict(url='/api/predict_basic/{{predict_criteria.intl_no}}/{{predict_criteria.date}}' handle-as='json' on-response='processPredictBasic' debounce-duration='300' last-response='{{predict_basic_result}}')
             iron-signals(on-iron-signal-predictinfotrigger='predictRequests')
             iron-ajax#getAdvancePredict(url='/api/predict_advance/{{predict_criteria.intl_no}}/{{predict_criteria.date}}' handle-as='json' on-response='processPredictAdvance' debounce-duration='300' last-response='{{predict_advance_result}}')
@@ -140,7 +161,6 @@ dom-module#index-panel-main
         iron-ajax#getTypHeatMapDataAjax(url='/api/get_heatmap_data' handle-as='json' last-response='{{typ_heat_map_data}}')
         iron-localstorage(name='typ-heat-map' value='{{typ_heat_map_data}}' on-iron-localstorage-load-empty='getTypHeatMapData')
         google-map#map-canvas(api-key='[[apiKey]]' latitude='{{latitude}}' longitude='{{longitude}}' zoom='{{zoom}}' min-zoom='{{minZoom}}' styles='{{mapStyle}}' disable-default-ui='[[disableUI]]' mouse-events='true')
-
         index-panel-onmaptyp-dialog
     script(type='text/javascript', src='/javascripts/index-panel-main.js')
 

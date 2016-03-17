@@ -1,0 +1,102 @@
+<link rel="import" href="/javascripts/bower_components/polymer/polymer.html">
+<link rel="import" href="/javascripts/bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="/javascripts/bower_components/iron-flex-layout/iron-flex-layout.html">
+
+<link rel='import' href="share-css.html">
+
+<dom-module id="multiple-choice">
+    <template>
+        <style include="share-styles">
+
+            :host paper-radio-button {
+                --paper-radio-button-label-spacing: 20px;
+                border-radius: 10px;
+            }
+
+            :host .l-vertical {
+                @apply(--layout-vertical);
+
+            }
+
+            :host .l-horizontal {
+                @apply(--layout-horizontal);
+            }
+
+            :host .correct {
+                background: var(--paper-green-400);
+                --paper-radio-button-label-color: whitesmoke;
+                transition:all 0.7s ease-in-out;
+            }
+
+            :host .incorrect {
+                background: var(--paper-red-400);
+                --paper-radio-button-label-color: whitesmoke;
+                transition:all 0.7s ease;
+            }
+        </style>
+
+        <div id="question">
+            [[no]]. [[question]]
+        </div>
+        <div id="choices">
+            <paper-radio-group class$="[[layout]]">
+                <template is="dom-repeat" items="[[choice]]">
+                        <paper-radio-button name="[[index]]" on-tap="_checkAnswer">[[item]]</paper-radio-button>
+                </template>
+            </paper-radio-group>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'multiple-choice',
+
+            properties: {
+                no: {
+                    type: Number,
+                    value: -1
+                },
+
+                question: {
+                    type: String,
+                    value: ''
+                },
+
+                choice: {
+                    type: Array,
+                    value: function(){ return []; }
+                },
+
+                answer: {
+                    type: Number,
+                    value: -1
+                },
+
+                layout: {
+                    type: String
+                }
+            },
+
+            ready: function(){
+                console.log('multiple-choice ready');
+            },
+
+            _checkAnswer: function(e){
+                this._clearLastAnswer();
+                var rb = Polymer.dom(e).localTarget;
+                if(e.model.index === this.answer)
+                    rb.classList.add('correct');
+                else
+                    rb.classList.add('incorrect');
+            },
+
+            _clearLastAnswer(){
+                var rbs = Polymer.dom(this.root).querySelectorAll('paper-radio-button');
+                rbs.forEach(function(item){
+                    item.classList.remove('correct');
+                    item.classList.remove('incorrect');
+                });
+            }
+
+        });
+    </script>
+</dom-module>

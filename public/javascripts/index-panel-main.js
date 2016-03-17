@@ -39,6 +39,16 @@ Polymer({
             value: 'bottom-overlay bottom-panel-hide'
         },
 
+        uploadFormClass: {
+            type: String,
+            value: 'bottom-form-overlay bottom-panel-hide'
+        },
+
+        uploadCompleteClass: {
+            type: String,
+            value: 'bottom-overlay bottom-panel-hide'
+        },
+
         retrieveMenuClass: {
             type: String,
             value: 'bottom-overlay bottom-panel-hide'
@@ -46,8 +56,7 @@ Polymer({
 
         retrieveInfoClass: {
             type: String,
-            value: 'retrieve-info-overlay bottom-panel-hide'
-            //value: 'bottom-overlay bottom-panel-hide'
+            value: 'bottom-overlay bottom-panel-hide'
         },
 
         retrieveInfoStatus: {
@@ -60,13 +69,36 @@ Polymer({
             value:''
         },
 
+        complete_token: {
+            type: String,
+            value: ''
+        },
+
         usr_predict: {
             type: Object,
             value: {
-                name: 'UNKNOWN',
-                last_update: 'UNKNOWN',
-                comment: 'UNKNOWN',
-                message: 'UNKNOWN'
+                name: '',
+                last_update: '',
+                comment: '',
+                message: '',
+                intl_no: '',
+                rec_time: Object
+            },
+            notify: true
+        },
+
+        gm_usr_predict_obj: {
+            type: Object
+        },
+
+        usr_predict_ln: {
+            type: Object,
+            notify: true
+        },
+        usr_predict_circle: {
+            type: Array,
+            value: function() {
+                return [];
             }
         },
 
@@ -254,7 +286,10 @@ Polymer({
             value: {
                 intl_no: 'Nothing',
                 date: new Date(),
-                name: 'Nothing'
+                name: 'Nothing',
+                latLng: {
+                    type: Object
+                }
             },
             notify: true
         },
@@ -292,12 +327,16 @@ Polymer({
         }
     },
 
-    observers: {
-        'socket_curr_typ': 'receiveSocketMessage'
-    },
+    observers: [
+        'isDrawn(usr_predict_circle.*)'
+    ],
 
-    receiveSocketMessage: function(e){
-        console.log(this.socket_curr_typ);
+    isDrawn: function(chg){
+        Util.log('array change');
+        var submit_btn = document.querySelector('#btn-draw-forward');
+        if(submit_btn)
+            submit_btn.disabled = !this.usr_predict_circle.length > 0 || false;
+
     },
 
     listeners: {
@@ -310,17 +349,20 @@ Polymer({
         'btn-user-predict.tap': 'toggleDrawPredict',
         'btn-retrieve-prediction.tap': 'toggleRetrievePredictionPanel',
         'btn-draw-cancel.tap': 'dismissUploadPanel',
-        //'btn-draw-submit.tap': 'submitSelfPrediction',
+        'btn-draw-forward.tap': 'forwardSelfPrediction',
+        'btn-predict-form-back.tap': 'backwardSelfPrediction',
+        'btn-predict-form-submit.tap': 'submitSelfPrediction',
         'btn-retrieve-cancel.tap': 'dismissRetrievePanel',
         'btn-retrieve-submit.tap': 'submitRetrieve',
         'info_detail.tap': 'toggleCommentSection',
         'btn-close-retrieve-info.tap': 'dismissRetrieveInfo',
-        'btn-close-curr-typ-info.tap': 'dismissCurrTypInfo'
+        'btn-close-curr-typ-info.tap': 'dismissCurrTypInfo',
+        'btn-copy.tap': 'copyToken2Clipboard',
+        'btn-complete-close.tap': 'dismissCompleteInfo'
     },
 
     zoomChanged: function(zoom){
-        console.log('On zoom! '+zoom);
-        console.log(this.typ_paths);
+        Util.log('On zoom! '+zoom);
         for(i in this.typ_paths){
             for (j in this.typ_paths[i].gl_obj){
                 var map_obj = this.typ_paths[i].gl_obj[j];
@@ -368,6 +410,7 @@ Polymer({
             document.querySelector('#mainPanel').infoWin = new google.maps.InfoWindow({
                 content: ''
             });
+            custom_circle();
             //document.querySelector('#getCurrTc').generateRequest();
 
             //var hmData = JSON.parse(localStorage.getItem('typ-heat-map'));
@@ -391,12 +434,24 @@ Polymer({
     drawPredictedBasicCircle: function(e){
         var circle = drawPredictedCircle(this.predict_basic_result.center, this.predict_basic_result.radius, this.predict_basic_result.src);
         var map = document.querySelector('google-map').map;
-        map.fitBounds(circle.getBounds());
+
+        var bounds = circle.getBounds();
+        circle.line.getPath().forEach(function(each){
+           bounds.extend(each);
+        });
+
+        map.fitBounds(bounds);
     },
     drawPredictedAdvancedCircle: function(e){
         var circle = drawPredictedCircle(this.predict_advance_result.center, this.predict_advance_result.radius, this.predict_advance_result.src);
         var map = document.querySelector('google-map').map;
-        map.fitBounds(circle.getBounds());
+
+        var bounds = circle.getBounds();
+        circle.line.getPath().forEach(function(each){
+            bounds.extend(each);
+        });
+
+        map.fitBounds(bounds);
     },
 
     mapRectBoundsChanged: function(e){
@@ -416,7 +471,6 @@ Polymer({
 
     rectSrch: function(e, detail, sender){
 
-        Util.log(detail.lat1);
         this.rect_srch_coord_lat1 = detail.lat1;
         this.rect_srch_coord_lng1 = detail.lng1;
         this.rect_srch_coord_lat2 = detail.lat2;
@@ -457,7 +511,9 @@ Polymer({
 
     predictRequests: function(e, detail, sender){
         Util.log('predict Requests trigger!');
-        this.predict_criteria = {intl_no: detail.intl_no, name: detail.typ_name, date: detail.date};
+        this.predict_criteria = {intl_no: detail.intl_no, name: detail.typ_name, date: detail.date, latLng: detail.latLng};
+        this.usr_predict.intl_no = detail.intl_no;
+        this.usr_predict.rec_time = detail.date
         this.$$('#getBasicPredict').generateRequest();
         this.$$('#getAdvancePredict').generateRequest();
     },
@@ -492,19 +548,161 @@ Polymer({
     //    }
     //},
 
-    toggleDrawPredict: function(e){
-        Util.log('Toggle draw predict');
-        this.uploadMenuClass = 'bottom-overlay upload-overlay-open';
+    _enableSelfPredict: function(e){
+        Util.log('enable self predict');
+        this.$$('#btn-user-predict').disabled = false;
     },
 
-    toggleRetrievePredictionPanel: function(e){
-        Util.log('Toggle retrieve prediction panel');
-        this.retrieveMenuClass = 'bottom-overlay retrieve-overlay-open';
+    _disableSelfPredict: function(e){
+        Util.log('disable self predict');
+        this.$$('#btn-user-predict').disabled = true;
+    },
+
+    toggleDrawPredict: function(push, e){
+        Util.log('Toggle draw predict');
+        this.uploadMenuClass = 'bottom-overlay upload-overlay-open';
+        var map = document.querySelector('google-map').map;
+        var panel = document.querySelector('#mainPanel');
+        panel.infoWin.close();
+        var predict_origin = panel.predict_criteria.latLng;
+        console.log(predict_origin);
+        panel.usr_predict_ln = drawPath([predict_origin], '#371F12', true);
+
+        map.addListener('click', function(e){
+            var circleArr = panel.usr_predict_circle;
+            var circle = new DistanceWidget(map, e.latLng, function(e) {
+                var idx = circleArr.indexOf(circle);
+                panel.usr_predict_ln.getPath().setAt(idx + 1, this.getCenter());
+            }, function(e){
+
+            }, function(e){
+                var idx = circleArr.indexOf(circle);
+                if(idx === -1) return;
+                circle.set('map', null);
+                panel.splice('usr_predict_circle', idx, 1);
+                panel.usr_predict_ln.getPath().removeAt(idx+1);
+            });
+            panel.push('usr_predict_circle', circle);
+            panel.usr_predict_ln.getPath().push(e.latLng);
+        });
     },
 
     dismissUploadPanel: function(e){
         Util.log('Dismiss upload panel');
         this.uploadMenuClass = 'bottom-overlay upload-overlay-close';
+        var map = document.querySelector('google-map').map;
+        google.maps.event.clearListeners(map, 'click');
+        document.querySelector('#mainPanel').clearPredict();
+    },
+
+    forwardSelfPrediction: function(e){
+        Util.log('forward upload panel');
+        this.uploadMenuClass = 'bottom-overlay upload-overlay-close';
+        this.uploadFormClass = 'bottom-form-overlay form-overlay-open';
+        //var map = document.querySelector('google-map').map;
+        //google.maps.event.clearListeners(map, 'click');
+    },
+
+    backwardSelfPrediction: function(e){
+        Util.log('backward upload panel');
+        this.uploadMenuClass = 'bottom-overlay upload-overlay-open';
+        this.uploadFormClass = 'bottom-form-overlay form-overlay-close';
+    },
+
+    _usrPredict2Str: function(){
+        var predictObj = this.usr_predict_circle.map(function(each){
+            return {
+                coord: {
+                    lat: each.position.lat(),
+                    lng: each.position.lng()
+                },
+                radius: each.get('radius')
+            }
+        });
+
+        var json = {
+            "name": this.usr_predict.name,
+            "comment": this.usr_predict.comment,
+            "intl_no": this.usr_predict.intl_no,
+            "rec_time": this.usr_predict.rec_time,
+            "path": predictObj
+        };
+
+        Util.log(json);
+
+        return json;
+    },
+
+    submitSelfPrediction: function(e){
+        Util.log('submit self prediction');
+        this.$$('#uploadProgress').disabled = false;
+        this.$$('#putUsrPredict').body=document.querySelector('#mainPanel')._usrPredict2Str();
+        this.$$('#putUsrPredict').generateRequest();
+    },
+
+    postPutUsrPredictHook: function(e){
+        console.log(e.detail.response);
+        var token;
+        if(e.detail.response.message !== 'success')
+            token = e.detail.response.message;
+        else
+            token = e.detail.response.token;
+        var progress = document.querySelector('#uploadProgress');
+        progress._toggleIndeterminate(false)
+        var prog_complete = setInterval(
+            function(){
+                var progress = document.querySelector('#uploadProgress');
+                if(progress.value >= 100) {
+                    clearInterval(prog_complete);
+                    var panel = document.querySelector('#mainPanel');
+                    panel.uploadFormClass = 'bottom-form-overlay form-overlay-close';
+                    panel.uploadCompleteClass = 'bottom-overlay complete-overlay-open';
+                    panel.complete_token = token;
+                }
+                else
+                    progress.value +=2;
+            }
+            ,10);
+    },
+
+    copyToken2Clipboard: function(e){
+        var input = document.querySelector('#complete-token-input').$.input;
+        input.focus();
+        input.setSelectionRange(0, input.value.length);
+    },
+
+    dismissCompleteInfo: function(e){
+        var panel = document.querySelector('#mainPanel');
+        panel.uploadCompleteClass = 'bottom-overlay complete-overlay-close';
+        panel.clearPredict();
+    },
+
+    clearPredict: function(){
+        this.usr_predict_circle = this.usr_predict_circle.filter(function(each){
+            if(each instanceof google.maps.MVCObject){
+                each.set('map',null);
+            }
+            return false;
+        });
+        this.usr_predict_ln.setMap(null);
+        this.usr_predict_ln = null;
+        this.usr_predict.name = '';
+        this.usr_predict.last_update = '';
+        this.usr_predict.comment = '';
+        this.usr_predict.intl_no = '';
+        this.usr_predict.rec_time = new Date();
+        this.complete_token = '';
+        var progress = document.querySelector('#uploadProgress');
+        progress.disabled = true;
+        progress.value = 0;
+        progress._toggleIndeterminate(true);
+    },
+
+
+
+    toggleRetrievePredictionPanel: function(e){
+        Util.log('Toggle retrieve prediction panel');
+        this.retrieveMenuClass = 'bottom-overlay retrieve-overlay-open';
     },
 
     dismissRetrievePanel: function(e){
@@ -548,7 +746,13 @@ Polymer({
             this.dismissRetrievePanel();
             this.retrieveInfoClass = 'retrieve-info-overlay retrieve-info-close-semi';
             this.retrieveInfoStatus = IW_STATUS.SEMI;
+            document.querySelector('#mainPanel').drawRetrievePredict();
         }
+    },
+
+    drawRetrievePredict: function(){
+        //draw path from jma
+        //draw usr predict circles
     },
 
     toggleCurrTypToast: function(e){
@@ -563,8 +767,7 @@ Polymer({
         var res = this.$.getPathAjax.lastResponse;
 
         var path_map_obj = [];
-        var plyLn = []
-        Util.log(res[0]);
+        var plyLn = [];
 
         var infoWin = this.infoWin;
 
@@ -600,13 +803,14 @@ Polymer({
                 var map = document.querySelector('google-map').map;
                 infoWin.setContent(this.iw_html);
                 infoWin.open(map, this);
-                console.log(this.intl_no+this.typ_name+this.date);
+
                 document.querySelector('#predict-info').fire('iron-signal', {
                     name: 'predictinfotrigger',
                     data: {
                         intl_no: this.intl_no,
                         date: this.date,
-                        typ_name: this.typ_name
+                        typ_name: this.typ_name,
+                        latLng: this.getPosition()
                     }
                 });
                 document.querySelector('#predict-info').show();
@@ -650,12 +854,11 @@ Polymer({
     },
 
     _computeTimezone: function(date){
-        return moment.tz(date,moment.tz.guess()).format('dd, MMM DD YYYY HH:mm z');
+        return moment.tz(date,moment.tz.guess()).format('MMM DD YYYY HH:mm z');
     },
 
     _currTypInit: function(e, detail, sender){
-        console.log('Inbound init data...');
-        console.log(detail);
+        Util.log('Inbound init data...');
         this.curr_typ = detail.map(function(each){
             each.isOnMap = false;
             each.gmElems = document.querySelector('#mainPanel').renderGmElements(each);
@@ -665,8 +868,8 @@ Polymer({
     },
 
     _currTypUpdate: function(e, detail, sender){
-        console.log("Inbound update data...");
-        console.log(detail);
+        Util.log("Inbound update data...");
+
         detail.record.forEach(function(each){
             each.isOnMap = false
             each.gmElems = [];
@@ -692,13 +895,13 @@ Polymer({
                         var map = document.querySelector('google-map').map;
                         document.querySelector('#mainPanel').infoWin.setContent(this.iw_html);
                         document.querySelector('#mainPanel').infoWin.open(map, this);
-                        console.log(this.intl_no+this.typ_name+this.date);
                         document.querySelector('#predict-info').fire('iron-signal', {
                             name: 'predictinfotrigger',
                             data: {
                                 intl_no: this.intl_no,
                                 date: this.date,
-                                typ_name: this.typ_name
+                                typ_name: this.typ_name,
+                                latLng: this.getPosition()
                             }
                         });
                         document.querySelector('#predict-info').show();
@@ -757,7 +960,8 @@ Polymer({
                     data: {
                         intl_no: this.intl_no,
                         date: this.date,
-                        typ_name: this.typ_name
+                        typ_name: this.typ_name,
+                        latLng: mkr.getPosition()
                     }
                 });
                 document.querySelector('#predict-info').show();
@@ -797,9 +1001,5 @@ Polymer({
             var map = document.querySelector('google-map').map;
             bulkSetMap(map, this.curr_typ[index].gmElems);
         }
-    },
-
-    appendCurrTypUpdate: function(data){
-
     }
 });

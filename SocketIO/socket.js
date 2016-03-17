@@ -3,6 +3,7 @@
  */
 var schedule = require('node-schedule');
 var CurrTcQuery = require('./../DTO/curr_tc_query');
+var cluster = require('cluster');
 
 var socket = {
     io: null,
@@ -20,13 +21,14 @@ var socket = {
     },
 
     init: function(server, port){
+        console.log('Init socketIO instance on worker: '+cluster.worker.id);
         this.io = require('socket.io').listen(server);
         this.soc_curr_typ = this.io.of('/socket_curr_typ');
         var mongo = require('socket.io-adapter-mongo');
         this.io.adapter(mongo({ host: 'localhost', port: 27017, db: 'socketsub' }));
 
         this.soc_curr_typ.on('connection', function(getSocketInfo, io, socket){
-            console.log('SOCKET(CONN): ' + getSocketInfo(socket));
+            console.log('SOCKET(CONN,worker:' + cluster.worker.id + '): ' + getSocketInfo(socket));
             CurrTcQuery(5000, function(records){
                 socket.emit('init', records);
             });

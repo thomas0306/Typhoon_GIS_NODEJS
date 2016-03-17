@@ -68,41 +68,39 @@ var path_colors = [
 ];
 
 var iconSVG = {
-    ONE_DIRECTION:  'M -2,3 L 0,-3 L 2,3 C 1,1.5 -1,1.5 -2,3 Z ' +
-                    'M-5,0a5,5 0 1,0 10,0a5,5 0 1,0 -10,0',
-    NO_DATA:        'M 0.5,2 L 0.5,3 L -0.5,3  L -0.5,2 Z ' +
-                    'M -1,-1.5 L -2,-1.5 C -1.5,-4 1.5,-4, 2,-1.5 C 2,0 1,0 0.5,1.5 L -0.5,1.5 C 0,0 1,0 1,-1.5 C 1,-3 -1,-3 -1,-1.5 Z ' +
-                    'M-5,0a5,5 0 1,0 10,0a5,5 0 1,0 -10,0',
-    SYMMETRIC:      'M-4.5,0.5a4.5,4.5 0 1,0 9,0 a3,3 0 1,0 -6,0 a2.5,2.5 0 1,0 5,0 a1.5,1.5 0 1,0 -3,0 '+
-                    'M-5,0a5,5 0 1,0 10,0a5,5 0 1,0 -10,0'
-
+    ONE_DIRECTION: 'M-49.6,105.5C-200.7-79,42.3-202.3,204-137.2c0,0-120.4-7.4-146.8,41.8 c114,49.9,29.2,332.1-252.2,243.7 z M-26.5,4.7a31.7,31.7 0 1,0 63.4,0a31.7,31.7 0 1,0 -63.4,0',
 };
 
+var iconSVGDir = {
+    0: 'M-4.84,-206.28a10,10 0 1,0 20,0a10,10 0 1,0 -20,0',
+    45: 'M209,-206.28a10,10 0 1,0 20,0a10,10 0 1,0 -20,0',
+    90: 'M209,5a10,10 0 1,0 20,0a10,10 0 1,0 -20,0',
+    135: 'M209,215.57a10,10 0 1,0 20,0a10,10 0 1,0 -20,0',
+    180: 'M-4.84,215.57a10,10 0 1,0 20,0a10,10 0 1,0 -20,0',
+    225: 'M-219.27,215.57a10,10 0 1,0 20,0a10,10 0 1,0 -20,0',
+    270: 'M-219.27,5a10,10 0 1,0 20,0a10,10 0 1,0 -20,0',
+    315: 'M-219.27,-206.28a10,10 0 1,0 20,0a10,10 0 1,0 -20,0',
+    360:    'M-242.2,5.7a248.2,248.2 0 1,0 496.4,0a248.2,248.2 0 1,0 -496.4,0 ' +
+            'M23.8,-218.5 L-24.2,-242.5 L24.2,-266.5 ' +
+            'M-30.3,230 L17.7,254 L-30.8,278'
+}
+
 function renderTyphoonMkr(angle, the_lat, the_lng, color) {
-    var iconPATH;
-    var rotation = 0;
-    switch (angle) {
-        case -1:
-            iconPATH = iconSVG.NO_DATA;
-            break;
-        case 360:
-            iconPATH = iconSVG.SYMMETRIC;
-            break;
-        default:
-            iconPATH = iconSVG.ONE_DIRECTION;
-            rotation = angle;
-            break;
-    }
+    var iconPATH = iconSVG.ONE_DIRECTION;
+    var iconAngle = '';
+    if(iconSVGDir[angle] !== undefined)
+        iconAngle = iconSVGDir[angle];
+
     var mkr = new google.maps.Marker({
         position: {lat: the_lat, lng: the_lng},
         icon: {
-            path: iconPATH,
-            scale: 4,
+            path: iconAngle + " " + iconPATH,
+            scale: 0.1,
             strokeColor: '#000000',
             fillColor: 'hsl(' + color.join() + ')',
             fillOpacity: .95,
-            rotation: rotation,
-            strokeWeight: 2
+            strokeWeight: 2,
+            anchor: new google.maps.Point(5.2, 4.7)
         }
     });
     return mkr;
@@ -129,28 +127,32 @@ function spinningIcon(mkr, ms){
 }
 
 //[{lat:lat1, lng:lng1}, {lat2, lng2}, ... ,{latX, lngX}]
-function drawPath(coords){
+function drawPath(coords, color, invert){
     var map = document.querySelector('google-map').map;
 
-    var path = renderPath(coords);
+    var path = renderPath(coords, color, invert);
 
     path.setMap(map);
 
     return path;
 }
 
-function renderPath(coords){
+function renderPath(coords, color, invert){
     var lineSymbol = {
         path: 'M 0,2 L 2,-3 L 0,-1 L -2,-3 Z M 0,0 L 0,1',
         strokeOpacity: 1,
         scale: 2
     }
+    if(invert)
+        lineSymbol.path = 'M 0,-2 L -2,3 L 0,1 L 2,3 Z M 0,0 L 0,-1';
 
-    var randCol = path_colors[Math.round(Math.random()*100%path_colors.length)];
+    if(!color)
+        color = path_colors[Math.round(Math.random()*100%path_colors.length)];
+
     var path = new google.maps.Polyline({
         path: coords,
         geodesic: true,
-        strokeColor: randCol,
+        strokeColor: color,
         strokeOpacity: 0,
         icons: [{
             icon: lineSymbol,
@@ -158,7 +160,7 @@ function renderPath(coords){
             repeat: '15px'
         }],
         strokeWeight: 10,
-        oldColor: randCol
+        oldColor: color
     });
     return path;
 }
@@ -293,7 +295,6 @@ function getContentStrIW(name, track){
     var dir30 = Util.undef2Str(track.wind_dir_30kt_plus);
     if(dir30 !== 'No Data' && document.querySelector('#mainPanel').dirs.length > parseInt(dir30)-1){
         dir30 = document.querySelector('#mainPanel').dirs[parseInt(dir30)-1].description;
-        Util.log(dir30);
     }
     str +=  "<div class='crow'>" +
         "<div class='ccolumn clabel'>Wind Direction (>30kt): </div>" +
@@ -333,3 +334,20 @@ function getContentStrIW(name, track){
     return str;
 }
 
+function drawUsrPrediction(latLng){
+    var map = document.querySelector('google-map').map;
+    var circle = new google.maps.Circle({
+        center: latLng,
+        radius: 50000,
+        draggable: true,
+        editable: true,
+        map: map,
+        strokeColor: '#FFFF00',
+        strokeOpacity: 0.8,
+        strokeWeight: 1,
+        fillColor: '#FFFF00',
+        fillOpacity: 0.4
+    });
+
+    return circle;
+}

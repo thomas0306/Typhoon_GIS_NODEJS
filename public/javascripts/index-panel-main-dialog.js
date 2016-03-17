@@ -6,13 +6,22 @@ Polymer({
 
     listeners: {
         'searchAjax.request': 'searchAjaxOnReq',
-        'searchAjax.response': 'searchAjaxOnRes'
+        'searchAjax.response': 'searchAjaxOnRes',
+        'inputCriteria.keydown': 'captureEnter'
     },
 
     properties: {
-      selectedTyp: {
-          type: Object
-      }
+        selectedTyp: {
+            type: Object
+        },
+        ajaxResponse:{
+            type: Array,
+            value: [
+                {
+                    hidden:true
+                }
+            ]
+        }
     },
 
     ready: function(){
@@ -27,6 +36,15 @@ Polymer({
     searchAjaxOnRes: function(e){
         Util.log('searchAjax obj on response!');
         this.$$('#search-spinner').active = false;
+    },
+
+    captureEnter: function(e){
+        // check if 'enter' was pressed
+        if (e.which === 13) {
+            // enter pressed!
+            this.$$('#searchAjax').generateRequest();
+            document.querySelector('#inputCriteria').$.input.blur();
+        }
     },
 
     listAllTyphoon: function(e){
@@ -90,5 +108,11 @@ Polymer({
 
     _computeTimezone: function(date){
         return moment.tz(date,moment.tz.guess()).format('lll z');
+    },
+
+    _computeDurationHr: function(rec_date){
+        if(!rec_date)
+            return '';
+        return moment.utc(moment(rec_date[0]).diff(moment(rec_date[1]))).format("DD [days], HH");
     }
 });

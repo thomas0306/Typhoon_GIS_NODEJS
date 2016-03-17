@@ -25,6 +25,7 @@ Polymer({
     },
 
     deleteTyphoon: function(e){
+        console.log(e);
         Util.log('delete button on tap!');
         this.fire('iron-signal', {
             name: 'deleteshownintl',
@@ -33,6 +34,8 @@ Polymer({
             }
         });
         this.remove();
+
+        document.querySelector('#predict-info').close();
     },
 
     statusClass: function(idx){

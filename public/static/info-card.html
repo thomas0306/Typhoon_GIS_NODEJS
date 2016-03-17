@@ -1,0 +1,74 @@
+<!--polymer element-->
+<link rel="import" href="/javascripts/bower_components/polymer/polymer.html">
+<link rel="import" href="/javascripts/bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="/javascripts/bower_components/paper-icon-button/paper-icon-button.html">
+
+<link rel="import" href="info-content.html">
+
+<link rel="import" href="./share-css.html">
+
+<dom-module id="info-card">
+    <template>
+        <style include="share-styles">
+
+            paper-icon-button.white {
+                color: whitesmoke;
+            }
+
+            info-content {
+                display: block;
+                border: 1px solid;
+                border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+                border-radius: 3px;
+                padding: 16px;
+                background-color: #FFF;
+                color: #555;
+                font-family: "Trebuchet MS", Helvetica, sans-serif;
+            }
+
+        </style>
+        <div class="card-header">
+            <div class='card-title'>
+                {{title}}
+            </div>
+            <paper-icon-button class='white' icon="{{_computeExpandIcon(opened)}}" on-tap="_toggleCardSection"></paper-icon-button>
+        </div>
+        <info-content opened="{{opened}}">
+            <content></content>
+        </info-content>
+    </template>
+    <script>
+        Polymer({
+            is: 'info-card',
+            properties: {
+                title: {
+                    type: String,
+                    value: ''
+                },
+
+                opened: {
+                    type: Boolean,
+                    value: false
+                }
+            },
+
+            ready: function(){
+                console.log('info-card ready');
+                console.log(this.opened);
+            },
+
+            _computeExpandIcon: function(opened){
+                if(opened)
+                    return 'icons:unfold-less';
+                else
+                    return 'icons:unfold-more';
+            },
+
+            _toggleCardSection: function(e){
+                if(this.opened) this.$$('info-content').hide();
+                else this.$$('info-content').show();
+                this.opened = !this.opened;
+            }
+        });
+    </script>
+</dom-module>

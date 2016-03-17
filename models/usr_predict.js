@@ -8,7 +8,10 @@ var UsrPredictSchema   = new Schema({
     token: String,
     name : String,
     comment: String,
-    last_update : Date
+    path: Array,
+    last_update : Date,
+    intl_no: String,
+    rec_time: Date
 });
 
 module.exports = mongoose.model('usr_predict', UsrPredictSchema);

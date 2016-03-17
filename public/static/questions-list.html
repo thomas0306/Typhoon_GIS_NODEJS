@@ -1,0 +1,35 @@
+<!--polymer element-->
+<link rel="import" href="/javascripts/bower_components/polymer/polymer.html">
+
+<link rel="import" href="multiple-choice.html">
+
+<link rel="import" href="./share-css.html">
+
+<dom-module id="questions-list">
+    <template>
+        <template is="dom-repeat" items="[[questions]]">
+            <multiple-choice no="[[_computeNo(index)]]" question="[[item.question]]" choice="[[item.choice]]" answer="[[item.answer]]" layout="[[item.layout]]"></multiple-choice>
+        </template>
+    </template>
+    <script>
+        Polymer({
+            is: "questions-list",
+
+            properties: {
+                questions: {
+                    type: Array,
+                    value: function(){ return []; }
+                }
+            },
+
+            ready: function(){
+                console.log('questions-list ready');
+                console.log(this.questions);
+            },
+
+            _computeNo: function(index){
+                return ++index;
+            }
+        });
+    </script>
+</dom-module>

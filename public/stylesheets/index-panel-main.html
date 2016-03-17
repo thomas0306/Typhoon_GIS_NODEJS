@@ -2,6 +2,27 @@
 <dom-module id="index-panel-main-styles">
     <template>
         <style>
+            #retrieve-token-input, #complete-token-input{
+                width:50%;
+            }
+
+            #completeOverlay{
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 9999;
+            }
+
+            #completeInner{
+                min-height: 10em;
+                margin: auto;
+                background: gray;
+            }
+
+            paper-fab{
+                --paper-fab-keyboard-focus-background: var(--paper-indigo-300);
+            }
             .label{
                 font-family: "Trebuchet MS", Helvetica, sans-serif;
                 color: var(--paper-grey-200);
@@ -136,6 +157,22 @@
                 @apply(--layout-center-justified);
             }
 
+            .bottom-form-overlay{
+                position: fixed;
+                padding: 10px 5px;
+                width: 100%;
+                bottom: 0px;
+                z-index: 998;
+                background: rgba(0,0,0,0.50);
+                @apply(--layout-vertical);
+
+            }
+
+            .bottom-form-control{
+                @apply(--layout-center-justified);
+                @apply(--layout-horizontal);
+            }
+
             .retrieve-info-overlay{
                 color: white;
                 position: fixed;
@@ -196,13 +233,6 @@
                 animation-name: retrieve-overlay-close;
                 animation-duration: 0.7s;
                 animation-fill-mode:forwards;
-                animation-timing-function: ease-in-out;
-            }
-
-            .retrieve-overlay-open {
-                animation-name: retrieve-overlay-open;
-                animation-duration: 0.7s;
-                animation-fill-mode: forwards;
                 animation-timing-function: ease-in-out;
             }
 
@@ -276,6 +306,54 @@
                 to { bottom: -450px; }
             }
 
+            .form-overlay-open {
+                animation-name: form-overlay-open;
+                animation-duration: 0.7s;
+                animation-fill-mode:forwards;
+                animation-timing-function: ease-in-out;
+            }
+
+            .form-overlay-close{
+                animation-name: form-overlay-close;
+                animation-duration: 0.7s;
+                animation-fill-mode:forwards;
+                animation-timing-function: ease-in-out;
+            }
+
+            @keyframes form-overlay-open {
+                from {bottom: -214px;}
+                to {bottom: 0px;}
+            }
+
+            @keyframes form-overlay-close {
+                from {bottom: 0px;}
+                to {bottom: -214px;}
+            }
+
+            .complete-overlay-open {
+                animation-name: complete-overlay-open;
+                animation-duration: 0.7s;
+                animation-fill-mode:forwards;
+                animation-timing-function: ease-in-out;
+            }
+
+            .complete-overlay-close{
+                animation-name: complete-overlay-close;
+                animation-duration: 0.7s;
+                animation-fill-mode:forwards;
+                animation-timing-function: ease-in-out;
+            }
+
+            @keyframes complete-overlay-open {
+                from {bottom: -76px;}
+                to {bottom: 0px;}
+            }
+
+            @keyframes complete-overlay-close {
+                from {bottom: 0px;}
+                to {bottom: -84px;}
+            }
+
             .button-padding{
                 width: 10px;
             }
@@ -286,16 +364,42 @@
 
             paper-fab.green{
                 --paper-fab-background: var(--paper-green-500);
+                --paper-fab-disabled-background: var(--paper-grey-500);
+
             }
 
             paper-fab.red{
                 --paper-fab-background: var(--paper-red-500);
+                --paper-fab-disabled-background: var(--paper-grey-500);
             }
 
-            paper-input#retrieve-token-input {
+            paper-input.on-overlay, paper-textarea.on-overlay {
                 --paper-input-container-color: var(--paper-indigo-50);
                 --paper-input-container-focus-color: var(--paper-indigo-100);
                 --paper-input-container-input-color: white;
+                width: 100%;
+            }
+
+            .progress-section{
+                @apply(--layout-center-justified);
+            }
+
+            paper-progress.upload-progress{
+                display: block;
+                width: 100%;
+                --paper-progress-active-color: var(--paper-indigo-500);
+                --paper-progress-secondary-color: var(--paper-indigo-100);
+            }
+
+            .form-with-padding{
+                padding: 10px 15px;
+                @apply(--layout-vertical);
+                @apply(--layout-center);
+            }
+
+            #uploadForm{
+                padding: 0px;
+                padding-bottom: 10px;
             }
 
         </style>

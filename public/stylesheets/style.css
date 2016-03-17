@@ -35,6 +35,19 @@ body {
   z-index: 2000;
 }
 
+#cover_inner{
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 75%;
+  height: 50%;
+  background: white;
+  border-radius: 15px;
+}
+
 #l1 {
   position: fixed;
   top: 100%;
@@ -134,19 +147,6 @@ body {
   -webkit-box-shadow: 0px -30px 49px -39px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px -30px 49px -39px rgba(0, 0, 0, 0.75);
   box-shadow: 0px -30px 49px -39px rgba(0, 0, 0, 0.75);
-}
-
-#cover_inner{
-  position: absolute;
-  margin: auto;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 75%;
-  height: 50%;
-  background: white;
-  border-radius: 15px;
 }
 
 #cover_title {

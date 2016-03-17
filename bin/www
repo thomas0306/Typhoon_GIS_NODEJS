@@ -59,6 +59,5 @@ if (!sticky.listen(server, port, {workers:1})) {
 
 } else {
     // Worker code
-    if(cluster.worker.id === 1)
     socket.init(server);
 }
