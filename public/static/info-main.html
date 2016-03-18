@@ -1,0 +1,89 @@
+<!--polymer element-->
+<link rel="import" href="/javascripts/bower_components/polymer/polymer.html">
+<link rel="import" href="/javascripts/bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
+<link rel="import" href="/javascripts/bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="/javascripts/bower_components/paper-styles/color.html">
+<link rel="import" href="/javascripts/bower_components/iron-flex-layout/iron-flex-layout.html">
+
+
+<!--custom element-->
+<link rel="import" href="info-card.html">
+<link rel="import" href="questions-list.html">
+<link rel="import" href="signal-table.html">
+
+<link rel='import' href="share-css.html">
+
+<dom-module id="info-main">
+    <template>
+        <style include="share-styles"></style>
+        <paper-scroll-header-panel condenses keep-condensed-header header-height="256" condensed-header-height="140">
+
+            <paper-toolbar>
+                <div class="bottom indent bottom-text" self-end>
+                    <div class='clear-bg'>Learn more about typhoon!</div>
+                    <br>
+                    <div class="subtitle clear-bg">Tropical Cyclone 101</div>
+                </div>
+            </paper-toolbar>
+
+            <div class="content">
+
+                <info-card title="Tropical Cyclone aka Typhoon" opened>
+                    A tropical cyclone is a rapidly rotating storm system characterized by a low-pressure center, strong winds, and a spiral arrangement of gusts that produce heavy rain.
+                </info-card>
+
+                <info-card title="Formation" opened>
+                    <div class="list-heading">Criteria</div>
+                    <ul>
+                        <li>Low air pressure</li>
+                        <li>On Sea water surface</li>
+                    </ul>
+                    <div class="list-heading">How</div>
+                    <ol>
+                        <li>When oceans’ surface heated by solar radiation, humid air inflation occurs.</li>
+                        <li>Himid air cools while hitting the cooler air layer, resulting sink of air.</li>
+                        <li>This will incur a convection current which gives positive feedback to concurrent this process.</li>
+                        <li>Surrounding air flows from high pressure to low pressure, forming wind.</li>
+                        <li>Coriolis force deflects surface winds to the right in Northern hemisthere</li>
+                        <li>Surface winds will flow inward trying to fill the eye of typhoon.</li>
+                        <li>Circulation of typhoon forms in clockwise direction.</li>
+                    </ol>
+                </info-card>
+
+                <info-card title="Fact" opened>
+                    <ul>
+                        <li>The path direction of typhoon are North, NorthWest and West.</li>
+                        <li>Latitute between 5 degree and 25 degree is favourable for the formation process.</li>
+                        <li>Typhoon's circulation is always clock-wise.</li>
+                        <li>The typhoon peak season is between May and October each year.</li>
+                    </ul>
+                </info-card>
+
+                <info-card title="Signal Signs in Hong Kong" opened>
+                    <signal-table></signal-table>
+                </info-card>
+
+                <info-card title="Q&A" opened>
+                    <questions-list></questions-list>
+                </info-card>
+
+                <info-card title="Source / Read more" opened>
+
+                </info-card>
+            </div>
+        </paper-scroll-header-panel>
+    </template>
+
+    <script>
+        Polymer({
+            is: "info-main",
+
+            properties: {
+            },
+
+            ready: function(){
+                console.log('info-main ready');
+            }
+        });
+    </script>
+</dom-module>

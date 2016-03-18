@@ -82,13 +82,15 @@ Polymer({
                 comment: '',
                 message: '',
                 intl_no: '',
-                rec_time: Object
+                rec_time: Object,
+                record: Object
             },
             notify: true
         },
 
         gm_usr_predict_obj: {
-            type: Object
+            type: Array,
+            value: function(){ return []; }
         },
 
         usr_predict_ln: {
@@ -737,6 +739,17 @@ Polymer({
         else if(this.retrieveInfoStatus === IW_STATUS.SEMI)
             this.retrieveInfoClass = 'retrieve-info-overlay retrieve-info-semi-close';
         this.retrieveInfoStatus === IW_STATUS.CLOSE;
+
+        this.rmUsrPredict();
+    },
+
+    rmUsrPredict: function(){
+        console.log(this.gm_usr_predict_obj);
+        this.gm_usr_predict_obj.filter(function(each){
+            each.setMap(null);
+            //anchor
+            return false;
+        });
     },
 
     retrieveUsrPredictRes: function(e){
@@ -752,7 +765,57 @@ Polymer({
 
     drawRetrievePredict: function(){
         //draw path from jma
+        var res = this.usr_predict.record.tracks;
+        var info = this.usr_predict.info;
+        var info_path_src;
+        var gm_store = this.gm_usr_predict_obj;
+        var bounds = new google.maps.LatLngBounds();
+        var plyLn = [];
+        for(x in res) {
+            var lat = res[x].loc[1];
+            var lng = res[x].loc[0];
+            var angle = getTyphoonAngle(res[x].wind_dir_50kt_plus || res[x].wind_dir_30kt_plus || -1, document.querySelector('#mainPanel').dirs);
+            var color = getColorByTyphoonGrade(res[x].grade || 6, document.querySelector('#mainPanel').grades);
+            var mkr = drawTyphoonICON(lat, lng, angle, color);
+            var coord = {lat:lat,lng:lng};
+            plyLn.push(coord);
+            gm_store.push(mkr);
+            if(info.rec_time === res[x].rec_time){
+                info_path_src = coord;
+                bounds.extend(mkr.getPosition());
+            }
+        }
+
+        var path = drawPath(plyLn);
+        path.addListener('mouseover', function(){
+            Util.log('path mouseover');
+            this.setOptions({strokeColor: Util.ColorLuminance(this.oldColor, 0.6)});
+        });
+
+        path.addListener('mouseout', function(){
+            Util.log('path mouseout');
+            this.setOptions({strokeColor: this.oldColor});
+        });
+
+        gm_store.push(path);
+
         //draw usr predict circles
+        //circles
+        var p_path = [];
+        p_path.push(info_path_src);
+        for(x in info.path){
+            var each = info.path[x];
+            var circle = drawStaticCircle(each.coord, each.radius);
+            gm_store.push(circle);
+            p_path.push(each.coord);
+            bounds.extend(circle.getCenter());
+        }
+
+        //path
+        path = drawPath(p_path, 'yellow', true);
+        gm_store.push(path);
+        var map = document.querySelector('google-map').map;
+        map.fitBounds(bounds);
     },
 
     toggleCurrTypToast: function(e){

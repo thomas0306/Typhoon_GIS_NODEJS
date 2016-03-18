@@ -1,0 +1,73 @@
+<!--polymer element-->
+<link rel="import" href="/javascripts/bower_components/polymer/polymer.html">
+<link rel="import" href="/javascripts/bower_components/iron-icon/iron-icon.html">
+
+<link rel='import' href="share-css.html">
+
+<dom-module id="signal-table">
+    <template>
+        <style include="share-styles">
+
+            :host .css_tbl {
+                display:table;
+            }
+            :host .css_tr {
+                display: table-row;
+            }
+            :host .css_td {
+                display: table-cell;
+                padding-right: 10px;
+            }
+
+            :host .big {
+                --iron-icon-height: 32px;
+                --iron-icon-width: 32px;
+            }
+
+            :host .wider {
+                width: 3em;
+            }
+
+        </style>
+        <div class="css_tbl">
+            <div class="css_tr">
+                <div class="css_td">No</div>
+                <div class="css_td">Sign</div>
+                <div class="css_td">Description</div>
+            </div>
+            <template is="dom-repeat" items="[[typhoonSignData]]">
+                <div class="css_tr">
+                    <div class="css_td wider">[[item.no]]</div>
+                    <div class="css_td"><iron-icon class="big" src="/images/tc_sign/[[item.sign]]"></iron-icon></iron-icon></div>
+                    <div class="css_td">[[item.desc]]</div>
+                </div>
+            </template>
+        </div>
+
+    </template>
+    <script>
+        Polymer({
+            is: 'signal-table',
+
+            properties: {
+                typhoonSignData: {
+                    type: Array,
+                    value: [
+                        { no:'1',      sign:'T1.png',    desc:'A tropical cyclone is centred within 800 kilometres of Hong Kong and may later affect the territory, or there are strong winds in Hong Kong waters.' },
+                        { no:'3',      sign:'T3.png',    desc:'Strong winds are expected or blowing generally in Hong Kong near sea level, and the wind condition is expected to persist.' },
+                        { no:'8 NE',   sign:'T8NE.png',  desc:'Gale or storm force winds are expected or blowing generally in Hong Kong near sea level from the NE quadrant, and the wind condition is expected to persist.' },
+                        { no:'8 NW',   sign:'T8NW.png',  desc:'Gale or storm force winds are expected or blowing generally in Hong Kong near sea level from the NW quadrant, and the wind condition is expected to persist.' },
+                        { no:'8 SE',   sign:'T8SE.png',  desc:'Gale or storm force winds are expected or blowing generally in Hong Kong near sea level from the SE quadrant, and the wind condition is expected to persist.' },
+                        { no:'8 SW',   sign:'T8SW.png',  desc:'Gale or storm force winds are expected or blowing generally in Hong Kong near sea level from the SW quadrant, and the wind condition is expected to persist.' },
+                        { no:'9',      sign:'T9.png',    desc:'Gale or storm force winds are increasing or expected to increase significantly in strength.' },
+                        { no:'10',     sign:'T10.png',   desc:'Hurricane-force winds expected or blowing anywhere near sea level in Hong Kong. Eye of typhoon may be passing very close or directly over Hong Kong.' }
+                    ]
+                }
+            },
+
+            ready: function(){
+                console.log('signal-table ready');
+            }
+        });
+    </script>
+</dom-module>
