@@ -83,8 +83,10 @@
             _checkAnswer: function(e){
                 this._clearLastAnswer();
                 var rb = Polymer.dom(e).localTarget;
-                if(e.model.index === this.answer)
+                if(e.model.index === this.answer) {
                     rb.classList.add('correct');
+                    this._disableAllRbs();
+                }
                 else
                     rb.classList.add('incorrect');
             },
@@ -94,6 +96,13 @@
                 rbs.forEach(function(item){
                     item.classList.remove('correct');
                     item.classList.remove('incorrect');
+                });
+            },
+
+            _disableAllRbs: function(){
+                var rbs = Polymer.dom(this.root).querySelectorAll('paper-radio-button');
+                rbs.forEach(function(item){
+                    item.disabled = true;
                 });
             }
 

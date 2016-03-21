@@ -48,7 +48,7 @@ function onListening() {
     console.log(new Date() + ': Server started on ' + port + ' port');
 }
 
-if (!sticky.listen(server, port, {workers:1})) {
+if (!sticky.listen(server, port)) {
     /**
      * Cron jobs
      */

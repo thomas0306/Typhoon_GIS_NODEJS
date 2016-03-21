@@ -344,6 +344,7 @@ Polymer({
     listeners: {
         'drawer-toggle.tap' : 'toggleDrawer',
         'search-dialog-toggle.tap' : 'toggleSearchDialog',
+        'btn-information.tap': 'toggleInfoPage',
         'map-canvas.google-map-ready' : 'rmCover',
         'close-predict-info.tap' : 'predictIWClose',
         'show-basic-predict.tap': 'drawPredictedBasicCircle',
@@ -360,7 +361,8 @@ Polymer({
         'btn-close-retrieve-info.tap': 'dismissRetrieveInfo',
         'btn-close-curr-typ-info.tap': 'dismissCurrTypInfo',
         'btn-copy.tap': 'copyToken2Clipboard',
-        'btn-complete-close.tap': 'dismissCompleteInfo'
+        'btn-complete-close.tap': 'dismissCompleteInfo',
+        'btn-legend.tap': 'toggleLegendInfo'
     },
 
     zoomChanged: function(zoom){
@@ -390,6 +392,10 @@ Polymer({
             dialog.toggle();
     },
 
+    toggleInfoPage: function(e){
+        window.open('./static/information.html');
+    },
+
     rmCover: function(e){
         Util.log('maps ready!');
         var map = document.querySelector('google-map').map;
@@ -406,12 +412,20 @@ Polymer({
         //this.map_rect.setMap(map);
         //this.map_rect.addListener('bounds_changed', this.mapRectBoundsChanged);
         google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
+            init_ib();
+            var iw_opt = {
+                boxClass: 'cus_iw',
+                closeBoxURL: "images/close_iw.png"
+            };
+
             //this part runs when the mapobject is created and rendered
             var cover = document.querySelector('#cover');
             cover.parentNode.removeChild(cover);
-            document.querySelector('#mainPanel').infoWin = new google.maps.InfoWindow({
-                content: ''
-            });
+            var infoWin = new InfoBox(iw_opt);
+
+            document.querySelector('#mainPanel').infoWin = infoWin;
+
+
             custom_circle();
             //document.querySelector('#getCurrTc').generateRequest();
 
@@ -677,6 +691,16 @@ Polymer({
         var panel = document.querySelector('#mainPanel');
         panel.uploadCompleteClass = 'bottom-overlay complete-overlay-close';
         panel.clearPredict();
+    },
+
+    toggleLegendInfo: function(e){
+        Util.log('toggle legend info');
+        var e = document.querySelector('#legendInfo');
+        if(e.style.display == 'block')
+            e.style.display = 'none';
+        else
+            e.style.display = 'block';
+
     },
 
     clearPredict: function(){
@@ -1064,5 +1088,13 @@ Polymer({
             var map = document.querySelector('google-map').map;
             bulkSetMap(map, this.curr_typ[index].gmElems);
         }
+    },
+
+    _isUsing: function(des){
+        return 'Not used' !== des;
+    },
+
+    _joinHSB: function(hsb){
+        return hsb.join();
     }
 });

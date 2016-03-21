@@ -45,6 +45,56 @@ dom-module#index-panel-main
                         paper-tooltip(for='btn-curr-typ' position='bottom') Active Typhoon(s)
                     paper-icon-button#search-dialog-toggle(icon='icons:assignment' class='bottom')
                     paper-tooltip(for='search-dialog-toggle' position='bottom') List
+                    paper-icon-button#btn-information(icon="icons:info-outline")
+                    paper-tooltip(for='btn-information' position='bottom') Learn more about typhoon
+                    paper-icon-button#btn-legend(icon='icons:extension')
+                    paper-tooltip(for='btn-legend' position='bottom') Legend
+
+        #legendInfo(style='display: none;')
+            .le-lbl Grade
+            #grade-container
+                .css_table
+                    .css_tr.scale_tr
+                        .css_td(style='background: hsl(72,100%,50%);')
+                        .css_td(style='background: hsl(54,100%,50%);')
+                        .css_td(style='background: hsl(36,100%,50%);')
+                        .css_td(style='background: hsl(18,100%,50%);')
+                        .css_td(style='background: hsl(0,100%,50%);')
+                        .css_td(style='background: hsl(0,100%,50%);')
+                        .css_td(style='background: hsl(54,100%,50%);')
+                    .css_tr
+                        .css_td 2
+                        .css_td 3
+                        .css_td 4
+                        .css_td 5
+                        .css_td 6
+                        .css_td 7
+                        .css_td 9
+
+            .le-lbl Type Matrix
+            #type-container
+                .css_table
+                    .css_tr
+                        .css_td 2
+                        .css_td Tropical Depression (TD)
+                    .css_tr
+                        .css_td 3
+                        .css_td Tropical Strom (TS)
+                    .css_tr
+                        .css_td 4
+                        .css_td Severe Tropical Storm (STS)
+                    .css_tr
+                        .css_td 5
+                        .css_td Typhoon (TY)
+                    .css_tr
+                        .css_td 6
+                        .css_td Extra-tropical Cyclone (L)
+                    .css_tr
+                        .css_td 7
+                        .css_td Just entered
+                    .css_tr
+                        .css_td 9
+                        .css_td Tropical Strom or Higher
 
         #uploadMenu(class$='{{uploadMenuClass}}')
             paper-fab#btn-draw-cancel.red(icon='icons:close')

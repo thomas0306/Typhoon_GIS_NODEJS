@@ -16,7 +16,8 @@
             }
             :host .css_td {
                 display: table-cell;
-                padding-right: 10px;
+                border-bottom: 1px solid lightgray;
+                padding: 10px;
             }
 
             :host .big {
@@ -26,14 +27,21 @@
 
             :host .wider {
                 width: 3em;
+                text-align: right;
+            }
+
+            :host .css_tbh {
+                color: gray;
+                font-weight: bolder;
+                border-bottom: 2px solid lightgray;
             }
 
         </style>
         <div class="css_tbl">
             <div class="css_tr">
-                <div class="css_td">No</div>
-                <div class="css_td">Sign</div>
-                <div class="css_td">Description</div>
+                <div class="css_td wider css_tbh">No</div>
+                <div class="css_td css_tbh">Sign</div>
+                <div class="css_td css_tbh">Description</div>
             </div>
             <template is="dom-repeat" items="[[typhoonSignData]]">
                 <div class="css_tr">

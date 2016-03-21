@@ -246,24 +246,27 @@ function bulkSetMap(map, gmElems){
 function getContentStrIW(name, track){
     var str = "";
 
-    str += "<div class='ctable'>";
+    str += "<div class='arr-sep'></div>";
+
     //Typhoon name
-    str += "<div class='crow'><div class='ccolumn cheading'>"+ name + "</div></div>";
+    str += "<div class='iw-h-pre-wrap'><span class='iw-h-wrap'>"+ name + "</span></div>";
+
+    str += "<div class='ctable'>";
 
     //each
     //international number
     str +=  "<div class='crow'>" +
-        "<div class='ccolumn clabel'>International number: </div>" +
+        "<div class='ccolumn clabel'>International number </div>" +
         "<div class='ccolumn'>" + Util.undef2Str(track.intl_no) + "</div>" +
         "</div>";
     //coordinates
     str +=  "<div class='crow'>" +
-        "<div class='ccolumn clabel'>Coordinates: </div>" +
+        "<div class='ccolumn clabel'>Coordinates </div>" +
         "<div class='ccolumn'>" + Util.undef2Str(track.loc) + "</div>" +
         "</div>";
     //grade
     str +=  "<div class='crow'>" +
-        "<div class='ccolumn clabel'>Grade: </div>" +
+        "<div class='ccolumn clabel'>Grade </div>" +
         "<div class='ccolumn'>" + Util.undef2Str(track.grade) + "</div>" +
         "</div>";
     //record time
@@ -272,17 +275,17 @@ function getContentStrIW(name, track){
         rec_time = moment.tz(rec_time,moment.tz.guess()).format('lll z')
     }
     str +=  "<div class='crow'>" +
-        "<div class='ccolumn clabel'>Time: </div>" +
+        "<div class='ccolumn clabel'>Time </div>" +
         "<div class='ccolumn'>" + rec_time + "</div>" +
         "</div>";
     //center pressure
     str +=  "<div class='crow'>" +
-        "<div class='ccolumn clabel'>Center Pressure: </div>" +
+        "<div class='ccolumn clabel'>Center Pressure </div>" +
         "<div class='ccolumn'>" + Util.undef2Str(track.cent_pressure) + "</div>" +
         "</div>";
     //maximum sustain wind speed
     str +=  "<div class='crow'>" +
-        "<div class='ccolumn clabel'>Max Sustain Wind Speed: </div>" +
+        "<div class='ccolumn clabel'>Max Sustain Wind Speed </div>" +
         "<div class='ccolumn'>" + Util.undef2Str(track.max_sus_wind_spd) + "</div>" +
         "</div>";
     //wind_dir_50kt_plus
@@ -293,17 +296,17 @@ function getContentStrIW(name, track){
         dir50 = document.querySelector('#mainPanel').dirs[parseInt(dir50)-1].description;
     }
     str +=  "<div class='crow'>" +
-        "<div class='ccolumn clabel'>Wind Direction (>50kt): </div>" +
+        "<div class='ccolumn clabel'>Wind Direction (>50kt) </div>" +
         "<div class='ccolumn'>" + dir50 + "</div>" +
         "</div>";
     //max_wind_50kt_plus_radius
     str +=  "<div class='crow'>" +
-        "<div class='ccolumn clabel'>Maximum Wind Radius (>50kt): </div>" +
+        "<div class='ccolumn clabel'>Maximum Wind Radius (>50kt) </div>" +
         "<div class='ccolumn'>" + Util.undef2Str(track.max_wind_50kt_plus_radius) + "</div>" +
         "</div>";
     //min_wind_50kt_plus_radius
     str +=  "<div class='crow'>" +
-        "<div class='ccolumn clabel'>Minumum Wind Radius (>50kt): </div>" +
+        "<div class='ccolumn clabel'>Minumum Wind Radius (>50kt) </div>" +
         "<div class='ccolumn'>" + Util.undef2Str(track.min_wind_50kt_plus_radius) + "</div>" +
         "</div>";
     //wind_dir_30kt_plus
@@ -312,17 +315,17 @@ function getContentStrIW(name, track){
         dir30 = document.querySelector('#mainPanel').dirs[parseInt(dir30)-1].description;
     }
     str +=  "<div class='crow'>" +
-        "<div class='ccolumn clabel'>Wind Direction (>30kt): </div>" +
+        "<div class='ccolumn clabel'>Wind Direction (>30kt) </div>" +
         "<div class='ccolumn'>" + dir30 + "</div>" +
         "</div>";
     //max_wind_30kt_plus_radius
     str +=  "<div class='crow'>" +
-        "<div class='ccolumn clabel'>Maximum Wind Radius (>30kt): </div>" +
+        "<div class='ccolumn clabel'>Maximum Wind Radius (>30kt) </div>" +
         "<div class='ccolumn'>" + Util.undef2Str(track.max_wind_30kt_plus_radius) + "</div>" +
         "</div>";
     //min_wind_30kt_plus_radius
     str +=  "<div class='crow'>" +
-        "<div class='ccolumn clabel'>Minimum Wind Radius (>30kt): </div>" +
+        "<div class='ccolumn clabel'>Minimum Wind Radius (>30kt) </div>" +
         "<div class='ccolumn'>" + Util.undef2Str(track.min_wind_30kt_plus_radius) + "</div>" +
         "</div>";
     //landfall_passage_indi
@@ -340,7 +343,7 @@ function getContentStrIW(name, track){
             break;
     }
     str +=  "<div class='crow'>" +
-        "<div class='ccolumn clabel'>Landfall or Passage (Japan): </div>" +
+        "<div class='ccolumn clabel'>Landfall or Passage (Japan) </div>" +
         "<div class='ccolumn'>" + indicator + "</div>" +
         "</div>";
 

@@ -1,10 +1,30 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px "Exo2", Helvetica, Arial, sans-serif;
+}
+
+.cus_iw {
+  background: rgba(0,0,0,0.8);
+  color: white;
+  border-radius: 3px;
+  padding: 10px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  width: 303px;
+}
+
+.arr-sep{
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  border-left: 20px solid rgba(255, 255, 255, 0.6);
+  border-bottom: 20px solid transparent;
 }
 
 .ctable {
   display: table;
+  width: 303px;
+
 }
 
 .crow {
@@ -14,14 +34,31 @@ body {
 .ccolumn {
   display: table-cell;
   vertical-align: top;
+  border-bottom: 1px solid darkgray;
+  padding: 5px;
 }
 
 .cheading {
   font-weight: bolder;
+  font-size: 15px;
+  border: none;
+}
+.iw-h-pre-wrap {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 12px;
+}
+
+.iw-h-wrap {
+  border-radius: 5px;
+  background: whitesmoke;
+  color: black;
+  font-weight: bolder;
+  padding: 4px 10px;
+  font-size: 1.3em;
 }
 
 .clabel {
-  text-align: right;
   padding-right: 5px;
 }
 

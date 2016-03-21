@@ -1,0 +1,81 @@
+<!--polymer element-->
+<link rel="import" href="/javascripts/bower_components/polymer/polymer.html">
+<link rel="import" href="/javascripts/bower_components/iron-icon/iron-icon.html">
+
+<link rel='import' href="share-css.html">
+
+<dom-module id="intensity-table">
+    <template>
+        <style include="share-styles">
+
+            :host .css_tbl {
+                display:table;
+                width:100%;
+            }
+            :host .css_tr {
+                display: table-row;
+            }
+            :host .css_td {
+                display: table-cell;
+                border-bottom: 1px solid lightgray;
+                padding: 10px;
+            }
+
+            :host .big {
+                --iron-icon-height: 32px;
+                --iron-icon-width: 32px;
+            }
+
+            :host .left {
+                width: 40%;
+            }
+
+            :host .right {
+                width: 60%;
+            }
+
+            :host .css_tbh {
+                color: gray;
+                font-weight: bolder;
+                border-bottom: 2px solid lightgray;
+            }
+
+        </style>
+        <div class="css_tbl">
+            <div class="css_tr">
+                <div class="css_td left css_tbh">Name</div>
+                <div class="css_td right css_tbh">Sustained winds</div>
+            </div>
+            <template is="dom-repeat" items="[[typhoonIntensityData]]">
+                <div class="css_tr">
+                    <div class="css_td wider">[[item.name]]</div>
+                    <div class="css_td">[[item.wind_spd_knot]] / [[item.wind_spd_km]]</div>
+                </div>
+            </template>
+        </div>
+
+    </template>
+    <script>
+        Polymer({
+            is: 'intensity-table',
+
+            properties: {
+                typhoonIntensityData: {
+                    type: Array,
+                    value: [
+                        {name: 'Violent Typhoon', wind_spd_knot: '≥105 knots', wind_spd_km: '≥194 km/h'},
+                        {name: 'Very Strong Typhoon', wind_spd_knot: '85–104 knots', wind_spd_km: '157–193 km/h'},
+                        {name: 'Typhoon', wind_spd_knot: '64–84 knots', wind_spd_km: '118–156 km/h'},
+                        {name: 'Severe Tropical Storm', wind_spd_knot: '48–63 knots', wind_spd_km: '89–117 km/h'},
+                        {name: 'Tropical Storm', wind_spd_knot: '34–47 knots', wind_spd_km: '62–88 km/h'},
+                        {name: 'Tropical Depression', wind_spd_knot: '≤33 knots', wind_spd_km: '≤61 km/h'}
+                    ]
+                }
+            },
+
+            ready: function(){
+                console.log('signal-table ready');
+            }
+        });
+    </script>
+</dom-module>
