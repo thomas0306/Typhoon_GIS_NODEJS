@@ -3,6 +3,7 @@ var db = require('./db_connection');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
+var fs = require('fs');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -20,6 +21,7 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('common', {stream: fs.createWriteStream('/project/typhoon_gis/log/server.log', {flags: 'a'})}));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

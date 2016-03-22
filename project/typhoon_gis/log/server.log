@@ -1,0 +1,136 @@
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /static/information.html HTTP/1.1" 200 272 "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/webcomponentsjs/webcomponents-lite.min.js HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /static/info-main.html HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/polymer/polymer.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /static/questions-list.html HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /static/signal-table.html HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /static/intensity-table.html HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/paper-styles/color.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /static/share-css.html HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/iron-icon/iron-icon.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/paper-toolbar/paper-toolbar.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/iron-resizable-behavior/iron-resizable-behavior.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/iron-flex-layout/iron-flex-layout.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/polymer/polymer-mini.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /static/info-card.html HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/iron-meta/iron-meta.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /static/multiple-choice.html HTTP/1.1" 200 3393 "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/paper-styles/default-theme.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/paper-styles/typography.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/polymer/polymer-micro.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/paper-icon-button/paper-icon-button.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /static/info-content.html HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/iron-icons/iron-icons.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/paper-radio-group/paper-radio-group.html HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/font-roboto/roboto.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/paper-behaviors/paper-button-behavior.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/paper-behaviors/paper-inky-focus-behavior.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/paper-ripple/paper-ripple.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/neon-animation/neon-animation-runner-behavior.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/neon-animation/animations/scale-down-animation.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/neon-animation/animations/scale-up-animation.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/iron-iconset-svg/iron-iconset-svg.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/iron-selector/iron-selectable.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/paper-radio-button/paper-radio-button.html HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/iron-behaviors/iron-button-state.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/paper-behaviors/paper-ripple-behavior.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/neon-animation/neon-animatable-behavior.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/neon-animation/neon-animation-behavior.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/neon-animation/web-animations.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/iron-selector/iron-selection.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/paper-behaviors/paper-checked-element-behavior.html HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/iron-behaviors/iron-control-state.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/neon-animation/animations/opaque-animation.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/iron-checked-element-behavior/iron-checked-element-behavior.html HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/iron-validatable-behavior/iron-validatable-behavior.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/iron-form-element-behavior/iron-form-element-behavior.html HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:46 GMT] "GET /javascripts/bower_components/web-animations-js/web-animations-next-lite.min.js HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:47 GMT] "GET /images/Hurricane-en.svg HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:47 GMT] "GET /images/tc_sign/T1.png HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:47 GMT] "GET /static/T1.png HTTP/1.1" 404 1984 "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:47 GMT] "GET /images/tc_sign/T3.png HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:47 GMT] "GET /static/T3.png HTTP/1.1" 404 1984 "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:47 GMT] "GET /static/T8NE.png HTTP/1.1" 404 1984 "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:47 GMT] "GET /images/tc_sign/T8NE.png HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:47 GMT] "GET /images/tc_sign/T8NW.png HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:47 GMT] "GET /font/exo-2/Exo2-Regular.otf HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:47 GMT] "GET /static/T8NW.png HTTP/1.1" 404 1984 "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:47 GMT] "GET /images/tc_sign/T8SE.png HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:47 GMT] "GET /images/tc_sign/T8SW.png HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:47 GMT] "GET /static/T8SW.png HTTP/1.1" 404 1984 "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:47 GMT] "GET /static/T9.png HTTP/1.1" 404 1984 "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:47 GMT] "GET /images/tc_sign/T10.png HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:47 GMT] "GET /static/T8SE.png HTTP/1.1" 404 1984 "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:47 GMT] "GET /images/tc_sign/T9.png HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:47 GMT] "GET /static/T10.png HTTP/1.1" 404 1984 "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [Tue, 22 Mar 2016 09:53:47 GMT] "GET /images/panel_bg.jpg HTTP/1.1" 304 - "http://localhost:3000/static/information.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/601.4.4 (KHTML, like Gecko) Version/9.0.3 Safari/601.4.4"
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /static/information.html HTTP/1.1" 200 272
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/webcomponentsjs/webcomponents-lite.min.js HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /static/info-main.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/polymer/polymer.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /static/questions-list.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /static/signal-table.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/paper-styles/color.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /static/intensity-table.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /static/share-css.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/polymer/polymer-mini.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/paper-toolbar/paper-toolbar.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /static/multiple-choice.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/iron-flex-layout/iron-flex-layout.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/iron-icon/iron-icon.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/iron-resizable-behavior/iron-resizable-behavior.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /static/info-card.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/polymer/polymer-micro.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/paper-styles/default-theme.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/paper-styles/typography.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/paper-radio-group/paper-radio-group.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/iron-meta/iron-meta.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/iron-icons/iron-icons.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/paper-icon-button/paper-icon-button.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /static/info-content.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/font-roboto/roboto.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/iron-selector/iron-selectable.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/paper-radio-button/paper-radio-button.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/iron-iconset-svg/iron-iconset-svg.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/paper-behaviors/paper-button-behavior.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/paper-behaviors/paper-inky-focus-behavior.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/paper-ripple/paper-ripple.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/neon-animation/neon-animation-runner-behavior.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/neon-animation/animations/scale-down-animation.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/neon-animation/animations/scale-up-animation.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/paper-behaviors/paper-checked-element-behavior.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/iron-selector/iron-selection.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/iron-behaviors/iron-button-state.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/paper-behaviors/paper-ripple-behavior.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/neon-animation/neon-animatable-behavior.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/neon-animation/neon-animation-behavior.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/neon-animation/web-animations.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/iron-checked-element-behavior/iron-checked-element-behavior.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/iron-behaviors/iron-control-state.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/neon-animation/animations/opaque-animation.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/iron-validatable-behavior/iron-validatable-behavior.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:31 +0000] "GET /javascripts/bower_components/iron-form-element-behavior/iron-form-element-behavior.html HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:32 +0000] "GET /javascripts/bower_components/web-animations-js/web-animations-next-lite.min.js HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:32 +0000] "GET /images/Hurricane-en.svg HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:32 +0000] "GET /images/tc_sign/T1.png HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:32 +0000] "GET /static/T1.png HTTP/1.1" 404 1984
+::1 - - [22/Mar/2016:09:59:32 +0000] "GET /images/tc_sign/T3.png HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:33 +0000] "GET /static/T3.png HTTP/1.1" 404 1984
+::1 - - [22/Mar/2016:09:59:33 +0000] "GET /images/tc_sign/T8NE.png HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:33 +0000] "GET /static/T8NE.png HTTP/1.1" 404 1984
+::1 - - [22/Mar/2016:09:59:33 +0000] "GET /images/tc_sign/T8NW.png HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:33 +0000] "GET /font/exo-2/Exo2-Regular.otf HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:33 +0000] "GET /static/T8NW.png HTTP/1.1" 404 1984
+::1 - - [22/Mar/2016:09:59:33 +0000] "GET /static/T8SE.png HTTP/1.1" 404 1984
+::1 - - [22/Mar/2016:09:59:33 +0000] "GET /images/tc_sign/T8SW.png HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:33 +0000] "GET /static/T9.png HTTP/1.1" 404 1984
+::1 - - [22/Mar/2016:09:59:33 +0000] "GET /images/tc_sign/T9.png HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:33 +0000] "GET /static/T10.png HTTP/1.1" 404 1984
+::1 - - [22/Mar/2016:09:59:33 +0000] "GET /images/tc_sign/T8SE.png HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:33 +0000] "GET /static/T8SW.png HTTP/1.1" 404 1984
+::1 - - [22/Mar/2016:09:59:33 +0000] "GET /images/tc_sign/T10.png HTTP/1.1" 304 -
+::1 - - [22/Mar/2016:09:59:33 +0000] "GET /images/panel_bg.jpg HTTP/1.1" 304 -
