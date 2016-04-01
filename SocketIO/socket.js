@@ -29,7 +29,7 @@ var socket = {
 
         this.soc_curr_typ.on('connection', function(getSocketInfo, io, socket){
             console.log('SOCKET(CONN,worker:' + cluster.worker.id + '): ' + getSocketInfo(socket));
-            CurrTcQuery(5000, function(records){
+            CurrTcQuery(6000, function(records){
                 socket.emit('init', records);
             });
         }.bind(null, this.getSocketInfo, this.io));
@@ -52,7 +52,7 @@ var socket = {
 
     broadcast: function(){
         //this.emit2Mongo('update', this.buffer, '/socket_curr_typ');
-        CurrTcQuery(5000, function(emit, records){
+        CurrTcQuery(6000, function(emit, records){
             console.log('Emit update');
             emit('init', records, '/socket_curr_typ');
         }.bind(null, this.emit2Mongo));

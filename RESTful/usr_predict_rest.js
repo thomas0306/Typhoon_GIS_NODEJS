@@ -39,13 +39,6 @@ function rest(router){
 
         });
 
-    router.route('/usr_predict/:info/:circle')
-        .put(function(req, res){
-            console.log(req.params.obj);
-            console.log(req.params.circle);
-            res.json({message:'success'});
-        });
-
     router.route('/usr_predict')
         .put(function(req, res){
             var obj = req.body;

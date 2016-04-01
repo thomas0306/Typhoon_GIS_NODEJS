@@ -10,8 +10,8 @@ var LatLon = require('./../node_modules/geodesy/latlon-spherical');
 var TREE = [
     'dist',
     'bear',
-    //'lat',
-    //'lon'
+    'lat',
+    'lon'
 ];
 
 var TREE_PATH = '/project/typhoon_gis/r_tree/';
@@ -165,17 +165,25 @@ function rest(router) {
                         //    128.135055074323   lon
                         //]
 
-                        var distbearLatLon = new LatLon(target.loc[1], target.loc[0]).destinationPoint(val[0],val[1]);
+                        var targetLatLon = new LatLon(target.loc[1], target.loc[0]);
+                        var distbearLatLon = targetLatLon.destinationPoint(val[0],val[1]);
+                        var predictLatLon = new LatLon(val[2], val[3]);
+                        var midPt = predictLatLon.rhumbMidpointTo(distbearLatLon);
+                        var radius = midPt.distanceTo(predictLatLon);
+                        console.log(midPt);
+                        console.log(radius);
                         res.json({
                             center: {
-                                lat: distbearLatLon.lat,
-                                lng: distbearLatLon.lon
+                                //lat: distbearLatLon.lat,
+                                //lng: distbearLatLon.lon
+                                lat: midPt.lat,
+                                lng: midPt.lon
                             },
                             src: {
                                 lat: target.loc[1],
                                 lng: target.loc[0]
                             },
-                            radius: 10000,
+                            radius: radius,
                             message: 'Predicted'
                         });
                     });
