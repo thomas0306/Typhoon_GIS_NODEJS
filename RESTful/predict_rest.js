@@ -170,8 +170,6 @@ function rest(router) {
                         var predictLatLon = new LatLon(val[2], val[3]);
                         var midPt = predictLatLon.rhumbMidpointTo(distbearLatLon);
                         var radius = midPt.distanceTo(predictLatLon);
-                        console.log(midPt);
-                        console.log(radius);
                         res.json({
                             center: {
                                 //lat: distbearLatLon.lat,

@@ -17,13 +17,12 @@ var JmaCrawler = {
     PATTERN: '00 */5 * * * *',
     //PATTERN: '*/10 * * * * *',
 
-    //URL: ['http://localhost:3000/uploads/bst','','_test.txt'],
     URL: ['http://www.jma.go.jp/jma/jma-eng/jma-center/rsmc-hp-pub-eg/Besttracks/bst','','.txt'],
 
     init: function(){
         this.instance = schedule.scheduleJob(this.PATTERN, this.crawl.bind(null,this));
     },
-
+    
     crawl: function(crawler){
         crawler.setCurrentYear();
         console.log(new Date()+': Crawling from: '+ crawler.URL.join(''));
