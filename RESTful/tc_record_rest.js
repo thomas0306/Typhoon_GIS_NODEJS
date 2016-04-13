@@ -160,13 +160,13 @@ function rest(router) {
 
                             var keep = true;
                             if(dateCriteria['before'] !== undefined){
-                                if(!dateCriteria['before'].getTime() > doc.rec_dates[0].getTime()) keep = false;
+                                if(dateCriteria['before'].getTime() < doc.rec_dates[1].getTime()) keep = false;
                             }
                             if(dateCriteria['after'] !== undefined){
-                                if(!dateCriteria['after'].getTime() < doc.rec_dates[1].getTime()) keep = false;
+                                if(dateCriteria['after'].getTime() > doc.rec_dates[0].getTime()) keep = false;
                             }
                             if(dateCriteria['between'] !== undefined){
-                                if(!(dateCriteria['between'].start.getTime() < doc.rec_dates[1].getTime() && dateCriteria['between'].end.getTime() > doc.rec_dates[0].getTime())) keep = false;
+                                if((dateCriteria['between'].start.getTime() < doc.rec_dates[1].getTime() && dateCriteria['between'].end.getTime() > doc.rec_dates[0].getTime())) keep = false;
                             }
 
                             return keep;
